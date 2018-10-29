@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Globalization;
 
 namespace Unity.Exceptions
 {
@@ -42,9 +41,7 @@ namespace Unity.Exceptions
         /// </summary>
         /// <param name="buildKey">The build key of the object begin built.</param>
         public DependencyMissingException(object buildKey)
-            : base(string.Format(CultureInfo.CurrentCulture,
-                Constants.MissingDependency,
-                buildKey))
+            : base($"{Constants.MissingDependency}{buildKey}")
         {
         }
     }

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Globalization;
 using System.Reflection;
 
 namespace Unity.Builder.Operation
@@ -33,10 +32,7 @@ namespace Unity.Builder.Operation
         /// <returns>The string.</returns>
         public override string ToString()
         {
-            return string.Format(CultureInfo.CurrentCulture,
-                                 Constants.InvokingMethodOperation,
-                                 TypeBeingConstructed.GetTypeInfo().Name,
-                                 MethodSignature);
+            return $"{Constants.InvokingMethodOperation}{TypeBeingConstructed.GetTypeInfo().Name}{MethodSignature}";
         }
     }
 }

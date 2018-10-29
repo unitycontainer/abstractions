@@ -3,7 +3,6 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Reflection;
 using Unity.Policy;
 using Unity.ResolverPolicy;
@@ -84,11 +83,7 @@ namespace Unity.Injection
             if (!typeToBuild.GetTypeInfo().IsGenericType)
             {
                 throw new InvalidOperationException(
-                    string.Format(
-                        CultureInfo.CurrentCulture,
-                        Constants.NotAGenericType,
-                        typeToBuild.GetTypeInfo().Name,
-                        _genericParameterName));
+                    $"{Constants.NotAGenericType}{typeToBuild.GetTypeInfo().Name}{_genericParameterName}");
             }
         }
 
@@ -103,11 +98,7 @@ namespace Unity.Injection
             }
 
             throw new InvalidOperationException(
-                string.Format(
-                    CultureInfo.CurrentCulture,
-                    Constants.NoMatchingGenericArgument,
-                    typeToBuild.GetTypeInfo().Name,
-                    _genericParameterName));
+                $"{Constants.NoMatchingGenericArgument}{typeToBuild.GetTypeInfo().Name}{_genericParameterName}");
         }
     }
 }

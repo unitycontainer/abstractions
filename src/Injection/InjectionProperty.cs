@@ -102,11 +102,7 @@ namespace Unity.Injection
             if (propInfo == null)
             {
                 throw new InvalidOperationException(
-                    string.Format(
-                        CultureInfo.CurrentCulture,
-                        Constants.NoSuchProperty,
-                        typeToCreate.GetTypeInfo().Name,
-                        propertyName));
+                    $"{Constants.NoSuchProperty}{typeToCreate.GetTypeInfo().Name}{propertyName}");
             }
         }
 

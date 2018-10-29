@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Globalization;
 using System.Reflection;
 using Unity.Builder;
 
@@ -314,9 +313,8 @@ namespace Unity.Policy
             if (buildKey is INamedType originalKey)
                 return new NamedTypeBuildKey(newType, originalKey.Name);
 
-            throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,
-                Constants.CannotExtractTypeFromBuildKey,
-                buildKey), nameof(buildKey));
+            throw new ArgumentException(
+                $"{Constants.CannotExtractTypeFromBuildKey}{buildKey}", nameof(buildKey));
         }
 
 

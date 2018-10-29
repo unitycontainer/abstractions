@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 
 using System;
-using System.Globalization;
 using System.Reflection;
 using Unity.Builder;
 using Unity.Policy;
@@ -25,9 +24,7 @@ namespace Unity.ResolverPolicy
             if ((type ?? throw new ArgumentNullException(nameof(type))).GetTypeInfo().IsValueType)
             {
                 throw new ArgumentException(
-                    string.Format(CultureInfo.CurrentCulture,
-                        Constants.OptionalDependenciesMustBeReferenceTypes,
-                        type.GetTypeInfo().Name));
+                    $"{Constants.OptionalDependenciesMustBeReferenceTypes}{type.GetTypeInfo().Name}");
             }
 
             DependencyType = type;

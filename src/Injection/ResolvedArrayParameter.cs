@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Unity.Policy;
@@ -51,11 +50,7 @@ namespace Unity.Injection
                 if (!pv.MatchesType(elementType))
                 {
                     throw new InvalidOperationException(
-                        string.Format(
-                            CultureInfo.CurrentCulture,
-                            Constants.TypesAreNotAssignable,
-                            elementType,
-                            pv.ParameterTypeName));
+                        $"{Constants.TypesAreNotAssignable}{elementType}{pv.ParameterTypeName}");
                 }
             }
         }

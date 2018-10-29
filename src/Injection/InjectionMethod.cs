@@ -2,10 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Unity.Builder;
 using Unity.Builder.Policy;
 using Unity.Policy;
 using Unity.Registration;
@@ -132,12 +130,10 @@ namespace Unity.Injection
 
         private void ThrowIllegalInjectionMethod(string message, Type typeToCreate)
         {
+            var methodParameterNames = string.Join(", ", _methodParameters.Select(mp => mp.ParameterTypeName));
+
             throw new InvalidOperationException(
-                string.Format(CultureInfo.CurrentCulture,
-                    message,
-                    typeToCreate.GetTypeInfo().Name,
-                    _methodName,
-                    string.Join(", ", _methodParameters.Select(mp => mp.ParameterTypeName))));
+                $"{message}{typeToCreate.GetTypeInfo().Name}{_methodName}{methodParameterNames}");
         }
 
         private static SpecifiedMethodsSelectorPolicy GetSelectorPolicy(IPolicyList policies, Type typeToCreate, string name)
