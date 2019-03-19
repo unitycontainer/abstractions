@@ -150,16 +150,16 @@ namespace Unity
         /// <example>
         /// This example registers a service factory with transient lifetime. 
         /// <code>
-        /// c.RegisterInstance(typeof(IService),           // Type to register
+        /// c.RegisterFactory(typeof(IService),            // Type to register
         ///                    "Some Service",             // Registration name
-        ///                    (c,t,n) => new Service(),   // Factory
+        ///                    (c,t,n,o) => new Service(), // Factory
         ///                    null);                      // Transient
         /// </code>
         /// </example>
         /// <seealso cref="Unity.FactoryLifetime"/>
         /// <exception cref="InvalidOperationException">If delegate is <c>null</c> method throws</exception>
         /// <returns>The <see cref="IUnityContainer"/> object that this method was called on.</returns>
-        IUnityContainer RegisterFactory(Type type, string name, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager lifetimeManager);
+        IUnityContainer RegisterFactory(Type type, string name, Func<IUnityContainer, Type, string, ResolverOverride[], object> factory, IFactoryLifetimeManager lifetimeManager);
 
 
         /// <summary>

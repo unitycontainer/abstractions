@@ -18,6 +18,8 @@ namespace Unity.Resolution
         /// </summary>
         string Name { get; }
 
+        ResolverOverride[] Overrides { get; }
+
         /// <summary>
         /// Resolve type/object/dependency using current context
         /// </summary>

@@ -701,7 +701,7 @@ namespace Unity
         {
             if (null == factory) throw new ArgumentNullException(nameof(factory));
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(typeof(TInterface), null, (c, t, n) => factory(c), lifetimeManager);
+                .RegisterFactory(typeof(TInterface), null, (c, t, n, o) => factory(c), lifetimeManager);
         }
 
         /// <summary>
@@ -720,6 +720,28 @@ namespace Unity
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static IUnityContainer RegisterFactory<TInterface>(this IUnityContainer container, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager lifetimeManager = null)
+        {
+            if (null == factory) throw new ArgumentNullException(nameof(factory));
+            return (container ?? throw new ArgumentNullException(nameof(container)))
+                .RegisterFactory(typeof(TInterface), null, (c, t, n, o) => factory(c, t, n), lifetimeManager);
+        }
+
+        /// <summary>
+        /// Register a Factory with the container.
+        /// </summary>
+        /// <remarks>
+        /// This overload does a default registration and has the current container take over the lifetime of the factory.
+        /// </remarks>
+        /// <typeparam name="TInterface">Type of instance to register (may be an implemented interface instead of the full type).</typeparam>
+        /// <param name="container">Container to configure.</param>
+        /// <param name="factory">Predefined <code>Func&lt;IUnityContainer, Type, string, ResolverOverride[], object&gt;</code> to create types</param>
+        /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
+        /// of the returned instance. If no manager is provided, container uses Transient manager.</param>
+        /// <returns>The <see cref="Unity.IUnityContainer"/> object that this method was called on .</returns>
+#if !NET40
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static IUnityContainer RegisterFactory<TInterface>(this IUnityContainer container, Func<IUnityContainer, Type, string, ResolverOverride[], object> factory, IFactoryLifetimeManager lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
                 .RegisterFactory(typeof(TInterface), null, factory, lifetimeManager);
@@ -745,7 +767,7 @@ namespace Unity
         {
             if (null == factory) throw new ArgumentNullException(nameof(factory));
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(typeof(TInterface), name, (c, t, n) => factory(c), lifetimeManager);
+                .RegisterFactory(typeof(TInterface), name, (c, t, n, o) => factory(c), lifetimeManager);
         }
 
         /// <summary>
@@ -765,6 +787,29 @@ namespace Unity
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static IUnityContainer RegisterFactory<TInterface>(this IUnityContainer container, string name, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager lifetimeManager = null)
+        {
+            if (null == factory) throw new ArgumentNullException(nameof(factory));
+            return (container ?? throw new ArgumentNullException(nameof(container)))
+                .RegisterFactory(typeof(TInterface), name, (c, t, n, o) => factory(c, t, n), lifetimeManager);
+        }
+
+        /// <summary>
+        /// Register a Factory with the container.
+        /// </summary>
+        /// <remarks>
+        /// This overload does a default registration and has the current container take over the lifetime of the factory.
+        /// </remarks>
+        /// <typeparam name="TInterface">Type of instance to register (may be an implemented interface instead of the full type).</typeparam>
+        /// <param name="container">Container to configure.</param>
+        /// <param name="name">Name for registration.</param>
+        /// <param name="factory">Predefined <code>Func&lt;IUnityContainer, Type, string, ResolverOverride[], object&gt;</code> to create types</param>
+        /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
+        /// of the returned instance. If no manager is provided, container uses Transient manager.</param>
+        /// <returns>The <see cref="Unity.IUnityContainer"/> object that this method was called on .</returns>
+#if !NET40
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static IUnityContainer RegisterFactory<TInterface>(this IUnityContainer container, string name, Func<IUnityContainer, Type, string, ResolverOverride[], object> factory, IFactoryLifetimeManager lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
                 .RegisterFactory(typeof(TInterface), name, factory, lifetimeManager);
@@ -791,8 +836,9 @@ namespace Unity
 #endif
         public static IUnityContainer RegisterFactory(this IUnityContainer container, Type type, Func<IUnityContainer, object> factory, IFactoryLifetimeManager lifetimeManager = null)
         {
+            if (null == factory) throw new ArgumentNullException(nameof(factory));
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(type, null, (c, t, n) => factory(c), lifetimeManager);
+                .RegisterFactory(type, null, (c, t, n, o) => factory(c), lifetimeManager);
         }
 
         /// <summary>
@@ -811,6 +857,28 @@ namespace Unity
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static IUnityContainer RegisterFactory(this IUnityContainer container, Type type, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager lifetimeManager = null)
+        {
+            if (null == factory) throw new ArgumentNullException(nameof(factory));
+            return (container ?? throw new ArgumentNullException(nameof(container)))
+                .RegisterFactory(type, null, (c, t, n, o) => factory(c, t, n), lifetimeManager);
+        }
+
+        /// <summary>
+        /// Register a Factory with the container.
+        /// </summary>
+        /// <remarks>
+        /// This overload does a default registration and has the current container take over the lifetime of the factory.
+        /// </remarks>
+        /// <param name="container">Container to configure.</param>
+        /// <param name="type"><see cref="Type"/> to register (may be an implemented interface instead of the actual type).</param>
+        /// <param name="factory">Predefined <code>Func&lt;IUnityContainer, Type, string, ResolverOverride[], object&gt;</code> to create types</param>
+        /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
+        /// of the returned instance. This manager has to derive from <see cref="IFactoryLifetimeManager"/></param>
+        /// <returns>The <see cref="Unity.IUnityContainer"/> object that this method was called on .</returns>
+#if !NET40
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static IUnityContainer RegisterFactory(this IUnityContainer container, Type type, Func<IUnityContainer, Type, string, ResolverOverride[], object> factory, IFactoryLifetimeManager lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
                 .RegisterFactory(type, null, factory, lifetimeManager);
@@ -834,8 +902,9 @@ namespace Unity
 #endif
         public static IUnityContainer RegisterFactory(this IUnityContainer container, Type type, string name, Func<IUnityContainer, object> factory, IFactoryLifetimeManager lifetimeManager = null)
         {
+            if (null == factory) throw new ArgumentNullException(nameof(factory));
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(type, name, (c, t, n) => factory(c), lifetimeManager);
+                .RegisterFactory(type, name, (c, t, n, o) => factory(c), lifetimeManager);
         }
 
         /// <summary>
@@ -855,6 +924,29 @@ namespace Unity
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static IUnityContainer RegisterFactory(this IUnityContainer container, Type type, string name, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager lifetimeManager = null)
+        {
+            if (null == factory) throw new ArgumentNullException(nameof(factory));
+            return (container ?? throw new ArgumentNullException(nameof(container)))
+                .RegisterFactory(type, name, (c, t, n, o) => factory(c, t, n), lifetimeManager);
+        }
+
+        /// <summary>
+        /// Register a Factory with the container.
+        /// </summary>
+        /// <remarks>
+        /// This overload does a default registration and has the current container take over the lifetime of the factory.
+        /// </remarks>
+        /// <param name="container">Container to configure.</param>
+        /// <param name="type"><see cref="Type"/> to register (may be an implemented interface instead of the actual type).</param>
+        /// <param name="name">Name for registration.</param>
+        /// <param name="factory">Predefined <code>Func&lt;IUnityContainer, Type, string, ResolverOverride[], object&gt;</code> to create types</param>
+        /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
+        /// of the returned instance. This manager has to derive from <see cref="IFactoryLifetimeManager"/></param>
+        /// <returns>The <see cref="Unity.IUnityContainer"/> object that this method was called on .</returns>
+#if !NET40
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static IUnityContainer RegisterFactory(this IUnityContainer container, Type type, string name, Func<IUnityContainer, Type, string, ResolverOverride[], object> factory, IFactoryLifetimeManager lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
                 .RegisterFactory(type, name, factory, lifetimeManager);

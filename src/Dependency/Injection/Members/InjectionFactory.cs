@@ -15,7 +15,7 @@ namespace Unity.Injection
     {
         #region Fields
 
-        private readonly Func<IUnityContainer, Type, string, object> _factoryFunc;
+        private readonly Func<IUnityContainer, Type, string, ResolverOverride[], object> _factoryFunc;
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace Unity.Injection
         public InjectionFactory(Func<IUnityContainer, object> factoryFunc)
         {
             if (null == factoryFunc) throw new ArgumentNullException(nameof(factoryFunc));
-            _factoryFunc = (c, t, s) => factoryFunc(c);
+            _factoryFunc = (c, t, s, o) => factoryFunc(c);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Unity.Injection
         /// the given factory function.
         /// </summary>
         /// <param name="factoryFunc">Factory function.</param>
-        public InjectionFactory(Func<IUnityContainer, Type, string, object> factoryFunc)
+        public InjectionFactory(Func<IUnityContainer, Type, string, ResolverOverride[], object> factoryFunc)
         {
             _factoryFunc = factoryFunc ?? throw new ArgumentNullException(nameof(factoryFunc));
         }
@@ -80,7 +80,7 @@ namespace Unity.Injection
             ResolveDelegate<TContext> CreateLegacyPolicy()
             {
                 return (ref TContext c) =>
-                    _factoryFunc(c.Container, c.Type, c.Name) ??
+                    _factoryFunc(c.Container, c.Type, c.Name, c.Overrides) ??
                     throw new InvalidOperationException("Injection Factory must return valid object or throw an exception");
             }
 
@@ -88,7 +88,7 @@ namespace Unity.Injection
             {
                 return (ref TContext context) =>
                 {
-                    var result = _factoryFunc(context.Container, context.Type, context.Name);
+                    var result = _factoryFunc(context.Container, context.Type, context.Name, context.Overrides);
                     var perBuildLifetime = new InternalPerResolveLifetimeManager(result);
 
                     context.Set(context.Type, context.Name, typeof(LifetimeManager), perBuildLifetime);
