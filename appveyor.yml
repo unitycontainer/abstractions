@@ -19,4 +19,6 @@ build:
 
 artifacts:
 - path: '**\Unity.*.nupkg'
-  name: 'Unity'
+  name: 'nupkg'
+- path: '**\Unity.*.snupkg'
+  name: 'snupkg'
