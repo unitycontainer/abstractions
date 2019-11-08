@@ -28,7 +28,7 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  displayName: 'Stage Artifacts'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)\src\bin\Release'
     Contents: '**'
@@ -36,6 +36,6 @@ steps:
   condition: succeededOrFailed()
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: Abstractions'
+  displayName: 'Publish Staged Artifacts'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
