@@ -39,3 +39,11 @@ steps:
   displayName: 'Publish Staged Artifacts'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
+
+- task: NuGetCommand@2
+  displayName: 'Push to Latest'
+  inputs:
+    command: push
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg;!$(Build.ArtifactStagingDirectory)/*.symbols.nupkg'
+    publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
+
