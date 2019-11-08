@@ -22,7 +22,7 @@ steps:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    msbuildArgs: '/p:verbosity=m'
+    msbuildArgs: '/v=m'
 
 #- task: VSTest@2
 #  inputs:
