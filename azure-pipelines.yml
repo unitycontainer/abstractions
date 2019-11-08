@@ -31,7 +31,7 @@ steps:
   displayName: 'Stage Artifacts'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)\src\bin\Release'
-    Contents: '*.nupkg|**\*.dll|**\*.pdb'
+    Contents: '**'
     TargetFolder: '$(build.artifactstagingdirectory)'
   condition: succeededOrFailed()
 
