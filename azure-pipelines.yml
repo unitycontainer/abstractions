@@ -28,12 +28,12 @@ steps:
 #    platform: '$(buildPlatform)'
 #    configuration: '$(buildConfiguration)'
 
-- task: NuGetCommand@2
-  inputs:
-    command: 'push'
-    packagesToPush: '$(build.artifactstagingdirectory)/*.nupkg'
-    nuGetFeedType: 'internal'
-    publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
+#- task: NuGetCommand@2
+#  inputs:
+#    command: 'push'
+#    packagesToPush: '$(build.artifactstagingdirectory)/*.nupkg'
+#    nuGetFeedType: 'internal'
+#    publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
 
 #- task: CopyFiles@2
 #  displayName: 'Stage Artifacts'
@@ -43,7 +43,7 @@ steps:
 #    TargetFolder: '$(build.artifactstagingdirectory)'
 #  condition: succeededOrFailed()
 
-#- task: PublishBuildArtifacts@1
-#  displayName: 'Publish Staged Artifacts'
-#  inputs:
-#    PathtoPublish: '$(build.artifactstagingdirectory)'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Staged Artifacts'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
