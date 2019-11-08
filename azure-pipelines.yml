@@ -27,22 +27,22 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: CopyFiles@2
-  displayName: 'Stage Artifacts'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)\src\bin\Release'
-    Contents: '**'
-    TargetFolder: '$(build.artifactstagingdirectory)'
-  condition: succeededOrFailed()
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Staged Artifacts'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
-
 - task: NuGetCommand@2
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'internal'
     publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
+
+#- task: CopyFiles@2
+#  displayName: 'Stage Artifacts'
+#  inputs:
+#    SourceFolder: '$(system.defaultworkingdirectory)\src\bin\Release'
+#    Contents: '**'
+#    TargetFolder: '$(build.artifactstagingdirectory)'
+#  condition: succeededOrFailed()
+
+#- task: PublishBuildArtifacts@1
+#  displayName: 'Publish Staged Artifacts'
+#  inputs:
+#    PathtoPublish: '$(build.artifactstagingdirectory)'
