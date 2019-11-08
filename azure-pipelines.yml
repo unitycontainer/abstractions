@@ -32,7 +32,7 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'push'
-    packagesToPush: 'src/bin/Release/*.nupkg'
+    packagesToPush: '$(build.artifactstagingdirectory)/*.nupkg'
     nuGetFeedType: 'internal'
     publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
 
