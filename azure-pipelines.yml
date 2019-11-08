@@ -28,16 +28,14 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: CopyFiles@2
-  displayName: 'Stage package'
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
   inputs:
-    SourceFolder: 'src\bin\Release'
-    Contents: '*.nupkg'
+    SourceFolder: '$(system.defaultworkingdirectory)\src\bin\Release'
+    Contents: '**'
     TargetFolder: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
 
-- task: NuGetCommand@2
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: Abstractions'
   inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-    nuGetFeedType: 'internal'
-    publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
-    allowPackageConflicts: true
+    PathtoPublish: '$(build.artifactstagingdirectory)'
