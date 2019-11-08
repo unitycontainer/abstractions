@@ -22,7 +22,6 @@ steps:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    msbuildArgs: '/v=m'
 
 #- task: VSTest@2
 #  inputs:
