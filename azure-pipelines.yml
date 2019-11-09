@@ -58,7 +58,6 @@ steps:
     verbosityPack: 'Minimal'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
-
 - task: NuGetCommand@2
   displayName: 'Publish Local Feed'
   inputs:
