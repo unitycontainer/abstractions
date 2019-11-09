@@ -8,6 +8,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  stagingVersion: '5.11.2-43216541'
 #  OutputPath: '$(build.artifactstagingdirectory)'
 
 steps:
@@ -35,15 +36,13 @@ steps:
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
     packagesToPack: 'src/*.csproj'
-    versioningScheme: byPrereleaseNumber
-    majorVersion: '5'
-    minorVersion: '11'
-    patchVersion: '2-1573330802'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))    
+    versioningScheme: 'byEnvVar'
+    versionEnvVar: 'stagingVersion'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
 #- task: NuGetCommand@2
 #  inputs:
@@ -56,5 +55,5 @@ steps:
 #    majorVersion: '5'
 #    minorVersion: '11'
 #    patchVersion: '2-1573330802'
-#  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))    
+#  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
