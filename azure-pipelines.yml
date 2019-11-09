@@ -41,5 +41,6 @@ steps:
     packagesToPush: '$(build.artifactstagingdirectory)/*.nupkg'
     nuGetFeedType: 'internal'
     publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
+    allowPackageConflicts: true
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))    
 
