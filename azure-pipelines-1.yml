@@ -18,7 +18,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'git --version'
+    script: 'git show -s --format="%ct"'
 
 - task: Bash@3
   inputs:
@@ -28,7 +28,7 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
-    script: '$env:stagingVersion = (Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionBase" | Select-Object -ExpandProperty Node).InnerText + "-aa"'
+    script: '$env:stagingVersion = (Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionBase" | Select-Object -ExpandProperty Node).InnerText'
 
 - task: CmdLine@2
   inputs:
