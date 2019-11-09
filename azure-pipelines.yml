@@ -27,7 +27,7 @@ steps:
   displayName: 'Stage Artifacts'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)\src\bin\Release'
-    Contents: '**'
+    Contents: '*.nupkg'
     TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: PublishBuildArtifacts@1
