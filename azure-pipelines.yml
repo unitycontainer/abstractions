@@ -45,7 +45,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'for /f %%i in ("git show -s --format=%ct") do set datetime=%%i'
+    script: 'git show -s --format=%ct'
 
 - task: PowerShell@2
   inputs:
