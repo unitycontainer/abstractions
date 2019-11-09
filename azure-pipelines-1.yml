@@ -21,11 +21,10 @@ steps:
     targetType: 'inline'
     script: |
       $version = (Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionBase" | Select-Object -ExpandProperty Node).InnerText
-      Write-Host "##vso[task.setvariable variable=stageVersion]$version"
-      Write-Host "Version: $version" 
       $timestamp = git log -1 --pretty="format:%ct"
-      Write-Host "##vso[task.setvariable variable=stageVersionStamp]$timestamp"
+      Write-Host "Version: $version" 
       Write-Host "Time Stamp: $timestamp" 
+      Write-Host "##vso[task.setvariable variable=stageVersion]$($version)-$($timestamp)"
 
 - task: Bash@3
   inputs:
