@@ -18,8 +18,10 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'git log -1 --pretty="format:%ct"'
-
+    script: |
+      echo "##vso[task.setvariable variable=myOutputVar;isOutput=true]
+      git log -1 --pretty="format:%ct"
+      
 - task: Bash@3
   inputs:
     targetType: 'inline'
@@ -29,8 +31,6 @@ steps:
   inputs:
     targetType: 'inline'
     script: '$env:stagingVersion = (Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionBase" | Select-Object -ExpandProperty Node).InnerText'
-
-- powershell: echo "##vso[task.setvariable variable=myOutputVar;isOutput=true](Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionBase" | Select-Object -ExpandProperty Node).InnerText"
 
 - task: CmdLine@2
   inputs:
