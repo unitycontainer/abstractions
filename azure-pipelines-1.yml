@@ -21,6 +21,7 @@ steps:
     script: |
       echo "##vso[task.setvariable variable=myOutputVar;isOutput=true]asdf asdf
       git log -1 --pretty="format:%ct"
+      set
 
 - task: Bash@3
   inputs:
