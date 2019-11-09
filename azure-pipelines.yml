@@ -37,14 +37,24 @@ steps:
 
 - task: NuGetCommand@2
   inputs:
-    command: 'push'
-    packagesToPush: '$(build.artifactstagingdirectory)/*.nupkg'
-    nuGetFeedType: 'internal'
-    publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
-    allowPackageConflicts: true
+    command: 'pack'
+    packagesToPack: 'src/*.csproj'
     versioningScheme: byPrereleaseNumber
     majorVersion: '5'
     minorVersion: '11'
     patchVersion: '2-1573330802'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))    
+
+#- task: NuGetCommand@2
+#  inputs:
+#    command: 'push'
+#    packagesToPush: '$(build.artifactstagingdirectory)/*.nupkg'
+#    nuGetFeedType: 'internal'
+#    publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
+#    allowPackageConflicts: true
+#    versioningScheme: byPrereleaseNumber
+#    majorVersion: '5'
+#    minorVersion: '11'
+#    patchVersion: '2-1573330802'
+#  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))    
 
