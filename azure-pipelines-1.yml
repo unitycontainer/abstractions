@@ -16,12 +16,14 @@ variables:
 
 steps:
 
-- task: CmdLine@2
+- task: PowerShell@2
   inputs:
+    targetType: 'inline'
     script: |
-      echo "##vso[task.setvariable variable=myOutputVar;isOutput=true]asdf asdf
-      git log -1 --pretty="format:%ct"
-      set
+      $version = (Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionBase" | Select-Object -ExpandProperty Node).InnerText
+      Write-Host $version
+      Write-Host "##vso[task.setvariable variable=stageVersion]$version"
+      Write-Host "Trying to read $env:stageVersion"
 
 - task: Bash@3
   inputs:
