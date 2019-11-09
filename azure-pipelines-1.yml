@@ -18,7 +18,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'git log -1 --pretty=format:%ct'
+    script: 'git --version'
 
 - task: Bash@3
   inputs:
