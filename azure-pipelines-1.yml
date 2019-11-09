@@ -23,7 +23,7 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: 'git log -1 --pretty=format:%ct'
+    script: 'git log -1 --pretty="format:%ct"'
 
 - task: PowerShell@2
   inputs:
