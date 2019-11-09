@@ -12,18 +12,17 @@ variables:
 #  OutputPath: '$(build.artifactstagingdirectory)'
 
 steps:
-#- task: NuGetToolInstaller@1
+- task: NuGetToolInstaller@1
 
-#- task: NuGetCommand@2
-#  inputs:
-#    restoreSolution: '$(solution)'
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
 
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    restoreNugetPackages: true
 
 - task: CopyFiles@2
   displayName: 'Stage Artifacts'
