@@ -8,13 +8,18 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  stagingVersion: '5.11.2-$(git show -s --format=%ct)'
-#  OutputPath: '$(build.artifactstagingdirectory)'
 
 steps:
-- task: CmdLine@2
+- task: PowerShell@2
+  displayName: 'Version Info'
   inputs:
-    script: 'set'
+    targetType: 'inline'
+    script: |
+      $version = (Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionBase" | Select-Object -ExpandProperty Node).InnerText
+      $timestamp = git log -1 --pretty="format:%ct"
+      Write-Host "Version: $version" 
+      Write-Host "Time Stamp: $timestamp" 
+      Write-Host "##vso[task.setvariable variable=STAGE_VERSION]$($version)-$($timestamp)"
 
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet'
@@ -43,22 +48,13 @@ steps:
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
 
-- task: CmdLine@2
-  inputs:
-    script: 'git show -s --format=%ct'
-
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: '$env:stagingVersion = (Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionBase" | Select-Object -ExpandProperty Node).InnerText'
-
 - task: DotNetCoreCLI@2
   displayName: 'Package Library'
   inputs:
     command: 'pack'
     packagesToPack: '**/*.csproj'
     versioningScheme: 'byEnvVar'
-    versionEnvVar: 'stagingVersion'
+    versionEnvVar: 'STAGE_VERSION'
     verbosityPack: 'Minimal'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
