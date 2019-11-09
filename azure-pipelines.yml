@@ -44,6 +44,6 @@ steps:
 #  condition: succeededOrFailed()
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Staged Artifacts'
+  displayName: 'Publish Artifacts'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
