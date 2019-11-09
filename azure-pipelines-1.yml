@@ -18,7 +18,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'git show -s --format=%ct'
+    script: 'git show -s'
 
 - task: PowerShell@2
   inputs:
