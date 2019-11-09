@@ -13,12 +13,15 @@ variables:
 
 steps:
 - task: NuGetToolInstaller@1
+  displayName: 'Install NuGet'
 
 - task: NuGetCommand@2
+  displayName: 'Restore Packages'
   inputs:
     restoreSolution: '$(solution)'
 
 - task: VSBuild@1
+  displayName: 'Build Package'
   inputs:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
@@ -36,7 +39,17 @@ steps:
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
 
+- task: CmdLine@2
+  inputs:
+    script: 'for /f %%i in (''git show -s --format=%ct'') do set datetime=%%i'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: '$env:stagingVersion = (Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionBase" | Select-Object -ExpandProperty Node).InnerText'
+
 - task: DotNetCoreCLI@2
+  displayName: 'Package Library'
   inputs:
     command: 'pack'
     packagesToPack: '**/*.csproj'
@@ -47,6 +60,7 @@ steps:
 
 
 #- task: NuGetCommand@2
+#  displayName: 'Publish Local Feed'
 #  inputs:
 #    command: 'push'
 #    packagesToPush: '$(build.artifactstagingdirectory)/*.nupkg'
