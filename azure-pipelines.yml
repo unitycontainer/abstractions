@@ -12,6 +12,10 @@ variables:
 #  OutputPath: '$(build.artifactstagingdirectory)'
 
 steps:
+- task: CmdLine@2
+  inputs:
+    script: 'set'
+
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet'
 
