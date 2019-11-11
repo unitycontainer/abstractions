@@ -5,7 +5,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  OutputPath: '$(build.artifactstagingdirectory)'
+  OutputPath: '$(system.defaultworkingdirectory)\bin'
 
 steps:
 #- task: PowerShell@2
@@ -19,25 +19,25 @@ steps:
 #      Write-Host "Time Stamp: $timestamp" 
 #      Write-Host "##vso[task.setvariable variable=STAGE_VERSION]$($version)-$($timestamp)"
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Source'
-  inputs:
-    PathtoPublish: '$(system.defaultworkingdirectory)\src'
-    artifactName: 'Source'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Package Properties'
-  inputs:
-    PathtoPublish: '$(system.defaultworkingdirectory)'
-    artifactName: 'Properties'
-    fileCopyOptions: './package.props'
-
 - task: CopyFiles@2
   displayName: 'Stage Properties'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)'
     Contents: '*.props'
     TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: CopyFiles@2
+  displayName: 'Stage Source'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)\src'
+    Contents: '**/**'
+    TargetFolder: '$(build.artifactstagingdirectory)\src'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Staged Source'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+    artifactName: 'Source'
 
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet'
@@ -58,7 +58,7 @@ steps:
   displayName: 'Publish Artifacts'
   inputs:
     artifactName: 'Binaries'
-    PathtoPublish: '$(build.artifactstagingdirectory)'
+    PathtoPublish: '$(OutputPath)'
 
 #- task: DotNetCoreCLI@2
 #  displayName: 'Package Library'
