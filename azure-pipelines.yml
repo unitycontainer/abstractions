@@ -19,19 +19,18 @@ steps:
 #      Write-Host "Time Stamp: $timestamp" 
 #      Write-Host "##vso[task.setvariable variable=STAGE_VERSION]$($version)-$($timestamp)"
 
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Source'
+  inputs:
+    PathtoPublish: '$(system.defaultworkingdirectory)\src'
+    artifactName: 'Source'
+
 - task: CopyFiles@2
   displayName: 'Stage Properties'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)'
     Contents: '*.props'
     TargetFolder: '$(build.artifactstagingdirectory)'
-
-- task: CopyFiles@2
-  displayName: 'Stage Source'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)\src'
-    Contents: '**/**'
-    TargetFolder: '$(build.artifactstagingdirectory)\Source'
 
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet'
