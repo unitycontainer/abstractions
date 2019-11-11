@@ -5,7 +5,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  OutputPath: '$(build.artifactstagingdirectory)\Artifacts'
+  OutputPath: '$(build.artifactstagingdirectory)'
 
 steps:
 #- task: PowerShell@2
@@ -24,6 +24,13 @@ steps:
   inputs:
     PathtoPublish: '$(system.defaultworkingdirectory)\src'
     artifactName: 'Source'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Package Properties'
+  inputs:
+    PathtoPublish: '$(system.defaultworkingdirectory)'
+    artifactName: 'Properties'
+    fileCopyOptions: './package.props'
 
 - task: CopyFiles@2
   displayName: 'Stage Properties'
@@ -46,13 +53,6 @@ steps:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-
-#- task: CopyFiles@2
-#  displayName: 'Stage Artifacts'
-#  inputs:
-#    SourceFolder: '$(system.defaultworkingdirectory)\src\bin\Release'
-#    Contents: '*.nupkg'
-#    TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
