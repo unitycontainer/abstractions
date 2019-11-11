@@ -20,6 +20,13 @@ steps:
 #      Write-Host "##vso[task.setvariable variable=STAGE_VERSION]$($version)-$($timestamp)"
 
 - task: CopyFiles@2
+  displayName: 'Stage Properties'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '*.props'
+    TargetFolder: '$(build.artifactstagingdirectory)\Source'
+
+- task: CopyFiles@2
   displayName: 'Stage Source'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)\src'
