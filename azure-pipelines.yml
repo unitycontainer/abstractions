@@ -24,7 +24,7 @@ steps:
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)'
     Contents: '*.props'
-    TargetFolder: '$(build.artifactstagingdirectory)\Source'
+    TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: CopyFiles@2
   displayName: 'Stage Source'
@@ -37,12 +37,12 @@ steps:
   displayName: 'Install NuGet'
 
 - task: NuGetCommand@2
-  displayName: 'Restore Packages'
+  displayName: 'Restore Dependencies'
   inputs:
     restoreSolution: '$(solution)'
 
 - task: VSBuild@1
-  displayName: 'Build Package'
+  displayName: 'Build Artifacts'
   inputs:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
