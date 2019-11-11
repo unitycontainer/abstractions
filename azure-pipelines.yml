@@ -5,7 +5,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  OutputPath: '$(build.artifactstagingdirectory)'
+  OutputPath: '$(build.artifactstagingdirectory)\Artifacts'
 
 steps:
 #- task: PowerShell@2
@@ -18,6 +18,13 @@ steps:
 #      Write-Host "Version: $version" 
 #      Write-Host "Time Stamp: $timestamp" 
 #      Write-Host "##vso[task.setvariable variable=STAGE_VERSION]$($version)-$($timestamp)"
+
+- task: CopyFiles@2
+  displayName: 'Stage Source'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)\src'
+    Contents: '**/**'
+    TargetFolder: '$(build.artifactstagingdirectory)\Source'
 
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet'
