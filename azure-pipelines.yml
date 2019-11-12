@@ -30,8 +30,11 @@ steps:
           Write-Host "##vso[task.setvariable variable=PACKAGE_VERSION]$($version)-$($timestamp)" 
       }
 
+- task: NuGetToolInstaller@1
+  displayName: 'Install NuGet'
+
 - task: CopyFiles@2
-  displayName: 'Properties'
+  displayName: 'Copy Properties'
   inputs:
     Contents: 'Directory.Build.props'
     TargetFolder: 'src'
@@ -41,9 +44,6 @@ steps:
   inputs:
     PathtoPublish: 'src'
     artifactName: 'Source'
-
-- task: NuGetToolInstaller@1
-  displayName: 'Install NuGet'
 
 - task: NuGetCommand@2
   displayName: 'Restore'
