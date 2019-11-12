@@ -59,12 +59,12 @@ steps:
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)\src\bin\$(buildConfiguration)'
     Contents: '**/*.nupkg'
-    TargetFolder: '$(build.artifactstagingdirectory)\Package'
+    TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
   inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)\Package'
+    PathtoPublish: '$(build.artifactstagingdirectory)'
     artifactName: 'Package'
 
 - task: NuGetCommand@2
