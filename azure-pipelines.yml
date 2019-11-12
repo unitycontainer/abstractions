@@ -11,19 +11,25 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  OutputPath: '$(system.defaultworkingdirectory)\bin'
+#  OutputPath: '$(system.defaultworkingdirectory)\bin'
 
 steps:
-#- task: PowerShell@2
-#  displayName: 'Version Info'
-#  inputs:
-#    targetType: 'inline'
-#    script: |
-#      $version = (Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionBase" | Select-Object -ExpandProperty Node).InnerText
-#      $timestamp = git log -1 --pretty="format:%ct"
-#      Write-Host "Version: $version" 
-#      Write-Host "Time Stamp: $timestamp" 
-#      Write-Host "##vso[task.setvariable variable=STAGE_VERSION]$($version)-$($timestamp)"
+- task: PowerShell@2
+  displayName: 'Version Info'
+  inputs:
+    targetType: 'inline'
+    script: |
+      $version = (Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionBase" | Select-Object -ExpandProperty Node).InnerText
+      $timestamp = git log -1 --pretty="format:%ct"
+      Write-Host "Version: $version" 
+      Write-Host "Time Stamp: $timestamp" 
+      if ([regex]::IsMatch($Env:BUILD_SOURCEBRANCH, "^(refs\/tags\/)")) { 
+          Write-Host "Build Version: $($version)" 
+          Write-Host "##vso[task.setvariable variable=STAGE_VERSION]$($version)" 
+      } Else { 
+          Write-Host "Build Version:$($version)-$($timestamp)" 
+          Write-Host "##vso[task.setvariable variable=STAGE_VERSION]$($version)-$($timestamp)" 
+      }
 
 #- task: CopyFiles@2
 #  displayName: 'Stage Properties'
@@ -60,11 +66,11 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifacts'
-  inputs:
-    artifactName: 'Binaries'
-    PathtoPublish: '$(OutputPath)'
+#- task: PublishBuildArtifacts@1
+#  displayName: 'Publish Artifacts'
+#  inputs:
+#    artifactName: 'Binaries'
+#    PathtoPublish: '$(OutputPath)'
 
 #- task: DotNetCoreCLI@2
 #  displayName: 'Package Library'
