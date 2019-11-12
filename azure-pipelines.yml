@@ -57,14 +57,14 @@ steps:
 - task: CopyFiles@2
   displayName: 'Stage Package'
   inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)\src\bin\$(buildConfiguration)'
-    Contents: '**/*.nupkg'
-    TargetFolder: '$(build.artifactstagingdirectory)'
+    SourceFolder: '$(system.defaultworkingdirectory)\src\bin'
+    Contents: '**/*.$(PACKAGE_VERSION).nupkg'
+    TargetFolder: '$(build.artifactstagingdirectory)\Package'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
   inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
+    PathtoPublish: '$(build.artifactstagingdirectory)\Package'
     artifactName: 'Package'
 
 - task: NuGetCommand@2
