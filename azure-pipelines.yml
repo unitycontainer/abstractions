@@ -60,7 +60,7 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Stage Binaries'
   inputs:
-    PathtoPublish: 'src\bin\$(Binaries)'
+    PathtoPublish: 'src\bin\$(buildConfiguration)'
     artifactName: 'Binaries'
 
 - task: DotNetCoreCLI@2
