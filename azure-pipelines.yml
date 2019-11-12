@@ -57,6 +57,12 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: PublishBuildArtifacts@1
+  displayName: 'Stage Binaries'
+  inputs:
+    PathtoPublish: 'src\bin\$(Binaries)'
+    artifactName: 'Binaries'
+
 - task: DotNetCoreCLI@2
   displayName: 'Pack'
   inputs:
@@ -68,7 +74,7 @@ steps:
     packDirectory: '$(Build.ArtifactStagingDirectory)\Package'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Artifacts'
+  displayName: 'Stage Package'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)\Package'
     artifactName: 'Package'
