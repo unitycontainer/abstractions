@@ -53,13 +53,14 @@ steps:
     versioningScheme: 'byEnvVar'
     versionEnvVar: 'PACKAGE_VERSION'
     verbosityPack: 'Minimal'
+    packDirectory: '$(Build.ArtifactStagingDirectory)\Package'
 
-- task: CopyFiles@2
-  displayName: 'Stage Package'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)\src\bin'
-    Contents: '**/*.$(PACKAGE_VERSION).nupkg'
-    TargetFolder: '$(build.artifactstagingdirectory)\Package'
+#- task: CopyFiles@2
+#  displayName: 'Stage Package'
+#  inputs:
+#    SourceFolder: '$(system.defaultworkingdirectory)\src\bin'
+#    Contents: '**/*.$(PACKAGE_VERSION).nupkg'
+#    TargetFolder: '$(build.artifactstagingdirectory)\Package'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
