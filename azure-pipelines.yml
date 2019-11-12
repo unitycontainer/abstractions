@@ -31,7 +31,7 @@ steps:
       }
 
 - task: CopyFiles@2
-  displayName: 'Stage Properties'
+  displayName: 'Properties'
   inputs:
     Contents: 'Directory.Build.props'
     TargetFolder: 'src'
