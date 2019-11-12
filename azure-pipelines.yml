@@ -23,12 +23,12 @@ steps:
       $timestamp = git log -1 --pretty="format:%ct"
       Write-Host "Version: $version" 
       Write-Host "Time Stamp: $timestamp" 
-      if ([regex]::IsMatch($Env:BUILD_SOURCEBRANCH, "^(refs\/tags\/)")) { 
-          Write-Host "Build Version: $($version)" 
-          Write-Host "##vso[task.setvariable variable=STAGE_VERSION]$($version)" 
+      if ([regex]::IsMatch($Env:BUILD_SOURCEBRANCH, "^(refs\/tags\/v)")) { 
+          Write-Host "Package Version: $($version)" 
+          Write-Host "##vso[task.setvariable variable=PACKAGE_VERSION]$($version)" 
       } Else { 
-          Write-Host "Build Version:$($version)-$($timestamp)" 
-          Write-Host "##vso[task.setvariable variable=STAGE_VERSION]$($version)-$($timestamp)" 
+          Write-Host "Package Version:$($version)-$($timestamp)" 
+          Write-Host "##vso[task.setvariable variable=PACKAGE_VERSION]$($version)-$($timestamp)" 
       }
 
 #- task: CopyFiles@2
@@ -72,15 +72,14 @@ steps:
 #    artifactName: 'Binaries'
 #    PathtoPublish: '$(OutputPath)'
 
-#- task: DotNetCoreCLI@2
-#  displayName: 'Package Library'
-#  inputs:
-#    command: 'pack'
-#    packagesToPack: '**/*.csproj'
-#    versioningScheme: 'byEnvVar'
-#    versionEnvVar: 'STAGE_VERSION'
-#    verbosityPack: 'Minimal'
-#  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+- task: DotNetCoreCLI@2
+  displayName: 'Package Library'
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/*.csproj'
+    versioningScheme: 'byEnvVar'
+    versionEnvVar: 'PACKAGE_VERSION'
+    verbosityPack: 'Minimal'
 
 #- task: NuGetCommand@2
 #  displayName: 'Publish Local Feed'
@@ -92,3 +91,15 @@ steps:
 #    allowPackageConflicts: true
 #  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
+- task: CopyFiles@2
+  displayName: 'Stage Artifacts'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)\src'
+    Contents: '**/*.nupack'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifacts'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+    artifactName: 'Package'
