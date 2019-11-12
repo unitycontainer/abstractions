@@ -79,11 +79,11 @@ steps:
     PathtoPublish: '$(build.artifactstagingdirectory)\Package'
     artifactName: 'Package'
 
-- task: NuGetCommand@2
-  displayName: 'Local Feed'
-  inputs:
-    command: 'push'
-    packagesToPush: '$(build.artifactstagingdirectory)\Package\*.$(PACKAGE_VERSION).nupkg'
-    nuGetFeedType: 'internal'
-    publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
-    allowPackageConflicts: true
+#- task: NuGetCommand@2
+#  displayName: 'Local Feed'
+#  inputs:
+#    command: 'push'
+#    packagesToPush: '$(build.artifactstagingdirectory)\Package\*.$(PACKAGE_VERSION).nupkg'
+#    nuGetFeedType: 'internal'
+#    publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
+#    allowPackageConflicts: true
