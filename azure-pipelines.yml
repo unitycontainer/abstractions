@@ -81,21 +81,11 @@ steps:
     versionEnvVar: 'PACKAGE_VERSION'
     verbosityPack: 'Minimal'
 
-#- task: NuGetCommand@2
-#  displayName: 'Publish Local Feed'
-#  inputs:
-#    command: 'push'
-#    packagesToPush: '$(build.artifactstagingdirectory)/*.$(STAGE_VERSION).nupkg'
-#    nuGetFeedType: 'internal'
-#    publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
-#    allowPackageConflicts: true
-#  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-
 - task: CopyFiles@2
   displayName: 'Stage Artifacts'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)\src'
-    Contents: '**/*.nupack'
+    Contents: '**/*.nupkg'
     TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: PublishBuildArtifacts@1
@@ -103,3 +93,12 @@ steps:
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)'
     artifactName: 'Package'
+
+- task: NuGetCommand@2
+  displayName: 'Publish Local Feed'
+  inputs:
+    command: 'push'
+    packagesToPush: '$(build.artifactstagingdirectory)/*.$(STAGE_VERSION).nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
+    allowPackageConflicts: true
