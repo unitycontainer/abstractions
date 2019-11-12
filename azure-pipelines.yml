@@ -11,7 +11,6 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-#  OutputPath: '$(system.defaultworkingdirectory)\bin'
 
 steps:
 - task: PowerShell@2
@@ -30,26 +29,6 @@ steps:
           Write-Host "Package Version:$($version)-$($timestamp)" 
           Write-Host "##vso[task.setvariable variable=PACKAGE_VERSION]$($version)-$($timestamp)" 
       }
-
-#- task: CopyFiles@2
-#  displayName: 'Stage Properties'
-#  inputs:
-#    SourceFolder: '$(system.defaultworkingdirectory)'
-#    Contents: '*.props'
-#    TargetFolder: '$(build.artifactstagingdirectory)'
-
-#- task: CopyFiles@2
-#  displayName: 'Stage Source'
-#  inputs:
-#    SourceFolder: '$(system.defaultworkingdirectory)\src'
-#    Contents: '**/**'
-#    TargetFolder: '$(build.artifactstagingdirectory)\src'
-
-#- task: PublishBuildArtifacts@1
-#  displayName: 'Publish Staged Source'
-#  inputs:
-#    PathtoPublish: '$(build.artifactstagingdirectory)'
-#    artifactName: 'Source'
 
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet'
