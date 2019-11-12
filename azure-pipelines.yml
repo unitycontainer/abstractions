@@ -46,7 +46,7 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Pack Package'
+  displayName: 'Pack'
   inputs:
     command: 'pack'
     packagesToPack: 'src/*.csproj'
@@ -55,21 +55,14 @@ steps:
     verbosityPack: 'Minimal'
     packDirectory: '$(Build.ArtifactStagingDirectory)\Package'
 
-#- task: CopyFiles@2
-#  displayName: 'Stage Package'
-#  inputs:
-#    SourceFolder: '$(system.defaultworkingdirectory)\src\bin'
-#    Contents: '**/*.$(PACKAGE_VERSION).nupkg'
-#    TargetFolder: '$(build.artifactstagingdirectory)\Package'
-
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifacts'
+  displayName: 'Artifacts'
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)\Package'
     artifactName: 'Package'
 
 - task: NuGetCommand@2
-  displayName: 'Publish Local Feed'
+  displayName: 'Local Feed'
   inputs:
     command: 'push'
     packagesToPush: '$(build.artifactstagingdirectory)\Package\*.$(PACKAGE_VERSION).nupkg'
