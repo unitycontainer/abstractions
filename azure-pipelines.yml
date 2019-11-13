@@ -22,7 +22,6 @@ steps:
       $version = (Select-Xml -Path ".\Directory.Build.props" -XPath "/Project/PropertyGroup/Version" | Select-Object -ExpandProperty Node).InnerText
       $timestamp = git log -1 --pretty="format:%ct"
       Write-Host "Version: $version" 
-      Write-Host "Time Stamp: $timestamp" 
       if ([regex]::IsMatch($Env:BUILD_SOURCEBRANCH, "^(refs\/tags\/v)")) { 
           Write-Host "Package Version: $($version)" 
       } Else { 
