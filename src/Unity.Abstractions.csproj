@@ -4,6 +4,7 @@
     <Version>$(Version)</Version>
     <FileVersion>$(Version).0</FileVersion>
     <AssemblyVersion>$(Version).0</AssemblyVersion>
+    <PackageVersion>$(Version)$(VERSION_SUFFIX)</PackageVersion>
     <PackageId>Unity.Abstractions</PackageId>
     <Description>Unity Container Public Abstractions</Description>
     <Copyright>Copyright © Unity Container Project 2018</Copyright>
@@ -23,6 +24,8 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <TargetFrameworks>netstandard2.1;netstandard2.0;netstandard1.0;netcoreapp3.0;netcoreapp2.0;netcoreapp1.0;net48;net47;net46;net45;net40</TargetFrameworks>
   </PropertyGroup>
+
+  <!-- Project Configuration -->
 
   <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' != 'netstandard1.0' ">
     <Compile Remove="Lifetime\Managers\ConcurrentDictionary.cs" />
@@ -46,12 +49,21 @@
   </ItemGroup>
   
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <DebugType>Portable</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Full</DebugType>
   </PropertyGroup>
+
+  <!-- References -->
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
+    <PackageReference Include="System.Threading.Tasks.Extensions">
+      <Version>4.5.3</Version>
+    </PackageReference>
+  </ItemGroup>
 
   <!-- Sourcelink -->
   <PropertyGroup>
@@ -64,12 +76,6 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
-    <PackageReference Include="System.Threading.Tasks.Extensions">
-      <Version>4.5.3</Version>
     </PackageReference>
   </ItemGroup>
   
