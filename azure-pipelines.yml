@@ -1,5 +1,8 @@
+# Build pipeline
+
 trigger:
 - master
+- refs/tags/*
 
 pool:
   vmImage: 'windows-latest'
@@ -15,56 +18,79 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $version = (Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionBase" | Select-Object -ExpandProperty Node).InnerText
+      $version = (Select-Xml -Path ".\Directory.Build.props" -XPath "/Project/PropertyGroup/VersionBase" | Select-Object -ExpandProperty Node).InnerText
       $timestamp = git log -1 --pretty="format:%ct"
       Write-Host "Version: $version" 
       Write-Host "Time Stamp: $timestamp" 
-      Write-Host "##vso[task.setvariable variable=STAGE_VERSION]$($version)-$($timestamp)"
+      if ([regex]::IsMatch($Env:BUILD_SOURCEBRANCH, "^(refs\/tags\/v)")) { 
+          Write-Host "Package Version: $($version)" 
+          Write-Host "##vso[task.setvariable variable=PACKAGE_VERSION]$($version)" 
+      } Else { 
+          Write-Host "Package Version:$($version)-$($timestamp)" 
+          Write-Host "##vso[task.setvariable variable=PACKAGE_VERSION]$($version)-$($timestamp)" 
+      }
 
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet'
 
+- task: CopyFiles@2
+  displayName: 'Copy Properties'
+  inputs:
+    Contents: 'Directory.Build.props'
+    TargetFolder: 'src'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Stage Source'
+  inputs:
+    PathtoPublish: 'src'
+    artifactName: 'Source'
+
 - task: NuGetCommand@2
-  displayName: 'Restore Packages'
+  displayName: 'Restore'
   inputs:
     restoreSolution: '$(solution)'
 
 - task: VSBuild@1
-  displayName: 'Build Package'
+  displayName: 'Build'
   inputs:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: CopyFiles@2
-  displayName: 'Stage Artifacts'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)\src\bin\Release'
-    Contents: '*.nupkg'
-    TargetFolder: '$(build.artifactstagingdirectory)'
+#- task: VSTest@2
+#  displayName: 'Test'
+#  inputs:
+#    platform: '$(buildPlatform)'
+#    configuration: '$(buildConfiguration)'
+#    searchFolder: '$(system.defaultworkingdirectory)\test'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifacts'
+  displayName: 'Stage Binaries'
   inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
+    PathtoPublish: 'src\bin\$(buildConfiguration)'
+    artifactName: 'Binaries'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Package Library'
+  displayName: 'Pack'
   inputs:
     command: 'pack'
-    packagesToPack: '**/*.csproj'
+    packagesToPack: 'src/*.csproj'
     versioningScheme: 'byEnvVar'
-    versionEnvVar: 'STAGE_VERSION'
+    versionEnvVar: 'PACKAGE_VERSION'
     verbosityPack: 'Minimal'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    packDirectory: '$(Build.ArtifactStagingDirectory)\Package'
 
-- task: NuGetCommand@2
-  displayName: 'Publish Local Feed'
+- task: PublishBuildArtifacts@1
+  displayName: 'Stage Package'
   inputs:
-    command: 'push'
-    packagesToPush: '$(build.artifactstagingdirectory)/*.$(STAGE_VERSION).nupkg'
-    nuGetFeedType: 'internal'
-    publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
-    allowPackageConflicts: true
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    PathtoPublish: '$(build.artifactstagingdirectory)\Package'
+    artifactName: 'Package'
 
+#- task: NuGetCommand@2
+#  displayName: 'Local Feed'
+#  inputs:
+#    command: 'push'
+#    packagesToPush: '$(build.artifactstagingdirectory)\Package\*.$(PACKAGE_VERSION).nupkg'
+#    nuGetFeedType: 'internal'
+#    publishVstsFeed: '18a6243f-7dac-4c78-bb92-3af88cd8e255'
+#    allowPackageConflicts: true
