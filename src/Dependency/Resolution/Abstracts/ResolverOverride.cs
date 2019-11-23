@@ -1,5 +1,4 @@
 ﻿using System;
-using Unity.Policy;
 
 namespace Unity.Resolution
 {
@@ -11,21 +10,32 @@ namespace Unity.Resolution
     {
         #region Fields
 
-        protected Type Target;
-        protected readonly Type   Type;
-        protected readonly string Name;
+        protected Type?            Target;
+        protected readonly Type?   Type;
+        protected readonly string? Name;
 
         #endregion
 
 
         #region Constructors
 
-        protected ResolverOverride(string name)
+        protected ResolverOverride(string? name)
         {
             Name = name;
         }
 
-        protected ResolverOverride(Type target, Type type, string name)
+        protected ResolverOverride(Type type)
+        {
+            Type = type;
+        }
+
+        protected ResolverOverride(Type type, string? name)
+        {
+            Type = type;
+            Name = name;
+        }
+
+        protected ResolverOverride(Type target, Type type, string? name)
         {
             Target = target;
             Type = type;
@@ -85,9 +95,9 @@ namespace Unity.Resolution
 
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            return this == obj as ResolverOverride;
+            return obj is ResolverOverride par && this == par;
         }
 
         public static bool operator ==(ResolverOverride left, ResolverOverride right)

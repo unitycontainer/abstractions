@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -9,7 +10,12 @@ namespace Unity.Injection
     {
         #region Constructors
 
-        protected MethodBase(string name, params object[] arguments)
+        protected MethodBase(params object[] arguments)
+            : base(arguments)
+        {
+        }
+
+        protected MethodBase(string? name, params object[] arguments)
             : base(name, arguments)
         {
         }
@@ -25,11 +31,12 @@ namespace Unity.Injection
 
         #region Overrides
 
-        public override TMemberInfo MemberInfo(Type type)
+        public override TMemberInfo? MemberInfo(Type type)
         {
-            var methodHasOpenGenericParameters = Selection.GetParameters()
-                                                     .Select(p => p.ParameterType.GetTypeInfo())
-                                                     .Any(i => i.IsGenericType && i.ContainsGenericParameters);
+            var methodHasOpenGenericParameters = (Selection ?? throw new InvalidOperationException())
+                .GetParameters()
+                .Select(p => p.ParameterType.GetTypeInfo())
+                .Any(i => i.IsGenericType && i.ContainsGenericParameters);
 
             var info = Selection.DeclaringType.GetTypeInfo();
             if (!methodHasOpenGenericParameters && !(info.IsGenericType && info.ContainsGenericParameters))

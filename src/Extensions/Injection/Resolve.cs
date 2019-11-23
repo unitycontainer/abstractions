@@ -11,7 +11,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static ParameterBase Dependency<TTarget>() => new ResolvedParameter(typeof(TTarget), null);
+        public static ParameterBase Dependency<TTarget>() => new ResolvedParameter(typeof(TTarget));
 
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

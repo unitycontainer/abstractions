@@ -41,7 +41,7 @@ namespace Unity.Injection
                     if (noData) return member;
                 }
 
-                if (!Data.MatchMemberInfo(member)) continue;
+                if (null != Data && !Data.MatchMemberInfo(member)) continue;
 
                 return member;
             }
@@ -73,6 +73,8 @@ namespace Unity.Injection
             var parameterTypes = other.GetParameters()
                                       .Select(p => p.ParameterType)
                                       .ToArray();
+            
+            if (null == Selection) return false;
 
             if (Selection.ContainsGenericParameters)
                 return Data.Length == parameterTypes.Length;

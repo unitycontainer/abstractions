@@ -41,9 +41,9 @@ namespace Unity.Injection
 
         #region Overrides
 
-        protected override PropertyInfo DeclaredMember(Type type, string name)
+        protected override PropertyInfo DeclaredMember(Type type, string? name)
         {
-            return DeclaredMembers(type).FirstOrDefault(p => p.Name == Selection.Name);
+            return DeclaredMembers(type).FirstOrDefault(p => p.Name == Selection?.Name);
         }
 
         public override IEnumerable<PropertyInfo> DeclaredMembers(Type type)
@@ -61,7 +61,7 @@ namespace Unity.Injection
             }
         }
 
-        protected override Type MemberType => Selection.PropertyType;
+        protected override Type MemberType => (Selection ?? throw new InvalidOperationException("Property is not initialized")).PropertyType;
 
         public override string ToString()
         {

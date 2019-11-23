@@ -15,7 +15,7 @@ namespace Unity.Injection
     {
         #region Fields
 
-        private readonly Func<IUnityContainer, Type, string, object> _factoryFunc;
+        private readonly Func<IUnityContainer, Type, string?, object> _factoryFunc;
 
         #endregion
 
@@ -38,7 +38,7 @@ namespace Unity.Injection
         /// the given factory function.
         /// </summary>
         /// <param name="factoryFunc">Factory function.</param>
-        public InjectionFactory(Func<IUnityContainer, Type, string, object> factoryFunc)
+        public InjectionFactory(Func<IUnityContainer, Type, string?, object> factoryFunc)
         {
             _factoryFunc = factoryFunc ?? throw new ArgumentNullException(nameof(factoryFunc));
         }

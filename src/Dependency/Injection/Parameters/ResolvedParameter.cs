@@ -15,7 +15,7 @@ namespace Unity.Injection
     {
         #region Fields
 
-        private readonly string _name;
+        private readonly string? _name;
 
         #endregion
 
@@ -68,7 +68,7 @@ namespace Unity.Injection
         {
 #if NETSTANDARD1_0 || NETCOREAPP1_0 
             var info = ParameterType?.GetTypeInfo();
-            if (null == info || info.IsGenericType && info.ContainsGenericParameters ||
+            if (null == ParameterType || null == info || info.IsGenericType && info.ContainsGenericParameters ||
                 ParameterType.IsArray && ParameterType.GetElementType().GetTypeInfo().IsGenericParameter ||
                 ParameterType.IsGenericParameter)
 #else
@@ -88,7 +88,7 @@ namespace Unity.Injection
         {
 #if NETSTANDARD1_0 || NETCOREAPP1_0 
             var parameterInfo = ParameterType?.GetTypeInfo();
-            if (null == parameterInfo || parameterInfo.IsGenericType && parameterInfo.ContainsGenericParameters ||
+            if (null == ParameterType || null == parameterInfo || parameterInfo.IsGenericType && parameterInfo.ContainsGenericParameters ||
                 ParameterType.IsArray && ParameterType.GetElementType().GetTypeInfo().IsGenericParameter ||
                 ParameterType.IsGenericParameter)
 #else

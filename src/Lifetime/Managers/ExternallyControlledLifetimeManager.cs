@@ -13,7 +13,7 @@ namespace Unity.Lifetime
     {
         #region Fields
 
-        private WeakReference _value;
+        private WeakReference? _value;
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace Unity.Lifetime
         /// </summary>
         /// <param name="container">Instance of container requesting the value</param>
         /// <returns>the object desired, or null if no such object is currently stored.</returns>
-        public override object GetValue(ILifetimeContainer container = null)
+        public override object? GetValue(ILifetimeContainer? container = null)
         {
             if (null == _value) return NoValue;
 
@@ -42,7 +42,7 @@ namespace Unity.Lifetime
         /// </summary>
         /// <param name="container">Instance of container which owns the value</param>
         /// <param name="newValue">The object being stored.</param>
-        public override void SetValue(object newValue, ILifetimeContainer container = null)
+        public override void SetValue(object? newValue, ILifetimeContainer? container = null)
         {
             _value = new WeakReference(newValue);
         }

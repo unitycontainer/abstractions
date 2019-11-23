@@ -21,12 +21,12 @@ namespace Unity.Injection
         /// <param name="arguments">The values for the constructor's parameters, that will
         /// be used to create objects.</param>
         public InjectionConstructor(params object[] arguments)
-            : base((string)null, arguments)
+            : base(arguments)
         {
         }
 
         public InjectionConstructor(ConstructorInfo info, params object[] arguments)
-            : base((string)null, arguments)
+            : base(arguments)
         {
             Selection = info;
         }

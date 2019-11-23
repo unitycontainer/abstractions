@@ -20,7 +20,8 @@ namespace Unity.Injection
         private readonly Type _elementType;
 
         private static readonly MethodInfo ResolverMethod =
-            typeof(GenericResolvedArrayParameter).GetTypeInfo().GetDeclaredMethod(nameof(DoResolve));
+            typeof(GenericResolvedArrayParameter).GetTypeInfo()
+                                                 .GetDeclaredMethod(nameof(DoResolve));
 
         private delegate object Resolver<TContext>(ref TContext context, object[] values)
             where TContext : IResolveContext;
@@ -138,20 +139,21 @@ namespace Unity.Injection
 
         #region Implementation
 
-        private static object DoResolve<TContext, TElement>(ref TContext context, object[] values)
+        private static object? DoResolve<TContext, TElement>(ref TContext context, object[] values)
             where TContext : IResolveContext
+            where TElement : class
         {
-            var result = new TElement[values.Length];
+            var result = new TElement?[values.Length];
 
             for (var i = 0; i < values.Length; i++)
             {
-                result[i] = (TElement)ResolveValue(ref context, values[i]);
+                result[i] = (TElement?)ResolveValue(ref context, values[i]);
             }
 
             return result;
 
 
-            object ResolveValue(ref TContext c, object value)
+            object? ResolveValue(ref TContext c, object value)
             {
                 switch (value)
                 {

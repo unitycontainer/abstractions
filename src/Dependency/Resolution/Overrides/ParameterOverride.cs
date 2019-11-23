@@ -28,7 +28,7 @@ namespace Unity.Resolution
         /// <param name="parameterName">Name of the constructor parameter.</param>
         /// <param name="parameterValue">InjectionParameterValue to pass for the constructor.</param>
         public ParameterOverride(string parameterName, object parameterValue)
-            : base(null, null, parameterName)
+            : base(parameterName)
         {
             Value = parameterValue;
         }
@@ -41,7 +41,7 @@ namespace Unity.Resolution
         /// <param name="parameterType">Type of the parameter.</param>
         /// <param name="parameterValue">Value to pass for the MethodBase.</param>
         public ParameterOverride(Type parameterType, object parameterValue)
-            : base(null, parameterType, null)
+            : base(parameterType)
         {
             Value = parameterValue;
         }
@@ -55,7 +55,7 @@ namespace Unity.Resolution
         /// <param name="parameterName">Name of the constructor parameter.</param>
         /// <param name="parameterValue">Value to pass for the MethodBase.</param>
         public ParameterOverride(Type parameterType, string parameterName, object parameterValue)
-            : base(null, parameterType, parameterName)
+            : base(parameterType, parameterName)
         {
             Value = parameterValue;
         }
@@ -71,7 +71,7 @@ namespace Unity.Resolution
             return base.GetHashCode();
         }
 
-        public override bool Equals(object other)
+        public override bool Equals(object? other)
         {
             switch (other)
             {
@@ -101,7 +101,7 @@ namespace Unity.Resolution
 
         #region IResolverPolicy
 
-        public object Resolve<TContext>(ref TContext context)
+        public object? Resolve<TContext>(ref TContext context)
             where TContext : IResolveContext
         {
             if (Value is IResolve policy)
@@ -109,7 +109,7 @@ namespace Unity.Resolution
 
             if (Value is IResolverFactory<Type> factory)
             {
-                var resolveDelegate = factory.GetResolver<TContext>(Type);
+                var resolveDelegate = factory.GetResolver<TContext>(Type ?? throw new InvalidOperationException("Parameter is not initialized"));
                 return resolveDelegate(ref context);
             }
 

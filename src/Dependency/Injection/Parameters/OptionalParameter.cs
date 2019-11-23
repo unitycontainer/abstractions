@@ -16,7 +16,7 @@ namespace Unity.Injection
     {
         #region Fields
 
-        private readonly string _name;
+        private readonly string? _name;
 
         #endregion
 
@@ -87,13 +87,13 @@ namespace Unity.Injection
             where TContext : IResolveContext
         {
 #if NET40
-            object value = null;
+            object? value = null;
 #else
             var value = info.HasDefaultValue ? info.DefaultValue : null;
 #endif
 #if NETSTANDARD1_0 || NETCOREAPP1_0 
             var typeInfo = ParameterType?.GetTypeInfo();
-            if (null == typeInfo || typeInfo.IsGenericType && typeInfo.ContainsGenericParameters ||
+            if (null == ParameterType || null == typeInfo || typeInfo.IsGenericType && typeInfo.ContainsGenericParameters ||
                 ParameterType.IsArray && ParameterType.GetElementType().GetTypeInfo().IsGenericParameter ||
                 ParameterType.IsGenericParameter)
 #else
