@@ -53,14 +53,20 @@ namespace Unity.Injection
 
         protected const string NoMatchFound = "No member matching data has been found.";
 
-        protected TMemberInfo Selection { get; set; }
+        protected TMemberInfo? Selection { get; set; }
 
         #endregion
 
 
         #region Constructors
 
-        protected InjectionMember(string name, TData data)
+
+        protected InjectionMember(TData data)
+        {
+            Data = data;
+        }
+
+        protected InjectionMember(string? name, TData data)
         {
             Name = name;
             Data = data;
@@ -78,11 +84,11 @@ namespace Unity.Injection
 
         #region Public Members
 
-        public string Name { get; }
+        public string? Name { get; }
 
         public virtual TData Data { get; }
 
-        public abstract TMemberInfo MemberInfo(Type type);
+        public abstract TMemberInfo? MemberInfo(Type type);
 
         public abstract IEnumerable<TMemberInfo> DeclaredMembers(Type type);
 
@@ -98,14 +104,15 @@ namespace Unity.Injection
             return Selection?.Equals(other) ?? false;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             switch (obj)
             {
                 case TMemberInfo info:
                     return Equals(info);
 
-                case IEquatable<TMemberInfo> equatable:
+                case IEquatable<TMemberInfo> equatable 
+                when null != Selection:
                     return equatable.Equals(Selection);
 
                 default:

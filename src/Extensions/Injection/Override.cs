@@ -92,7 +92,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static ResolverOverride Dependency(Type type, string name, object value)
+        public static ResolverOverride Dependency(Type type, string? name, object value)
         {
             return new DependencyOverride(type, name, value);
         }
@@ -107,7 +107,7 @@ namespace Unity
         #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static ResolverOverride Dependency<TType>(string name, object value) 
+        public static ResolverOverride Dependency<TType>(string? name, object value) 
             => new DependencyOverride(typeof(TType), name, value);
 
         #endregion

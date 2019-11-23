@@ -30,7 +30,7 @@ namespace Unity.Injection
 
         #region Data Matching
 
-        public static bool Matches(this object data, Type match)
+        public static bool Matches(this object? data, Type match)
         {
             switch (data)
             {
@@ -74,7 +74,7 @@ namespace Unity.Injection
             return false;
         }
 
-        public static bool MatchesObject(this object parameter, Type match)
+        public static bool MatchesObject(this object? parameter, Type match)
         {
             var type = parameter is Type ? typeof(Type) : parameter?.GetType();
 

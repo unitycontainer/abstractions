@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading;
 
+#nullable disable
+
 namespace System.Reflection
 {
 #if NET40
@@ -244,3 +246,4 @@ namespace System.Reflection
     }
 }
 
+#nullable enable

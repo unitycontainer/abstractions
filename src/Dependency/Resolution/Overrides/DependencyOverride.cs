@@ -13,7 +13,7 @@ namespace Unity.Resolution
     {
         #region Fields
 
-        protected readonly object Value;
+        protected readonly object? Value;
 
         #endregion
 
@@ -26,25 +26,25 @@ namespace Unity.Resolution
         /// </summary>
         /// <param name="typeToConstruct">Type of the dependency.</param>
         /// <param name="dependencyValue">InjectionParameterValue to use.</param>
-        public DependencyOverride(Type typeToConstruct, object dependencyValue)
-            : base(null, typeToConstruct, null)
+        public DependencyOverride(Type typeToConstruct, object? dependencyValue)
+            : base(typeToConstruct)
         {
             Value = dependencyValue;
         }
 
-        public DependencyOverride(string name, object dependencyValue)
-            : base(null, null, name)
+        public DependencyOverride(string? name, object? dependencyValue)
+            : base(name)
         {
             Value = dependencyValue;
         }
 
-        public DependencyOverride(Type type, string name, object value)
-            : base(null, type, name)
+        public DependencyOverride(Type type, string? name, object? value)
+            : base(type, name)
         {
             Value = value;
         }
 
-        public DependencyOverride(Type target, Type type, string name, object value)
+        public DependencyOverride(Type target, Type type, string? name, object? value)
             : base(target, type, name)
         {
             Value = value;
@@ -60,7 +60,7 @@ namespace Unity.Resolution
             return base.GetHashCode();
         }
 
-        public override bool Equals(object other)
+        public override bool Equals(object? other)
         {
             switch (other)
             {
@@ -83,7 +83,7 @@ namespace Unity.Resolution
 
         #region IResolverPolicy
 
-        public object Resolve<TContext>(ref TContext context) 
+        public object? Resolve<TContext>(ref TContext context) 
             where TContext : IResolveContext
         {
             if (Value is IResolve policy)
@@ -91,7 +91,7 @@ namespace Unity.Resolution
 
             if (Value is IResolverFactory<Type> factory)
             {
-                var resolveDelegate = factory.GetResolver<TContext>(Type);
+                var resolveDelegate = factory.GetResolver<TContext>(Type ?? throw new InvalidOperationException("Type is not initialized"));
                 return resolveDelegate(ref context);
             }
 
@@ -113,7 +113,7 @@ namespace Unity.Resolution
         /// override the given dependency, and pass the given value.
         /// </summary>
         public DependencyOverride(object dependencyValue)
-            : base(null, typeof(T), null, dependencyValue)
+            : base(typeof(T), dependencyValue)
         {
         }
     }
