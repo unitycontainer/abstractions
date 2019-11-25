@@ -15,7 +15,7 @@ variables:
 
 steps:
 - checkout: self
-  path: Abstractios
+  path: Build\Abstractios
 
 - task: PowerShell@2
   displayName: 'Version Info'
