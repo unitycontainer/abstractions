@@ -1,7 +1,7 @@
 # Build pipeline
 
 trigger:
-- master
+- develop
 - refs/tags/*
 
 pool:
@@ -14,6 +14,9 @@ variables:
   PackageOutputPath: '$(build.artifactstagingdirectory)\Package'
 
 steps:
+- checkout: self
+  path: Abstractios
+
 - task: PowerShell@2
   displayName: 'Version Info'
   inputs:
