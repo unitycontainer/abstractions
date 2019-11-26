@@ -78,7 +78,7 @@ namespace Unity.Resolution
 
             if (Value is IResolverFactory<Type> factory)
             {
-                var resolveDelegate = factory.GetResolver<TContext>(Type ?? throw new InvalidOperationException("Type is not initialized"));
+                var resolveDelegate = factory.GetResolver<TContext>(Type);
                 return resolveDelegate(ref context);
             }
 

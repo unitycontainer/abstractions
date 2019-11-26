@@ -81,7 +81,7 @@ namespace Unity.Injection
 
         #region IResolverFactory
 
-        public ResolveDelegate<TContext> GetResolver<TContext>(Type type)
+        public ResolveDelegate<TContext> GetResolver<TContext>(Type? type)
             where TContext : IResolveContext
         {
             var elementType = !_elementType.IsArray
@@ -110,7 +110,7 @@ namespace Unity.Injection
             return (ref TContext context) => resolverMethod.Invoke(ref context, values);
         }
 
-        public ResolveDelegate<TContext> GetResolver<TContext>(ParameterInfo info)
+        public ResolveDelegate<TContext> GetResolver<TContext>(ParameterInfo? info)
             where TContext : IResolveContext
         {
             var elementType = info.ParameterType.IsArray ? info.ParameterType.GetElementType() : _elementType;

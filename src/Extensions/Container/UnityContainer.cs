@@ -373,7 +373,7 @@ namespace Unity
         public static IUnityContainer RegisterType(this IUnityContainer container, Type from, Type to, params InjectionMember[] injectionMembers)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterType(from, to, null, null, injectionMembers);
+                .RegisterType(from ?? to, to, null, null, injectionMembers);
         }
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace Unity
         public static IUnityContainer RegisterType(this IUnityContainer container, Type from, Type to, string name, params InjectionMember[] injectionMembers)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterType(from, to, name, null, injectionMembers);
+                .RegisterType(from ?? to, to, name, null, injectionMembers);
         }
 
         /// <summary>
@@ -416,7 +416,7 @@ namespace Unity
         public static IUnityContainer RegisterType(this IUnityContainer container, Type from, Type to, ITypeLifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterType(from, to, null, lifetimeManager, injectionMembers);
+                .RegisterType(from ?? to, to, null, lifetimeManager, injectionMembers);
         }
 
 
@@ -478,7 +478,7 @@ namespace Unity
         public static IUnityContainer RegisterSingleton(this IUnityContainer container, Type from, Type to, params InjectionMember[] injectionMembers)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterType(from, to, null, new SingletonLifetimeManager(), injectionMembers);
+                .RegisterType(from ?? to, to, null, new SingletonLifetimeManager(), injectionMembers);
         }
 
         /// <summary>
@@ -501,7 +501,7 @@ namespace Unity
         public static IUnityContainer RegisterSingleton(this IUnityContainer container, Type from, Type to, string name, params InjectionMember[] injectionMembers)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterType(from, to, name, new SingletonLifetimeManager(), injectionMembers);
+                .RegisterType(from ?? to, to, name, new SingletonLifetimeManager(), injectionMembers);
         }
 
         #endregion

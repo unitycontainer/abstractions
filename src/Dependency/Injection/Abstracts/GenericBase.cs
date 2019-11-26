@@ -87,13 +87,13 @@ namespace Unity.Injection
 
         #region IResolverFactory
 
-        public virtual ResolveDelegate<TContext> GetResolver<TContext>(Type type)
+        public virtual ResolveDelegate<TContext> GetResolver<TContext>(Type? type)
             where TContext : IResolveContext
         {
             return GetResolver<TContext>(type, _name);
         }
 
-        public virtual ResolveDelegate<TContext> GetResolver<TContext>(ParameterInfo info)
+        public virtual ResolveDelegate<TContext> GetResolver<TContext>(ParameterInfo? info)
             where TContext : IResolveContext
         {
             var type = info.ParameterType;
