@@ -19,9 +19,9 @@ namespace Unity.Injection
         /// </summary>
         /// <param name="name">Name of property to inject.</param>
         /// <param name="option">Tells Unity if this field is optional.</param>
-        public InjectionProperty(string name, ResolutionOption option = ResolutionOption.Required)
-            : base(name, ResolutionOption.Optional == option ? OptionalDependencyAttribute.Instance
-                                                             : (object)DependencyAttribute.Instance)
+        public InjectionProperty(string name, bool isRequired = true)
+            : base(name, isRequired ? (object)DependencyAttribute.Instance :
+                                      OptionalDependencyAttribute.Instance)
         {
         }
 
