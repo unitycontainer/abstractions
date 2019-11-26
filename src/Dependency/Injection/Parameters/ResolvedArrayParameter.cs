@@ -21,7 +21,8 @@ namespace Unity.Injection
 
         private static readonly MethodInfo ResolverMethod =
             typeof(GenericResolvedArrayParameter).GetTypeInfo()
-                                                 .GetDeclaredMethod(nameof(DoResolve));
+                                                 .GetDeclaredMethod(nameof(DoResolve))
+            ?? throw new InvalidOperationException($"{nameof(DoResolve)} does not exist");
 
         private delegate object Resolver<TContext>(ref TContext context, object[] values)
             where TContext : IResolveContext;

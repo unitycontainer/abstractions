@@ -54,7 +54,7 @@ namespace Unity.Injection
                     continue;
 
                 var setter = member.GetSetMethod(true);
-                if (setter.IsPrivate || setter.IsFamily)
+                if (null == setter || setter.IsPrivate || setter.IsFamily)
                     continue;
 
                 yield return member;
