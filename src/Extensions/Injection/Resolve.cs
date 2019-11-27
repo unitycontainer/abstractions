@@ -116,7 +116,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static InjectionMember OptionalField(string name) => new InjectionField(name, false);
+        public static InjectionMember OptionalField(string name) => new InjectionField(name, true);
 
         #endregion
 
@@ -131,7 +131,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static InjectionMember OptionalProperty(string name) => new InjectionProperty(name ?? throw new ArgumentNullException(nameof(name)), false);
+        public static InjectionMember OptionalProperty(string name) => new InjectionProperty(name ?? throw new ArgumentNullException(nameof(name)), true);
 
         #endregion
     }

@@ -41,8 +41,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-    <Compile Remove="Abstracts\IUnityContainerAsync.cs" />
     <Compile Remove="Extensions\Container\UnityContainerAsync.cs" />
+    <Compile Remove="IUnityContainerAsync.cs" />
   </ItemGroup>
 
   <ItemGroup>
