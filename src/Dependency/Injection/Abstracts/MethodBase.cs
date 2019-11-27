@@ -38,7 +38,7 @@ namespace Unity.Injection
                 .Select(p => p.ParameterType.GetTypeInfo())
                 .Any(i => i.IsGenericType && i.ContainsGenericParameters);
 
-            var info = Selection.DeclaringType.GetTypeInfo();
+            var info = Selection.DeclaringType?.GetTypeInfo() ?? throw new InvalidOperationException("Invalid Selection");
             if (!methodHasOpenGenericParameters && !(info.IsGenericType && info.ContainsGenericParameters))
                 return Selection;
 

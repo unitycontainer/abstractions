@@ -63,41 +63,45 @@ namespace Unity.Injection
 
         #region IResolverFactory
 
-        public ResolveDelegate<TContext> GetResolver<TContext>(Type type)
+        public ResolveDelegate<TContext> GetResolver<TContext>(Type? type)
             where TContext : IResolveContext
         {
 #if NETSTANDARD1_0 || NETCOREAPP1_0 
             var info = ParameterType?.GetTypeInfo();
             if (null == ParameterType || null == info || info.IsGenericType && info.ContainsGenericParameters ||
-                ParameterType.IsArray && ParameterType.GetElementType().GetTypeInfo().IsGenericParameter ||
+                ParameterType.IsArray && (ParameterType.GetElementType()?.GetTypeInfo().IsGenericParameter ?? false) ||
                 ParameterType.IsGenericParameter)
 #else
             if (null == ParameterType || ParameterType.IsGenericType && ParameterType.ContainsGenericParameters ||
-                ParameterType.IsArray && ParameterType.GetElementType().IsGenericParameter ||
+                ParameterType.IsArray && (ParameterType.GetElementType()?.IsGenericParameter ?? false) ||
                 ParameterType.IsGenericParameter)
 #endif
             {
-                return (ref TContext c) => c.Resolve(type, _name);
+                var resolveType = type ?? throw new ArgumentNullException(nameof(type));
+
+                return (ref TContext c) => c.Resolve(resolveType, _name);
             }
 
             return (ref TContext c) => c.Resolve(ParameterType, _name);
         }
 
-        public ResolveDelegate<TContext> GetResolver<TContext>(ParameterInfo info) 
+        public ResolveDelegate<TContext> GetResolver<TContext>(ParameterInfo? info) 
             where TContext : IResolveContext
         {
 #if NETSTANDARD1_0 || NETCOREAPP1_0 
             var parameterInfo = ParameterType?.GetTypeInfo();
             if (null == ParameterType || null == parameterInfo || parameterInfo.IsGenericType && parameterInfo.ContainsGenericParameters ||
-                ParameterType.IsArray && ParameterType.GetElementType().GetTypeInfo().IsGenericParameter ||
+                ParameterType.IsArray && (ParameterType.GetElementType()?.GetTypeInfo().IsGenericParameter ?? false) ||
                 ParameterType.IsGenericParameter)
 #else
             if (null == ParameterType || ParameterType.IsGenericType && ParameterType.ContainsGenericParameters ||
-                ParameterType.IsArray && ParameterType.GetElementType().IsGenericParameter ||
+                ParameterType.IsArray && (ParameterType.GetElementType()?.IsGenericParameter ?? false) ||
                 ParameterType.IsGenericParameter)
 #endif
             {
-                var type = info.ParameterType;
+
+                var type = (info ?? throw new ArgumentNullException(nameof(info))).ParameterType;
+
                 return (ref TContext c) => c.Resolve(type, _name);
             }
 

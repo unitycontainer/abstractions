@@ -79,7 +79,9 @@ namespace Unity.Injection
             {
                 return t.GetTypeInfo().IsGenericParameter && t.GetTypeInfo().Name == _genericParameterName;
             }
-            return t.IsArray && t.GetElementType().GetTypeInfo().IsGenericParameter && t.GetElementType().GetTypeInfo().Name == _genericParameterName;
+            return t.IsArray && 
+                  (t.GetElementType()?.GetTypeInfo().IsGenericParameter ?? false)  && 
+                   t.GetElementType()?.GetTypeInfo().Name == _genericParameterName;
         }
 
         #endregion
@@ -90,13 +92,13 @@ namespace Unity.Injection
         public virtual ResolveDelegate<TContext> GetResolver<TContext>(Type? type)
             where TContext : IResolveContext
         {
-            return GetResolver<TContext>(type, _name);
+            return GetResolver<TContext>(type ?? throw new ArgumentNullException(nameof(type)), _name);
         }
 
         public virtual ResolveDelegate<TContext> GetResolver<TContext>(ParameterInfo? info)
             where TContext : IResolveContext
         {
-            var type = info.ParameterType;
+            var type = (info ?? throw new ArgumentNullException(nameof(info))).ParameterType;
             return GetResolver<TContext>(type, _name);
         }
 

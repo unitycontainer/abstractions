@@ -84,6 +84,8 @@ namespace Unity.Injection
         public ResolveDelegate<TContext> GetResolver<TContext>(Type? type)
             where TContext : IResolveContext
         {
+            if (null == type) throw new ArgumentNullException(nameof(type));
+
             var elementType = !_elementType.IsArray
                             ? _elementType
                             : _elementType.GetArrayParameterType(type.GetTypeInfo()
@@ -113,7 +115,10 @@ namespace Unity.Injection
         public ResolveDelegate<TContext> GetResolver<TContext>(ParameterInfo? info)
             where TContext : IResolveContext
         {
-            var elementType = info.ParameterType.IsArray ? info.ParameterType.GetElementType() : _elementType;
+            if (null == info) throw new ArgumentNullException(nameof(info));
+
+            var elementType = (info.ParameterType.IsArray ? info.ParameterType.GetElementType() : _elementType) 
+                            ?? throw new ArgumentNullException("Invalid argument type");
             var resolverMethod = (Resolver<TContext>)ResolverMethod.MakeGenericMethod(typeof(TContext), elementType)
                                                                    .CreateDelegate(typeof(Resolver<TContext>));
             var values = _values.Select(value =>

@@ -20,7 +20,7 @@ namespace Unity.Resolution
 
             var contextRefType =
                 typeof(ResolveDelegate<TContext>).GetTypeInfo()
-                                                 .GetDeclaredMethod("Invoke")
+                                                 .GetDeclaredMethod("Invoke")?
                                                  .GetParameters()[0]
                                                  .ParameterType;
 

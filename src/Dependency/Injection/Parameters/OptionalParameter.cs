@@ -69,9 +69,10 @@ namespace Unity.Injection
 
         #region IResolverFactory
 
-        public ResolveDelegate<TContext> GetResolver<TContext>(Type type)
+        public ResolveDelegate<TContext> GetResolver<TContext>(Type? type)
             where TContext : IResolveContext
         {
+            if (null == type) throw new ArgumentNullException(nameof(type));
             return (ref TContext c) =>
             {
                 try { return c.Resolve(type, _name); }
@@ -83,9 +84,10 @@ namespace Unity.Injection
             };
         }
 
-        public ResolveDelegate<TContext> GetResolver<TContext>(ParameterInfo info)
+        public ResolveDelegate<TContext> GetResolver<TContext>(ParameterInfo? info)
             where TContext : IResolveContext
         {
+            if (null == info) throw new ArgumentNullException(nameof(info));
 #if NET40
             object? value = null;
 #else
@@ -94,11 +96,11 @@ namespace Unity.Injection
 #if NETSTANDARD1_0 || NETCOREAPP1_0 
             var typeInfo = ParameterType?.GetTypeInfo();
             if (null == ParameterType || null == typeInfo || typeInfo.IsGenericType && typeInfo.ContainsGenericParameters ||
-                ParameterType.IsArray && ParameterType.GetElementType().GetTypeInfo().IsGenericParameter ||
+                ParameterType.IsArray && (ParameterType.GetElementType()?.GetTypeInfo().IsGenericParameter ?? false) ||
                 ParameterType.IsGenericParameter)
 #else
             if (null == ParameterType || ParameterType.IsGenericType && ParameterType.ContainsGenericParameters ||
-                ParameterType.IsArray && ParameterType.GetElementType().IsGenericParameter ||
+                ParameterType.IsArray && (ParameterType.GetElementType()?.IsGenericParameter ?? false) ||
                 ParameterType.IsGenericParameter)
 #endif
             {

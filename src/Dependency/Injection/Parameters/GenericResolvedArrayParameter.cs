@@ -17,7 +17,8 @@ namespace Unity.Injection
         private readonly object[] _values;
 
         private static readonly MethodInfo ResolverMethod =
-            typeof(GenericResolvedArrayParameter).GetTypeInfo().GetDeclaredMethod(nameof(DoResolve));
+            typeof(GenericResolvedArrayParameter).GetTypeInfo().GetDeclaredMethod(nameof(DoResolve)) 
+            ?? throw new Exception();
 
         private delegate object Resolver<TContext>(ref TContext context, object[] values) 
             where TContext : IResolveContext;
@@ -60,13 +61,15 @@ namespace Unity.Injection
                 return false;
             }
 
-            Type elementType = t.GetElementType();
-            return elementType.GetTypeInfo().IsGenericParameter && elementType.GetTypeInfo().Name == base.ParameterTypeName;
+            var elementType = t.GetElementType();
+            return null != elementType && 
+                elementType.GetTypeInfo().IsGenericParameter && 
+                elementType.GetTypeInfo().Name == base.ParameterTypeName;
         }
 
         protected override ResolveDelegate<TContext> GetResolver<TContext>(Type type, string? name)
         {
-            Type elementType = type.GetElementType();
+            var elementType = type.GetElementType() ?? throw new InvalidOperationException("Invalid Element Type");
             var resolverMethod = (Resolver<TContext>)ResolverMethod.MakeGenericMethod(typeof(TContext), elementType)
                                                                    .CreateDelegate(typeof(Resolver<TContext>));
             var values = _values.Select(value =>
