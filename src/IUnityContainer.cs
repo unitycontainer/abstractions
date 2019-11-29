@@ -232,7 +232,7 @@ namespace Unity
         /// <seealso cref="Unity.Override"/>
         /// <exception cref="ResolutionFailedException">Throws if any errors occur during resolution</exception>
         /// <returns>The retrieved object.</returns>
-        object Resolve(Type type, string? name, params ResolverOverride[] overrides);
+        object? Resolve(Type type, string? name, params ResolverOverride[] overrides);
 
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace Unity
         /// <returns>The resulting object. By default, this will be <paramref name="existing"/>, but
         /// container extensions may add things like automatic proxy creation which would
         /// cause this to return a different object (but still type compatible with <paramref name="type"/>).</returns>
-        object BuildUp(Type type, object existing, string? name, params ResolverOverride[] overrides);
+        object BuildUp(Type? type, object existing, string? name, params ResolverOverride[] overrides);
 
 
         /// <summary>

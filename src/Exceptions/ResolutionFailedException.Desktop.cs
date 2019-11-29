@@ -6,6 +6,11 @@ namespace Unity
     [Serializable]
     partial class ResolutionFailedException
     {
+        protected ResolutionFailedException(SerializationInfo serializationInfo, StreamingContext streamingContext)
+            : base(serializationInfo, streamingContext)
+        {
+        }
+
         #region Serialization Support
 
         partial void RegisterSerializationHandler()
@@ -19,10 +24,10 @@ namespace Unity
         [Serializable]
         private struct ResolutionFailedExceptionSerializationData : ISafeSerializationData
         {
-            private readonly string _typeRequested;
-            private readonly string _nameRequested;
+            private readonly string? _typeRequested;
+            private readonly string? _nameRequested;
 
-            public ResolutionFailedExceptionSerializationData(string typeRequested, string nameRequested)
+            public ResolutionFailedExceptionSerializationData(string? typeRequested, string? nameRequested)
             {
                 _typeRequested = typeRequested;
                 _nameRequested = nameRequested;

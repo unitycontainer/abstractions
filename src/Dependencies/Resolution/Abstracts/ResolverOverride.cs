@@ -35,7 +35,7 @@ namespace Unity.Resolution
             Name = name;
         }
 
-        protected ResolverOverride(Type target, Type type, string? name)
+        protected ResolverOverride(Type target, Type? type, string? name)
         {
             Target = target;
             Type = type;

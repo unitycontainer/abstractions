@@ -26,8 +26,8 @@ namespace Unity.Injection
         /// type of the parameter.
         /// </summary>
         /// <param name="value">Value to be injected for this parameter.</param>
-        public InjectionParameter(object? value)
-            : base((value ?? throw new ArgumentNullException(nameof(value))).GetType())
+        public InjectionParameter(object value)
+            : base(value.GetType())
         {
             _value = value;
         }

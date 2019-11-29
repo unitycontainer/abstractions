@@ -78,7 +78,7 @@ namespace Unity.Resolution
 
             if (Value is IResolverFactory<Type> factory)
             {
-                var resolveDelegate = factory.GetResolver<TContext>(Type);
+                var resolveDelegate = factory.GetResolver<TContext>(Type ?? context.Type);
                 return resolveDelegate(ref context);
             }
 

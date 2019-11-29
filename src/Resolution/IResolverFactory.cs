@@ -6,9 +6,8 @@ namespace Unity.Resolution
         where TContext : IResolveContext;
 
     public interface IResolverFactory<in TMemberInfo>
-        where TMemberInfo : class
     {
-        ResolveDelegate<TContext> GetResolver<TContext>(TMemberInfo? info)
+        ResolveDelegate<TContext> GetResolver<TContext>(TMemberInfo info)
             where TContext : IResolveContext;
     }
 }

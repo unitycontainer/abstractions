@@ -15,7 +15,7 @@ namespace Unity.Injection
     {
         #region Fields
 
-        private readonly Func<IUnityContainer, Type, string?, object> _factoryFunc;
+        private readonly Func<IUnityContainer, Type, string?, object?> _factoryFunc;
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace Unity.Injection
         /// the given factory function.
         /// </summary>
         /// <param name="factoryFunc">Factory function.</param>
-        public InjectionFactory(Func<IUnityContainer, object> factoryFunc)
+        public InjectionFactory(Func<IUnityContainer, object?> factoryFunc)
         {
             if (null == factoryFunc) throw new ArgumentNullException(nameof(factoryFunc));
             _factoryFunc = (c, t, s) => factoryFunc(c);
@@ -38,7 +38,7 @@ namespace Unity.Injection
         /// the given factory function.
         /// </summary>
         /// <param name="factoryFunc">Factory function.</param>
-        public InjectionFactory(Func<IUnityContainer, Type, string?, object> factoryFunc)
+        public InjectionFactory(Func<IUnityContainer, Type, string?, object?> factoryFunc)
         {
             _factoryFunc = factoryFunc ?? throw new ArgumentNullException(nameof(factoryFunc));
         }
@@ -57,7 +57,7 @@ namespace Unity.Injection
         /// <param name="mappedToType">Type of concrete type being registered.</param>
         /// <param name="name">Name used to resolve the type object.</param>
         /// <param name="policies">Policy list to add policies to.</param>
-        public override void AddPolicies<TContext, TPolicySet>(Type registeredType, Type mappedToType, string name, ref TPolicySet policies)
+        public override void AddPolicies<TContext, TPolicySet>(Type registeredType, Type? mappedToType, string? name, ref TPolicySet policies)
         {
             // Verify
             if (null != mappedToType && mappedToType != registeredType)
@@ -102,7 +102,7 @@ namespace Unity.Injection
 
         internal sealed class InternalPerResolveLifetimeManager : PerResolveLifetimeManager
         {
-            public InternalPerResolveLifetimeManager(object obj)
+            public InternalPerResolveLifetimeManager(object? obj)
             {
                 value = obj;
                 InUse = true;
