@@ -269,7 +269,7 @@ namespace Unity
         /// the container that created this instance.
         /// </remarks>
         /// <value>The parent container, or null if this container doesn't have one.</value>
-        IUnityContainer Parent { get; }
+        IUnityContainer? Parent { get; }
 
 
         /// <summary>
