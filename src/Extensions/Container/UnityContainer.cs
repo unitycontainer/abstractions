@@ -902,12 +902,16 @@ namespace Unity
         /// <param name="container">Container to resolve from.</param>
         /// <param name="overrides">Any overrides for the resolve call.</param>
         /// <returns>The retrieved object.</returns>
+#if NETSTANDARD2_1 || NETCOREAPP3_0
+        [return: System.Diagnostics.CodeAnalysis.MaybeNull]
+#endif
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static T Resolve<T>(this IUnityContainer container, params ResolverOverride[] overrides)
         {
-            return (T)(container ?? throw new ArgumentNullException(nameof(container))).Resolve(typeof(T), null, overrides);
+            var result = (container ?? throw new ArgumentNullException(nameof(container))).Resolve(typeof(T), null, overrides);
+            return null == result ? default : (T)result;
         }
 
         /// <summary>
@@ -918,12 +922,16 @@ namespace Unity
         /// <param name="name">Name of the object to retrieve.</param>
         /// <param name="overrides">Any overrides for the resolve call.</param>
         /// <returns>The retrieved object.</returns>
+#if NETSTANDARD2_1 || NETCOREAPP3_0
+        [return: System.Diagnostics.CodeAnalysis.MaybeNull]
+#endif
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static T Resolve<T>(this IUnityContainer container, string name, params ResolverOverride[] overrides)
+        public static T Resolve<T>(this IUnityContainer container, string? name, params ResolverOverride[] overrides)
         {
-            return (T)(container ?? throw new ArgumentNullException(nameof(container))).Resolve(typeof(T), name, overrides);
+            var result = (container ?? throw new ArgumentNullException(nameof(container))).Resolve(typeof(T), name, overrides);
+            return null == result ? default : (T)result;
         }
 
         /// <summary>
@@ -936,7 +944,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static object Resolve(this IUnityContainer container, Type t, params ResolverOverride[] overrides)
+        public static object? Resolve(this IUnityContainer container, Type t, params ResolverOverride[] overrides)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).Resolve(t, null, overrides);
         }
@@ -971,7 +979,7 @@ namespace Unity
                 .Resolve((type ?? throw new ArgumentNullException(nameof(type)))
                 .MakeArrayType(), resolverOverrides);
 
-            return result is IEnumerable<object> objects ? objects : ((Array)result).Cast<object>();
+            return result is IEnumerable<object> objects ? objects : ((Array?)result).Cast<object>();
         }
 
         /// <summary>

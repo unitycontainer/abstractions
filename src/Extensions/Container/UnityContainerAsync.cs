@@ -672,27 +672,6 @@ namespace Unity
         /// <typeparam name="TInterface">Type of instance to register (may be an implemented interface instead of the full type).</typeparam>
         /// <param name="container">Container to configure.</param>
         /// <param name="name">Name for registration.</param>
-        /// <param name="factory">Predefined <code>Func&lt;IUnityContainer, object&gt;</code> to create types</param>
-        /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
-        /// of the returned instance. If no manager is provided, container uses Transient manager.</param>
-        /// <returns>The <see cref="Task"/> object that this method was called on.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task RegisterFactory<TInterface>(this IUnityContainerAsync container, string name, Func<IUnityContainer, object?> factory, IFactoryLifetimeManager? lifetimeManager = null)
-        {
-            if (null == factory) throw new ArgumentNullException(nameof(factory));
-            return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(new[] { typeof(TInterface) }, name, (c, t, n) => factory(c.Resolve<IUnityContainer>()), lifetimeManager);
-        }
-
-        /// <summary>
-        /// Register a Factory with the container.
-        /// </summary>
-        /// <remarks>
-        /// This overload does a default registration and has the current container take over the lifetime of the factory.
-        /// </remarks>
-        /// <typeparam name="TInterface">Type of instance to register (may be an implemented interface instead of the full type).</typeparam>
-        /// <param name="container">Container to configure.</param>
-        /// <param name="name">Name for registration.</param>
         /// <param name="factory">Predefined <code>Func&lt;IUnityContainer, Type, string, object&gt;</code> to create types</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance. If no manager is provided, container uses Transient manager.</param>
@@ -707,25 +686,6 @@ namespace Unity
         #endregion
 
         #region Non-generic overloads
-
-        /// <summary>
-        /// Register a Factory with the container.
-        /// </summary>
-        /// <remarks>
-        /// This overload does a default registration and has the current container take over the lifetime of the factory.
-        /// </remarks>
-        /// <param name="container">Container to configure.</param>
-        /// <param name="type"><see cref="Type"/> to register (may be an implemented interface instead of the actual type).</param>
-        /// <param name="factory">Predefined <code>Func&lt;IUnityContainerAsync, object&gt;</code> to create types</param>
-        /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
-        /// of the returned instance. This manager has to derive from <see cref="IFactoryLifetimeManager"/></param>
-        /// <returns>The <see cref="Task"/> object that this method was called on.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task RegisterFactory(this IUnityContainerAsync container, Type type, Func<IUnityContainer, object?> factory, IFactoryLifetimeManager? lifetimeManager = null)
-        {
-            return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(new[] { type }, null, (c, t, n) => factory(c.Resolve<IUnityContainer>()), lifetimeManager);
-        }
 
         /// <summary>
         /// Register a Factory with the container.
