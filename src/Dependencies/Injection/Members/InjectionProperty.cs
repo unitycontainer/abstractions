@@ -11,6 +11,13 @@ namespace Unity.Injection
     /// </summary>
     public class InjectionProperty : MemberInfoBase<PropertyInfo>
     {
+        #region Constants
+
+        private const string error = "Injection Property is not intialized";
+
+        #endregion
+
+
         #region Constructors
 
         /// <summary>
@@ -43,7 +50,10 @@ namespace Unity.Injection
 
         protected override PropertyInfo DeclaredMember(Type type, string? name)
         {
-            return DeclaredMembers(type).FirstOrDefault(p => p.Name == Selection?.Name);
+            if (null == Selection?.Name) throw new InvalidOperationException(error);
+
+            return DeclaredMembers(type).FirstOrDefault(p => p.Name == Selection?.Name) ??
+                throw new ArgumentException($"Property {Selection.Name} not found on type {type}");
         }
 
         public override IEnumerable<PropertyInfo> DeclaredMembers(Type type)
@@ -61,7 +71,7 @@ namespace Unity.Injection
             }
         }
 
-        protected override Type MemberType => (Selection ?? throw new InvalidOperationException("Property is not initialized")).PropertyType;
+        protected override Type MemberType => (Selection ?? throw new InvalidOperationException(error)).PropertyType;
 
         public override string ToString()
         {

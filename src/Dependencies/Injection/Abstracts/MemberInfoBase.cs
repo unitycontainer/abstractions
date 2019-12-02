@@ -19,7 +19,7 @@ namespace Unity.Injection
 
         #region Overrides
 
-        public override TMemberInfo? MemberInfo(Type type)
+        public override TMemberInfo MemberInfo(Type type)
         {
 
 #if NETSTANDARD1_0 || NETCOREAPP1_0 
@@ -58,7 +58,7 @@ namespace Unity.Injection
 
         #region Implementation
 
-        protected abstract TMemberInfo? DeclaredMember(Type type, string? name);
+        protected abstract TMemberInfo DeclaredMember(Type type, string? name);
 
         protected abstract Type MemberType { get; }
 

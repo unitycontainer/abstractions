@@ -6,6 +6,13 @@ namespace Unity.Injection
 {
     public class InjectionField : MemberInfoBase<FieldInfo>
     {
+        #region Constants
+
+        private const string error = "Injection Field is not intialized";
+
+        #endregion
+
+
         #region Constructors
 
         /// <summary>
@@ -35,14 +42,15 @@ namespace Unity.Injection
 
         #region Overrides
 
-        protected override FieldInfo? DeclaredMember(Type type, string? name)
+        protected override FieldInfo DeclaredMember(Type type, string? name)
         {
-            if (null == Selection?.Name) return null;
+            if (null == Selection?.Name) throw new InvalidOperationException(error);
 
 #if NETSTANDARD1_0 || NETCOREAPP1_0
             return type.GetTypeInfo().GetDeclaredField(Selection.Name);
 #else
-            return type.GetField(Selection.Name);
+            return type.GetField(Selection.Name) ?? 
+                throw new ArgumentException($"Field {Selection.Name} not found on type {type}");
 #endif
         }
 
@@ -60,7 +68,7 @@ namespace Unity.Injection
         {
             get
             {
-                return (Selection ?? throw new InvalidOperationException("Member not properly intialized")).FieldType;
+                return (Selection ?? throw new InvalidOperationException(error)).FieldType;
             }
         }
 
