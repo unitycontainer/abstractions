@@ -95,7 +95,7 @@ namespace Unity
         /// <param name="name">Name of the object to retrieve.</param>
         /// <param name="overrides">Any overrides for the resolve call.</param>
         /// <returns>The retrieved object.</returns>
-        ValueTask<object> ResolveAsync(Type type, string? name, params ResolverOverride[] overrides);
+        ValueTask<object?> ResolveAsync(Type type, string? name, params ResolverOverride[] overrides);
 
 
         /// <summary>
@@ -106,14 +106,14 @@ namespace Unity
         /// <see cref="Regex.IsMatch(string name)"/> will be resolved</param>
         /// <param name="overrides">Any overrides for the resolve call.</param>
         /// <returns>The retrieved object.</returns>
-        ValueTask<IEnumerable<object>> Resolve(Type type, Regex regex, params ResolverOverride[] overrides);
+        ValueTask<IEnumerable<object?>> Resolve(Type type, Regex regex, params ResolverOverride[] overrides);
 
 
         /// <summary>
         /// The parent of this container.
         /// </summary>
         /// <value>The parent container, or null if this container doesn't have one.</value>
-        IUnityContainerAsync Parent { get; }
+        IUnityContainerAsync? Parent { get; }
 
 
         /// <summary>

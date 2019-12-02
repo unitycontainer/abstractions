@@ -768,9 +768,15 @@ namespace Unity
             var unity = container ?? throw new ArgumentNullException(nameof(container));
             var task  = unity.ResolveAsync(typeof(T), null, overrides);
 
-            return task.IsCompleted
-                ? (T)task.Result
-                : (T)task.GetAwaiter().GetResult();
+            if (task.IsCompleted)
+            {
+                return null == task.Result ? default : (T)task.Result;
+            }
+            else
+            { 
+                var result = task.GetAwaiter().GetResult();
+                return null == result ? default : (T)result;
+            }
         }
 
         /// <summary>
@@ -788,9 +794,15 @@ namespace Unity
             var unity = container ?? throw new ArgumentNullException(nameof(container));
             var task = unity.ResolveAsync(typeof(T), name, overrides);
 
-            return task.IsCompleted
-                ? (T)task.Result
-                : (T)task.GetAwaiter().GetResult();
+            if (task.IsCompleted)
+            {
+                return null == task.Result ? default : (T)task.Result;
+            }
+            else
+            {
+                var result = task.GetAwaiter().GetResult();
+                return null == result ? default : (T)result;
+            }
         }
 
         /// <summary>
@@ -802,7 +814,7 @@ namespace Unity
         /// <returns>The retrieved object.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SecuritySafeCritical]
-        public static ValueTask<object> ResolveAsync(this IUnityContainerAsync container, Type t, params ResolverOverride[] overrides)
+        public static ValueTask<object?> ResolveAsync(this IUnityContainerAsync container, Type t, params ResolverOverride[] overrides)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).ResolveAsync(t, null, overrides);
         }
