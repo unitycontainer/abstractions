@@ -88,7 +88,7 @@ namespace Unity.Injection
 
         public virtual TData Data { get; }
 
-        public abstract TMemberInfo? MemberInfo(Type type);
+        public abstract TMemberInfo MemberInfo(Type type);
 
         public abstract IEnumerable<TMemberInfo> DeclaredMembers(Type type);
 

@@ -31,7 +31,7 @@ namespace Unity.Injection
 
         #region Overrides
 
-        public override TMemberInfo? MemberInfo(Type type)
+        public override TMemberInfo MemberInfo(Type type)
         {
             var methodHasOpenGenericParameters = (Selection ?? throw new InvalidOperationException())
                 .GetParameters()
