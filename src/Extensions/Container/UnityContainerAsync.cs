@@ -635,9 +635,9 @@ namespace Unity
         /// <param name="factory">Predefined <code>Func&lt;IUnityContainer, object&gt;</code> to create types</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance. If no manager is provided, container uses Transient manager.</param>
-        /// <returns>The <see cref="Unity.IUnityContainer"/> object that this method was called on.</returns>
+        /// <returns>The <see cref="Task"/> object that this method was called on.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task RegisterFactory<TInterface>(this IUnityContainerAsync container, Func<IUnityContainer, object> factory, IFactoryLifetimeManager lifetimeManager = null)
+        public static Task RegisterFactory<TInterface>(this IUnityContainerAsync container, Func<IUnityContainer, object?> factory, IFactoryLifetimeManager? lifetimeManager = null)
         {
             if (null == factory) throw new ArgumentNullException(nameof(factory));
             return (container ?? throw new ArgumentNullException(nameof(container)))
@@ -655,9 +655,9 @@ namespace Unity
         /// <param name="factory">Predefined <code>Func&lt;IUnityContainer, Type, string, object&gt;</code> to create types</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance. If no manager is provided, container uses Transient manager.</param>
-        /// <returns>The <see cref="Unity.IUnityContainer"/> object that this method was called on .</returns>
+        /// <returns>The <see cref="Task"/> object that this method was called on.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task RegisterFactory<TInterface>(this IUnityContainerAsync container, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager lifetimeManager = null)
+        public static Task RegisterFactory<TInterface>(this IUnityContainerAsync container, Func<IUnityContainer, Type, string?, object?> factory, IFactoryLifetimeManager? lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
                 .RegisterFactory(new[] { typeof(TInterface) }, null, factory, lifetimeManager);
@@ -672,33 +672,12 @@ namespace Unity
         /// <typeparam name="TInterface">Type of instance to register (may be an implemented interface instead of the full type).</typeparam>
         /// <param name="container">Container to configure.</param>
         /// <param name="name">Name for registration.</param>
-        /// <param name="factory">Predefined <code>Func&lt;IUnityContainer, object&gt;</code> to create types</param>
-        /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
-        /// of the returned instance. If no manager is provided, container uses Transient manager.</param>
-        /// <returns>The <see cref="Unity.IUnityContainer"/> object that this method was called on.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task RegisterFactory<TInterface>(this IUnityContainerAsync container, string name, Func<IUnityContainer, object> factory, IFactoryLifetimeManager lifetimeManager = null)
-        {
-            if (null == factory) throw new ArgumentNullException(nameof(factory));
-            return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(new[] { typeof(TInterface) }, name, (c, t, n) => factory(c), lifetimeManager);
-        }
-
-        /// <summary>
-        /// Register a Factory with the container.
-        /// </summary>
-        /// <remarks>
-        /// This overload does a default registration and has the current container take over the lifetime of the factory.
-        /// </remarks>
-        /// <typeparam name="TInterface">Type of instance to register (may be an implemented interface instead of the full type).</typeparam>
-        /// <param name="container">Container to configure.</param>
-        /// <param name="name">Name for registration.</param>
         /// <param name="factory">Predefined <code>Func&lt;IUnityContainer, Type, string, object&gt;</code> to create types</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance. If no manager is provided, container uses Transient manager.</param>
-        /// <returns>The <see cref="Unity.IUnityContainer"/> object that this method was called on .</returns>
+        /// <returns>The <see cref="Task"/> object that this method was called on.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task RegisterFactory<TInterface>(this IUnityContainerAsync container, string name, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager lifetimeManager = null)
+        public static Task RegisterFactory<TInterface>(this IUnityContainerAsync container, string name, Func<IUnityContainer, Type, string?, object?> factory, IFactoryLifetimeManager? lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
                 .RegisterFactory(new[] { typeof(TInterface) }, name, factory, lifetimeManager);
@@ -716,34 +695,15 @@ namespace Unity
         /// </remarks>
         /// <param name="container">Container to configure.</param>
         /// <param name="type"><see cref="Type"/> to register (may be an implemented interface instead of the actual type).</param>
-        /// <param name="factory">Predefined <code>Func&lt;IUnityContainerAsync, object&gt;</code> to create types</param>
-        /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
-        /// of the returned instance. This manager has to derive from <see cref="IFactoryLifetimeManager"/></param>
-        /// <returns>The <see cref="Unity.IUnityContainerAsync"/> object that this method was called on.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IUnityContainerAsync RegisterFactory(this IUnityContainerAsync container, Type type, Func<IUnityContainerAsync, object> factory, IFactoryLifetimeManager lifetimeManager = null)
-        {
-            return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(type, null, (c, t, n) => factory(c), lifetimeManager);
-        }
-
-        /// <summary>
-        /// Register a Factory with the container.
-        /// </summary>
-        /// <remarks>
-        /// This overload does a default registration and has the current container take over the lifetime of the factory.
-        /// </remarks>
-        /// <param name="container">Container to configure.</param>
-        /// <param name="type"><see cref="Type"/> to register (may be an implemented interface instead of the actual type).</param>
         /// <param name="factory">Predefined <code>Func&lt;IUnityContainerAsync, Type, string, object&gt;</code> to create types</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance. This manager has to derive from <see cref="IFactoryLifetimeManager"/></param>
-        /// <returns>The <see cref="Unity.IUnityContainerAsync"/> object that this method was called on .</returns>
+        /// <returns>The <see cref="Task"/> object that this method was called on.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IUnityContainerAsync RegisterFactory(this IUnityContainerAsync container, Type type, Func<IUnityContainerAsync, Type, string, object> factory, IFactoryLifetimeManager lifetimeManager = null)
+        public static Task RegisterFactory(this IUnityContainerAsync container, Type type, Func<IUnityContainer, Type, string?, object?> factory, IFactoryLifetimeManager? lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(type, null, factory, lifetimeManager);
+                .RegisterFactory(new[] { type }, null, factory, lifetimeManager);
         }
 
         /// <summary>
@@ -758,12 +718,12 @@ namespace Unity
         /// <param name="factory">Predefined <code>Func&lt;IUnityContainerAsync, object&gt;</code> to create types</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance. This manager has to derive from <see cref="IFactoryLifetimeManager"/></param>
-        /// <returns>The <see cref="Unity.IUnityContainerAsync"/> object that this method was called on.</returns>
+        /// <returns>The <see cref="Task"/> object that this method was called on.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IUnityContainerAsync RegisterFactory(this IUnityContainerAsync container, Type type, string name, Func<IUnityContainerAsync, object> factory, IFactoryLifetimeManager lifetimeManager = null)
+        public static Task RegisterFactory(this IUnityContainerAsync container, Type type, string name, Func<IUnityContainer, object?> factory, IFactoryLifetimeManager? lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(type, name, (c, t, n) => factory(c), lifetimeManager);
+                .RegisterFactory(new[] { type }, name, (c, t, n) => factory(c), lifetimeManager);
         }
 
         /// <summary>
@@ -778,12 +738,12 @@ namespace Unity
         /// <param name="factory">Predefined <code>Func&lt;IUnityContainerAsync, Type, string, object&gt;</code> to create types</param>
         /// <param name="lifetimeManager">The <see cref="LifetimeManager"/> that controls the lifetime
         /// of the returned instance. This manager has to derive from <see cref="IFactoryLifetimeManager"/></param>
-        /// <returns>The <see cref="Unity.IUnityContainerAsync"/> object that this method was called on .</returns>
+        /// <returns>The <see cref="Task"/> object that this method was called on.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IUnityContainerAsync RegisterFactory(this IUnityContainerAsync container, Type type, string name, Func<IUnityContainerAsync, Type, string, object> factory, IFactoryLifetimeManager lifetimeManager = null)
+        public static Task RegisterFactory(this IUnityContainerAsync container, Type type, string name, Func<IUnityContainer, Type, string?, object?> factory, IFactoryLifetimeManager? lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(type, name, factory, lifetimeManager);
+                .RegisterFactory(new[] { type }, name, factory, lifetimeManager);
         }
 
         #endregion
@@ -808,9 +768,15 @@ namespace Unity
             var unity = container ?? throw new ArgumentNullException(nameof(container));
             var task  = unity.ResolveAsync(typeof(T), null, overrides);
 
-            return task.IsCompleted
-                ? (T)task.Result
-                : (T)task.GetAwaiter().GetResult();
+            if (task.IsCompleted)
+            {
+                return null == task.Result ? default : (T)task.Result;
+            }
+            else
+            { 
+                var result = task.GetAwaiter().GetResult();
+                return null == result ? default : (T)result;
+            }
         }
 
         /// <summary>
@@ -828,9 +794,15 @@ namespace Unity
             var unity = container ?? throw new ArgumentNullException(nameof(container));
             var task = unity.ResolveAsync(typeof(T), name, overrides);
 
-            return task.IsCompleted
-                ? (T)task.Result
-                : (T)task.GetAwaiter().GetResult();
+            if (task.IsCompleted)
+            {
+                return null == task.Result ? default : (T)task.Result;
+            }
+            else
+            {
+                var result = task.GetAwaiter().GetResult();
+                return null == result ? default : (T)result;
+            }
         }
 
         /// <summary>
@@ -842,7 +814,7 @@ namespace Unity
         /// <returns>The retrieved object.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SecuritySafeCritical]
-        public static ValueTask<object> ResolveAsync(this IUnityContainerAsync container, Type t, params ResolverOverride[] overrides)
+        public static ValueTask<object?> ResolveAsync(this IUnityContainerAsync container, Type t, params ResolverOverride[] overrides)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).ResolveAsync(t, null, overrides);
         }

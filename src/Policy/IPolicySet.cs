@@ -9,7 +9,7 @@ namespace Unity.Policy
         /// </summary>
         /// <param name="policyInterface">Type of policy to retrieve</param>
         /// <returns>Instance of the policy or null if none found</returns>
-        object Get(Type policyInterface);
+        object? Get(Type policyInterface);
 
         /// <summary>
         /// Set policy
@@ -27,9 +27,13 @@ namespace Unity.Policy
 
     public static class PolicySetExtensions
     {
+#if NETSTANDARD2_1 || NETCOREAPP3_0
+        [return: System.Diagnostics.CodeAnalysis.MaybeNull]
+#endif
         public static T Get<T>(this IPolicySet policySet)
         {
-            return (T)policySet.Get(typeof(T));
+            var result = policySet.Get(typeof(T));
+            return null == result ? default : (T)result;
         }
 
         public static void Set<T>(this IPolicySet policySet, object policy)

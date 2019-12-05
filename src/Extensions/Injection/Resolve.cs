@@ -11,7 +11,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static ParameterBase Dependency<TTarget>() => new ResolvedParameter(typeof(TTarget), null);
+        public static ParameterBase Dependency<TTarget>() => new ResolvedParameter(typeof(TTarget));
 
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -116,7 +116,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static InjectionMember OptionalField(string name) => new InjectionField(name, ResolutionOption.Optional);
+        public static InjectionMember OptionalField(string name) => new InjectionField(name, true);
 
         #endregion
 
@@ -131,7 +131,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static InjectionMember OptionalProperty(string name) => new InjectionProperty(name ?? throw new ArgumentNullException(nameof(name)), ResolutionOption.Optional);
+        public static InjectionMember OptionalProperty(string name) => new InjectionProperty(name ?? throw new ArgumentNullException(nameof(name)), true);
 
         #endregion
     }
