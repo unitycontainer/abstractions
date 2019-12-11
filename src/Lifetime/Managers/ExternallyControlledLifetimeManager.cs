@@ -27,14 +27,14 @@ namespace Unity.Lifetime
         /// <returns>the object desired, or null if no such object is currently stored.</returns>
         public override object GetValue(ILifetimeContainer container = null)
         {
-            if (null == _value) return NoValue;
+            var value = _value?.Target;
+            if (value == null) 
+            {
+                _value = null;
+                return NoValue;
+            }
 
-            var target = _value.Target;
-            if (_value.IsAlive) return target;
-
-            _value = null;
-
-            return NoValue;
+            return value;
         }
 
         /// <summary>
