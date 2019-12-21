@@ -12,10 +12,10 @@ namespace Unity.Injection
         /// Configure the container to inject the given field name.
         /// </summary>
         /// <param name="name">Name of property to inject.</param>
-        /// <param name="option">Tells Unity if this field is optional.</param>
-        public InjectionField(string name, ResolutionOption option = ResolutionOption.Required)
-            : base(name, ResolutionOption.Optional == option ? OptionalDependencyAttribute.Instance 
-                                                             : (object)DependencyAttribute.Instance)
+        /// <param name="isOptionanal">Tells Unity if this field is optional.</param>
+        public InjectionField(string name, bool isOptionanal = false)
+            : base(name, isOptionanal ? OptionalDependencyAttribute.Instance 
+                                      : (object)DependencyAttribute.Instance)
         {
         }
 
