@@ -210,12 +210,7 @@ namespace System.Reflection
 
         public static TypeInfo GetTypeInfo(this Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            return new TypeInfo(type);
+            return new TypeInfo(type ?? throw new ArgumentNullException(nameof(type)));
         }
 
         public static Delegate CreateDelegate(this MethodInfo method, Type delegateType)

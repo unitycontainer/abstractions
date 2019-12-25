@@ -69,11 +69,11 @@ namespace Unity.Injection
 #if NETSTANDARD1_0 || NETCOREAPP1_0 
             var info = ParameterType?.GetTypeInfo();
             if (null == ParameterType || null == info || info.IsGenericType && info.ContainsGenericParameters ||
-                ParameterType.IsArray && ParameterType.GetElementType().GetTypeInfo().IsGenericParameter ||
+                (ParameterType.IsArray && ParameterType.GetElementType()!.GetTypeInfo().IsGenericParameter) ||
                 ParameterType.IsGenericParameter)
 #else
             if (null == ParameterType || ParameterType.IsGenericType && ParameterType.ContainsGenericParameters ||
-                ParameterType.IsArray && ParameterType.GetElementType().IsGenericParameter ||
+                (ParameterType.IsArray && ParameterType.GetElementType()!.IsGenericParameter) ||
                 ParameterType.IsGenericParameter)
 #endif
             {
@@ -89,11 +89,11 @@ namespace Unity.Injection
 #if NETSTANDARD1_0 || NETCOREAPP1_0 
             var parameterInfo = ParameterType?.GetTypeInfo();
             if (null == ParameterType || null == parameterInfo || parameterInfo.IsGenericType && parameterInfo.ContainsGenericParameters ||
-                ParameterType.IsArray && ParameterType.GetElementType().GetTypeInfo().IsGenericParameter ||
+                (ParameterType.IsArray && ParameterType.GetElementType()!.GetTypeInfo().IsGenericParameter) ||
                 ParameterType.IsGenericParameter)
 #else
             if (null == ParameterType || ParameterType.IsGenericType && ParameterType.ContainsGenericParameters ||
-                ParameterType.IsArray && ParameterType.GetElementType().IsGenericParameter ||
+                (ParameterType.IsArray && ParameterType.GetElementType()!.IsGenericParameter) ||
                 ParameterType.IsGenericParameter)
 #endif
             {

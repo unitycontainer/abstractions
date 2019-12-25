@@ -79,7 +79,7 @@ namespace Unity.Injection
             {
                 return t.GetTypeInfo().IsGenericParameter && t.GetTypeInfo().Name == _genericParameterName;
             }
-            return t.IsArray && t.GetElementType().GetTypeInfo().IsGenericParameter && t.GetElementType().GetTypeInfo().Name == _genericParameterName;
+            return t.IsArray && t.GetElementType()!.GetTypeInfo().IsGenericParameter && t.GetElementType()!.GetTypeInfo().Name == _genericParameterName;
         }
 
         #endregion

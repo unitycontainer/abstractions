@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Unity.Resolution;
@@ -21,7 +22,7 @@ namespace Unity.Injection
 
         private static readonly MethodInfo ResolverMethod =
             typeof(GenericResolvedArrayParameter).GetTypeInfo()
-                                                 .GetDeclaredMethod(nameof(DoResolve));
+                                                 .GetDeclaredMethod(nameof(DoResolve))!;
 
         private delegate object Resolver<TContext>(ref TContext context, object[] values)
             where TContext : IResolveContext;
@@ -112,7 +113,7 @@ namespace Unity.Injection
         public ResolveDelegate<TContext> GetResolver<TContext>(ParameterInfo info)
             where TContext : IResolveContext
         {
-            var elementType = info.ParameterType.IsArray ? info.ParameterType.GetElementType() : _elementType;
+            var elementType = info.ParameterType.IsArray ? info.ParameterType.GetElementType()! : _elementType;
             var resolverMethod = (Resolver<TContext>)ResolverMethod.MakeGenericMethod(typeof(TContext), elementType)
                                                                    .CreateDelegate(typeof(Resolver<TContext>));
             var values = _values.Select(value =>
