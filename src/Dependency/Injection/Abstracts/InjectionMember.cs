@@ -46,6 +46,7 @@ namespace Unity.Injection
 
 
     public abstract class InjectionMember<TMemberInfo, TData> : InjectionMember,
+                                                                IMemberInfo<TMemberInfo>,
                                                                 IEquatable<TMemberInfo>
                                             where TMemberInfo : MemberInfo
     {
@@ -55,11 +56,12 @@ namespace Unity.Injection
 
         protected TMemberInfo? Selection { get; set; }
 
+        //        protected static Func<Type, InjectionMember, TMemberInfo> Validator;
+
         #endregion
 
 
         #region Constructors
-
 
         protected InjectionMember(TData data)
         {
@@ -138,6 +140,7 @@ namespace Unity.Injection
                       ?? SelectMember;
 
             Selection = select(mappedToType, this);
+            //Selection = SelectMember(mappedToType, this);
         }
 
         #endregion
