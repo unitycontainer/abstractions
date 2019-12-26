@@ -52,7 +52,18 @@ namespace Unity.Injection
         public object? Resolve<TContext>(ref TContext context) 
             where TContext : IResolveContext
         {
-            return _value;
+            switch (_value)
+            {
+                case IResolve resolverPolicy:
+                    return resolverPolicy.Resolve(ref context);
+
+                case IResolverFactory<Type> factory:
+                    var resolve = factory.GetResolver<TContext>(context.Type);
+                    return resolve?.Invoke(ref context);
+
+                default:
+                    return _value;
+            }
         }
 
         #endregion
