@@ -34,6 +34,7 @@ namespace Unity.Injection
         public override TMemberInfo MemberInfo(Type type)
         {
             Debug.Assert(null != Selection);
+
             if (type == Selection.DeclaringType) return Selection;
 
 #if NETSTANDARD1_0
