@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 
 namespace Unity.Injection
@@ -45,14 +44,54 @@ namespace Unity.Injection
 #endif
         }
 
-        public override IEnumerable<FieldInfo> DeclaredMembers(Type type)
+        public override IEnumerable<FieldInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedFields(type);
+
+        protected override FieldInfo ValidatingSelectMember(Type type)
         {
-            foreach (var member in type.GetDeclaredFields())
+            FieldInfo? selection = null;
+
+            if (IsInitialized) throw new InvalidOperationException(
+                "Sharing an InjectionField between registrations is not supported");
+
+            // Select Field
+            foreach (var info in DeclaredMembers(type))
             {
-                if (!member.IsFamily && !member.IsPrivate &&
-                    !member.IsInitOnly && !member.IsStatic)
-                    yield return member;
+                if (info.Name != Name) continue;
+
+                selection = info;
+                break;
             }
+
+            // Validate
+            if (null == selection)
+            {
+                throw new ArgumentException(
+                    $"Injected field '{Name}' could not be matched with any public field on type '{type?.Name}'.");
+            }
+
+            if (selection.IsStatic)
+                throw new InvalidOperationException(
+                    $"Static field '{selection.Name}' on type '{type?.Name}' cannot be injected");
+
+            if (selection.IsInitOnly)
+                throw new InvalidOperationException(
+                    $"Readonly field '{selection.Name}' on type '{type?.Name}' cannot be injected");
+
+            if (selection.IsPrivate)
+                throw new InvalidOperationException(
+                    $"Private field '{selection.Name}' on type '{type?.Name}' cannot be injected");
+
+            if (selection.IsFamily)
+                throw new InvalidOperationException(
+                    $"Protected field '{selection.Name}' on type '{type?.Name}' cannot be injected");
+
+            if (Data is DependencyResolutionAttribute) return selection;
+
+            if (!Data.Matches(selection.FieldType))
+                throw new ArgumentException(
+                    $"Injected data '{Data}' could not be matched with type of field '{selection.FieldType.Name}'.");
+
+            return selection;
         }
 
         protected override Type MemberType

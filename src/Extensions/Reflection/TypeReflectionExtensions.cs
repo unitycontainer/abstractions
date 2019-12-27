@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-#nullable disable
 
 namespace Unity
 {
@@ -23,9 +22,47 @@ namespace Unity
             return 1 == rank ? type.MakeArrayType() : type.MakeArrayType(rank);
         }
 
+#if NETSTANDARD1_0
+        public static IEnumerable<FieldInfo> GetFields(this Type type)
+        {
+            TypeInfo? info = type.GetTypeInfo();
+            while (null != info)
+            {
+                foreach (var member in info.DeclaredFields)
+                    yield return member;
+
+                info = info.BaseType?.GetTypeInfo();
+            }
+        }
+
+        public static IEnumerable<PropertyInfo> GetProperties(this Type type)
+        {
+            TypeInfo? info = type.GetTypeInfo();
+            while (null != info)
+            {
+                foreach (var member in info.DeclaredProperties)
+                    yield return member;
+
+                info = info.BaseType?.GetTypeInfo();
+            }
+        }
+
+        public static IEnumerable<MethodInfo> GetMethods(this Type type)
+        {
+            TypeInfo? info = type.GetTypeInfo();
+            while (null != info)
+            {
+                foreach (var member in info.DeclaredMethods)
+                    yield return member;
+
+                info = info.BaseType?.GetTypeInfo();
+            }
+        }
+#endif
+
         public static IEnumerable<FieldInfo> GetDeclaredFields(this Type type)
         {
-            TypeInfo info = type.GetTypeInfo();
+            TypeInfo? info = type.GetTypeInfo();
             while (null != info)
             {
                 foreach (var member in info.DeclaredFields)
@@ -37,7 +74,7 @@ namespace Unity
 
         public static IEnumerable<PropertyInfo> GetDeclaredProperties(this Type type)
         {
-            TypeInfo info = type.GetTypeInfo();
+            TypeInfo? info = type.GetTypeInfo();
             while (null != info)
             {
                 foreach (var member in info.DeclaredProperties)
@@ -49,7 +86,7 @@ namespace Unity
 
         public static IEnumerable<MethodInfo> GetDeclaredMethods(this Type type)
         {
-            TypeInfo info = type.GetTypeInfo();
+            TypeInfo? info = type.GetTypeInfo();
             while (null != info)
             {
                 foreach (var member in info.DeclaredMethods)
@@ -61,4 +98,3 @@ namespace Unity
     }
 }
 
-#nullable enable

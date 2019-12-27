@@ -46,17 +46,14 @@ namespace Unity.Injection
 
 
     public abstract class InjectionMember<TMemberInfo, TData> : InjectionMember,
-                                                                IMemberInfo<TMemberInfo>,
                                                                 IEquatable<TMemberInfo>
                                             where TMemberInfo : MemberInfo
     {
         #region Fields
-
+        
         protected const string NoMatchFound = "No member matching data has been found.";
 
         protected TMemberInfo? Selection { get; set; }
-
-        //        protected static Func<Type, InjectionMember, TMemberInfo> Validator;
 
         #endregion
 
@@ -90,7 +87,7 @@ namespace Unity.Injection
 
         public virtual TData Data { get; }
 
-        public abstract TMemberInfo? MemberInfo(Type type);
+        public abstract TMemberInfo MemberInfo(Type type);
 
         public abstract IEnumerable<TMemberInfo> DeclaredMembers(Type type);
 
@@ -136,11 +133,9 @@ namespace Unity.Injection
 
         public override void AddPolicies<TContext, TPolicySet>(Type registeredType, Type mappedToType, string name, ref TPolicySet policies)
         {
-            var select = policies.Get<Func<Type, InjectionMember, TMemberInfo>>() 
-                      ?? SelectMember;
-
-            Selection = select(mappedToType, this);
-            //Selection = SelectMember(mappedToType, this);
+            Selection = UnityDefaults.EnableDiagnostic 
+                      ? ValidatingSelectMember(mappedToType) 
+                      : FastSelectMember(mappedToType);
         }
 
         #endregion
@@ -148,7 +143,9 @@ namespace Unity.Injection
 
         #region Implementation
 
-        protected virtual TMemberInfo SelectMember(Type type, InjectionMember member) => throw new NotImplementedException();
+        protected abstract TMemberInfo FastSelectMember(Type type);
+
+        protected abstract TMemberInfo ValidatingSelectMember(Type type);
 
         #endregion
     }

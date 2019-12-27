@@ -35,7 +35,7 @@ namespace Unity.Injection
             return DeclaredMember(type, Selection?.Name);
         }
 
-        protected override TMemberInfo SelectMember(Type type, InjectionMember _)
+        protected override TMemberInfo FastSelectMember(Type type)
         {
             foreach (var member in DeclaredMembers(type))
             {

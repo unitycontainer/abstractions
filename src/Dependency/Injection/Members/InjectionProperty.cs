@@ -46,20 +46,66 @@ namespace Unity.Injection
             return DeclaredMembers(type).FirstOrDefault(p => p.Name == Selection?.Name);
         }
 
-        public override IEnumerable<PropertyInfo> DeclaredMembers(Type type)
-        {
-            foreach (var member in type.GetDeclaredProperties())
+        public override IEnumerable<PropertyInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedProperties(type);
+
+        protected override PropertyInfo ValidatingSelectMember(Type type)
             {
-                if (!member.CanWrite || 0 != member.GetIndexParameters().Length)
-                    continue;
+                PropertyInfo? selection = null;
 
-                var setter = member.GetSetMethod(true);
-                if (null == setter || setter.IsPrivate || setter.IsFamily)
-                    continue;
+                if (IsInitialized) throw new InvalidOperationException("Sharing an InjectionProperty between registrations is not supported");
 
-                yield return member;
+                // Select Property
+                foreach (var info in DeclaredMembers(type))
+                {
+                    if (info.Name != Name) continue;
+
+                    selection = info;
+                    break;
+                }
+
+                // Validate
+                if (null == selection)
+                {
+                    throw new ArgumentException(
+                        $"Injected property '{Name}' could not be matched with any property on type '{type?.Name}'.");
+}
+
+                if (!selection.CanWrite)
+                    throw new InvalidOperationException(
+                        $"Readonly property '{selection.Name}' on type '{type?.Name}' cannot be injected");
+
+                if (0 != selection.GetIndexParameters().Length)
+                    throw new InvalidOperationException(
+                        $"Indexer '{selection.Name}' on type '{type?.Name}' cannot be injected");
+
+                var setter = selection.GetSetMethod(true);
+
+                if (null == setter)
+                    throw new InvalidOperationException(
+                        $"Readonly property '{selection.Name}' on type '{type?.Name}' cannot be injected");
+
+                if (setter.IsStatic)
+                    throw new InvalidOperationException(
+                        $"Static property '{selection.Name}' on type '{type?.Name}' cannot be injected");
+
+                if (setter.IsPrivate)
+                    throw new InvalidOperationException(
+                        $"Private property '{selection.Name}' on type '{type?.Name}' cannot be injected");
+
+                if (setter.IsFamily)
+                    throw new InvalidOperationException(
+                        $"Protected property '{selection.Name}' on type '{type?.Name}' cannot be injected");
+
+                if (Data is DependencyResolutionAttribute) return selection;
+
+                if (!Data.Matches(selection.PropertyType))
+                {
+                    throw new ArgumentException(
+                        $"Injected data '{Data}' could not be matched with type of property '{selection.PropertyType.Name}'.");
+                }
+
+                return selection;
             }
-        }
 
         protected override Type MemberType => (Selection ?? throw new InvalidOperationException("Property is not initialized")).PropertyType;
 

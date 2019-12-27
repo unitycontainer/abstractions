@@ -29,7 +29,7 @@ namespace Unity.Injection
 
         #region Overrides
 
-        protected override MethodInfo SelectMember(Type type, InjectionMember _)
+        protected override MethodInfo FastSelectMember(Type type)
         {
             var noData = 0 == (Data?.Length ?? 0);
 
@@ -49,15 +49,71 @@ namespace Unity.Injection
             throw new ArgumentException(NoMatchFound);
         }
 
-        public override IEnumerable<MethodInfo> DeclaredMembers(Type type)
+        protected override MethodInfo ValidatingSelectMember(Type type)
         {
-            foreach (var member in type.GetDeclaredMethods())
+            MethodInfo? selection = null;
+
+            if (IsInitialized) throw new InvalidOperationException("Sharing an InjectionMethod between registrations is not supported");
+
+            // Select Method
+            foreach (var info in UnityDefaults.SupportedMethods(type))
             {
-                if (!member.IsFamily && !member.IsPrivate &&
-                    !member.IsStatic && member.Name == Name)
-                    yield return member;
+                if (Name != info.Name || !Data.MatchMemberInfo(info)) continue;
+
+                if (null != selection)
+                {
+                    throw new ArgumentException(
+                        $"Method {Name}({Data.Signature()}) is ambiguous, it could be matched with more than one method on type {type?.Name}.");
+                }
+
+                selection = info;
             }
+
+            // Validate
+            if (null == selection)
+            {
+                throw new ArgumentException(
+                    $"Injected method {Name}({Data.Signature()}) could not be matched with any public methods on type {type?.Name}.");
+            }
+
+            if (selection.IsStatic)
+            {
+                throw new ArgumentException(
+                    $"Static method {Name} on type '{selection.DeclaringType?.Name}' cannot be injected");
+            }
+
+            if (selection.IsPrivate)
+                throw new InvalidOperationException(
+                    $"Private method '{Name}' on type '{selection.DeclaringType?.Name}' cannot be injected");
+
+            if (selection.IsFamily)
+                throw new InvalidOperationException(
+                    $"Protected method '{Name}' on type '{selection.DeclaringType?.Name}' cannot be injected");
+
+            if (selection.IsGenericMethodDefinition)
+            {
+                throw new ArgumentException(
+                    $"Open generic method {Name} on type '{selection.DeclaringType?.Name}' cannot be injected");
+            }
+
+            var parameters = selection.GetParameters();
+            if (parameters.Any(param => param.IsOut))
+            {
+                throw new ArgumentException(
+                    $"Method {Name} on type '{selection.DeclaringType?.Name}' cannot be injected. Methods with 'out' parameters are not injectable.");
+            }
+
+            if (parameters.Any(param => param.ParameterType.IsByRef))
+            {
+                throw new ArgumentException(
+                    $"Method {Name} on type '{selection.DeclaringType?.Name}' cannot be injected. Methods with 'ref' parameters are not injectable.");
+            }
+
+            return selection;
         }
+
+        public override IEnumerable<MethodInfo> DeclaredMembers(Type type) => 
+            UnityDefaults.SupportedMethods(type).Where(member => member.Name == Name);
 
         public override string ToString()
         {

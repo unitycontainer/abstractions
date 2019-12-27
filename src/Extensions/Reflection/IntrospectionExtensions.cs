@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 
-#nullable disable
 
 namespace System.Reflection
 {
@@ -241,4 +240,3 @@ namespace System.Reflection
     }
 }
 
-#nullable enable

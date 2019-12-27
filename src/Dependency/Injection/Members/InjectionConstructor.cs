@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace Unity.Injection
@@ -36,7 +35,7 @@ namespace Unity.Injection
 
         #region Overrides
 
-        protected override ConstructorInfo SelectMember(Type type, InjectionMember _)
+        protected override ConstructorInfo FastSelectMember(Type type)
         {
             foreach (var member in DeclaredMembers(type))
             {
@@ -48,12 +47,34 @@ namespace Unity.Injection
             throw new ArgumentException(NoMatchFound);
         }
 
-        public override IEnumerable<ConstructorInfo> DeclaredMembers(Type type)
+        protected override ConstructorInfo ValidatingSelectMember(Type type)
         {
-            return type.GetTypeInfo()
-                       .DeclaredConstructors
-                       .Where(ctor => !ctor.IsFamily && !ctor.IsPrivate && !ctor.IsStatic);
+            ConstructorInfo? selection = null;
+
+            if (IsInitialized) throw new InvalidOperationException("Sharing an InjectionConstructor between registrations is not supported");
+
+            // Select Constructor
+            foreach (var info in DeclaredMembers(type))
+            {
+                if (!Data.MatchMemberInfo(info)) continue;
+
+                if (null != selection)
+                {
+                    throw new ArgumentException(
+                        $"Constructor .ctor({Data.Signature()}) is ambiguous, it could be matched with more than one constructor on type {type?.Name}.");
+                }
+
+                selection = info;
+            }
+
+            // Validate
+            if (null != selection) return selection;
+
+            throw new ArgumentException(
+                $"Injected constructor .ctor({Data.Signature()}) could not be matched with any public constructors on type {type?.Name}.");
         }
+
+        public override IEnumerable<ConstructorInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedConstructors(type);
 
         public override string ToString()
         {
