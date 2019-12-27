@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -30,16 +31,10 @@ namespace Unity.Injection
 
         #region Overrides
 
-        public override TMemberInfo? MemberInfo(Type type)
+        public override TMemberInfo MemberInfo(Type type)
         {
-            var methodHasOpenGenericParameters = (Selection ?? throw new InvalidOperationException())
-                .GetParameters()
-                .Select(p => p.ParameterType.GetTypeInfo())
-                .Any(i => i.IsGenericType && i.ContainsGenericParameters);
-
-            var info = Selection?.DeclaringType?.GetTypeInfo() ?? throw new InvalidOperationException("Invalid selection");
-            if (!methodHasOpenGenericParameters && !(info.IsGenericType && info.ContainsGenericParameters))
-                return Selection;
+            Debug.Assert(null != Selection);
+            if (type == Selection.DeclaringType) return Selection;
 
 #if NETSTANDARD1_0
             var typeInfo = type.GetTypeInfo();
@@ -98,7 +93,7 @@ namespace Unity.Injection
                     return member;
             }
 #endif
-            throw new InvalidOperationException($"Error selecting member on type {type}");
+            throw new InvalidOperationException($"Unable to select method {Name} on type {type}");
         }
 
         #endregion

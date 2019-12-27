@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Unity.Injection
@@ -34,6 +36,43 @@ namespace Unity.Injection
 
 
         #region Overrides
+
+        public override ConstructorInfo MemberInfo(Type type)
+        {
+            Debug.Assert(null != Selection);
+
+            if (type == Selection.DeclaringType) return Selection;
+
+#if NETSTANDARD1_0 || NETCOREAPP1_0
+            if (Selection.GetParameters().Select(p => p.ParameterType.GetTypeInfo())
+                         .Any(i => i.IsGenericType && i.ContainsGenericParameters)) 
+#else
+            if (Selection.DeclaringType.IsGenericTypeDefinition) 
+#endif
+            {
+                return base.MemberInfo(type);
+            }
+
+            var original = Selection.GetParameters();
+            foreach (var member in DeclaredMembers(type))
+            {
+                var paremeters = member.GetParameters();
+                
+                if (original.Length != paremeters.Length) continue;
+                for (var i = 0; i < original.Length; i++)
+                {
+                    var left = original[i];
+                    var right = paremeters[i];
+
+                    if (left.ParameterType != right.ParameterType || left.Name != right.Name)
+                        continue;
+                }
+
+                return member;
+            }
+
+            throw new InvalidOperationException($"Unable to select compatible construcotr on type {type}");
+        }
 
         protected override ConstructorInfo FastSelectMember(Type type)
         {

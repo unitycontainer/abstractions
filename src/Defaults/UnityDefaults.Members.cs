@@ -12,12 +12,11 @@ namespace Unity
         /// <summary>
         /// Method to query <see cref="Type"/> for supported constructors
         /// </summary>
-        public static Func<Type, ConstructorInfo[]> SupportedConstructors { get; set; } = (Type type) =>
+        public static Func<Type, IEnumerable<ConstructorInfo>> SupportedConstructors { get; set; } = (Type type) =>
 #if NETSTANDARD1_0
              type.GetTypeInfo()
                  .DeclaredConstructors
-                 .Where(ctor => !ctor.IsFamily && !ctor.IsPrivate && !ctor.IsStatic)
-                 .ToArray();
+                 .Where(ctor => !ctor.IsFamily && !ctor.IsPrivate && !ctor.IsStatic);
 #else
              type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
 #endif
