@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 
@@ -60,41 +61,45 @@ namespace Unity
         }
 #endif
 
-        public static IEnumerable<FieldInfo> GetDeclaredFields(this Type type)
-        {
-            TypeInfo? info = type.GetTypeInfo();
-            while (null != info)
-            {
-                foreach (var member in info.DeclaredFields)
-                    yield return member;
+#if NET40
 
-                info = info.BaseType?.GetTypeInfo();
-            }
+        public static Attribute GetCustomAttribute(this ParameterInfo info, Type type)
+        {
+            return info.GetCustomAttributes(type, true)
+                       .Cast<Attribute>()
+                       .FirstOrDefault();
         }
 
-        public static IEnumerable<PropertyInfo> GetDeclaredProperties(this Type type)
+        public static TypeInfo GetTypeInfo(this Type type)
         {
-            TypeInfo? info = type.GetTypeInfo();
-            while (null != info)
-            {
-                foreach (var member in info.DeclaredProperties)
-                    yield return member;
-
-                info = info.BaseType?.GetTypeInfo();
-            }
+            return new TypeInfo(type ?? throw new ArgumentNullException(nameof(type)));
         }
 
-        public static IEnumerable<MethodInfo> GetDeclaredMethods(this Type type)
+        public static Delegate CreateDelegate(this MethodInfo method, Type delegateType)
         {
-            TypeInfo? info = type.GetTypeInfo();
-            while (null != info)
-            {
-                foreach (var member in info.DeclaredMethods)
-                    yield return member;
-
-                info = info.BaseType?.GetTypeInfo();
-            }
+            return Delegate.CreateDelegate(delegateType, method);
         }
+
+        public static Delegate CreateDelegate(this MethodInfo method, Type delegateType, object target)
+        {
+            return Delegate.CreateDelegate(delegateType, target, method);
+        }
+        
+        public static MethodInfo GetMethodInfo(this Delegate method)
+        {
+            return method.Method;
+        }
+#else
+        public static MethodInfo GetGetMethod(this PropertyInfo info, bool _)
+        {
+            return info.GetMethod;
+        }
+
+        public static MethodInfo GetSetMethod(this PropertyInfo info, bool _)
+        {
+            return info.SetMethod;
+        }
+#endif
     }
 }
 

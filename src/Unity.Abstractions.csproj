@@ -38,6 +38,10 @@
     <Compile Remove="Exceptions\ResolutionFailedException.Desktop.cs" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
+    <Compile Remove="Extensions\Reflection\TypeInfo.cs" />
+  </ItemGroup>
+
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
     <Compile Remove="Abstracts\IUnityContainerAsync.cs" />
     <Compile Remove="Extensions\Container\UnityContainerAsync.cs" />

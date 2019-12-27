@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+using Unity;
 
 
 namespace System.Reflection
 {
-#if NET40
-
     internal class TypeInfo 
     {
         private const BindingFlags DeclaredOnlyLookup = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
@@ -193,50 +190,6 @@ namespace System.Reflection
         }
 
     }
-#endif
 
-
-    internal static class IntrospectionExtensions
-    {
-#if NET40
-
-        public static Attribute GetCustomAttribute(this ParameterInfo info, Type type)
-        {
-            return info.GetCustomAttributes(type, true)
-                       .Cast<Attribute>()
-                       .FirstOrDefault();
-        }
-
-        public static TypeInfo GetTypeInfo(this Type type)
-        {
-            return new TypeInfo(type ?? throw new ArgumentNullException(nameof(type)));
-        }
-
-        public static Delegate CreateDelegate(this MethodInfo method, Type delegateType)
-        {
-            return Delegate.CreateDelegate(delegateType, method);
-        }
-
-        public static Delegate CreateDelegate(this MethodInfo method, Type delegateType, object target)
-        {
-            return Delegate.CreateDelegate(delegateType, target, method);
-        }
-        
-        public static MethodInfo GetMethodInfo(this Delegate method)
-        {
-            return method.Method;
-        }
-#else
-        public static MethodInfo GetGetMethod(this PropertyInfo info, bool _)
-        {
-            return info.GetMethod;
-        }
-
-        public static MethodInfo GetSetMethod(this PropertyInfo info, bool _)
-        {
-            return info.SetMethod;
-        }
-#endif
-    }
 }
 
