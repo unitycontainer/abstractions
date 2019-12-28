@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Unity.Injection
@@ -35,13 +36,12 @@ namespace Unity.Injection
 
         #region Overrides
 
-        protected override FieldInfo? DeclaredMember(Type type, string? name)
+        protected override FieldInfo DeclaredMember(Type type, string? name)
         {
-#if NETSTANDARD1_0 || NETCOREAPP1_0 
-            return type.GetTypeInfo().GetDeclaredField(Selection?.Name!);
-#else
-            return type.GetField(Selection?.Name!);
-#endif
+            Debug.Assert(null != Selection?.Name);
+            var member = type.GetField(Selection?.Name!);
+            Debug.Assert(null != member);
+            return member!;
         }
 
         public override IEnumerable<FieldInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedFields(type);

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 
 namespace Unity.Injection
@@ -39,7 +38,7 @@ namespace Unity.Injection
 
         public override ConstructorInfo MemberInfo(Type type)
         {
-            Debug.Assert(null != Selection);
+            if (null == Selection) throw new InvalidOperationException(ErrorInvalidSelection);
 
             if (type == Selection.DeclaringType) return Selection;
 
@@ -47,7 +46,7 @@ namespace Unity.Injection
             if (Selection.GetParameters().Select(p => p.ParameterType.GetTypeInfo())
                          .Any(i => i.IsGenericType && i.ContainsGenericParameters)) 
 #else
-            if (Selection.DeclaringType.IsGenericTypeDefinition) 
+            if (Selection.DeclaringType?.IsGenericTypeDefinition ?? false) 
 #endif
             {
                 return base.MemberInfo(type);

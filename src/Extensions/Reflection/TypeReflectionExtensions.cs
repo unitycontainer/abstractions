@@ -16,8 +16,8 @@ namespace Unity
         public static Type GetArrayParameterType(this Type typeToReflect, Type[] genericArguments)
         {
             var rank = typeToReflect.GetArrayRank();
-            var element = typeToReflect.GetElementType();
-            var type = element.IsArray ? element.GetArrayParameterType(genericArguments)
+            var element = typeToReflect.GetElementType()!;
+            var type = element.IsArray ? element.GetArrayParameterType(genericArguments)!
                                        : genericArguments[element.GenericParameterPosition];
 
             return 1 == rank ? type.MakeArrayType() : type.MakeArrayType(rank);
@@ -90,12 +90,8 @@ namespace Unity
             return method.Method;
         }
 #else
-        public static MethodInfo GetGetMethod(this PropertyInfo info, bool _)
-        {
-            return info.GetMethod;
-        }
 
-        public static MethodInfo GetSetMethod(this PropertyInfo info, bool _)
+        public static MethodInfo? GetSetMethod(this PropertyInfo info, bool _)
         {
             return info.SetMethod;
         }

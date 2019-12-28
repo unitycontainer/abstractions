@@ -26,20 +26,25 @@
     <TargetFrameworks>netstandard2.1;netstandard2.0;netstandard1.0;netcoreapp3.0;netcoreapp2.0;netcoreapp1.0;net48;net47;net46;net45;net40</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' != 'netstandard1.0' ">
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.0' ">
     <Compile Remove="Lifetime\Managers\ConcurrentDictionary.cs" />
+    <Compile Remove="Utility\Compatibility.NetStandard.1.0.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != '' AND $(TargetFramework.StartsWith('netcoreapp'))">
+  <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp1.0'">
+    <Compile Remove="Utility\Compatibility.NetCoreApp.1.0.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp'))">
     <Compile Remove="Exceptions\ResolutionFailedException.Desktop.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != '' AND $(TargetFramework.StartsWith('netstandard'))">
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard'))">
     <Compile Remove="Exceptions\ResolutionFailedException.Desktop.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
-    <Compile Remove="Extensions\Reflection\TypeInfo.cs" />
+    <Compile Remove="Utility\Compatibility.Net.4.0.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">

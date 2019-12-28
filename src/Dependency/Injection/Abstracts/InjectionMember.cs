@@ -52,6 +52,7 @@ namespace Unity.Injection
         #region Fields
         
         protected const string NoMatchFound = "No member matching data has been found.";
+        protected const string ErrorInvalidSelection = "Invalid selection";
 
         protected TMemberInfo? Selection { get; set; }
 

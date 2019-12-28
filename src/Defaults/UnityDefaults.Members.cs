@@ -13,13 +13,7 @@ namespace Unity
         /// Method to query <see cref="Type"/> for supported constructors
         /// </summary>
         public static Func<Type, IEnumerable<ConstructorInfo>> SupportedConstructors { get; set; } = (Type type) =>
-#if NETSTANDARD1_0
-             type.GetTypeInfo()
-                 .DeclaredConstructors
-                 .Where(ctor => !ctor.IsFamily && !ctor.IsPrivate && !ctor.IsStatic);
-#else
-             type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
-#endif
+             type.GetConstructors();
 
 
         /// <summary>
@@ -32,11 +26,6 @@ namespace Unity
                                         !member.IsPrivate &&
                                         !member.IsInitOnly &&
                                         !member.IsStatic);
-
-#if NET40 ||  NETSTANDARD1_0 || NETCOREAPP1_0 
-#else
-            // TODO: return type.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.);
-#endif
         };
 
 

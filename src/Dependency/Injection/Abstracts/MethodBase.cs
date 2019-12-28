@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -33,7 +32,7 @@ namespace Unity.Injection
 
         public override TMemberInfo MemberInfo(Type type)
         {
-            Debug.Assert(null != Selection);
+            if (null == Selection) throw new InvalidOperationException(ErrorInvalidSelection);
 
             if (type == Selection.DeclaringType) return Selection;
 
