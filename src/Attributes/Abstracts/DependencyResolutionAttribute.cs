@@ -12,7 +12,9 @@ namespace Unity
     /// </summary>
     public abstract class DependencyResolutionAttribute : Attribute,
                                                           IResolverFactory<Type>,
-                                                          IResolverFactory<ParameterInfo>
+                                                          IResolverFactory<ParameterInfo>,
+                                                          IResolverFactory<PropertyInfo>,
+                                                          IResolverFactory<FieldInfo>
     {
         #region Constructors
 
@@ -60,6 +62,12 @@ namespace Unity
             else
                 return GetResolver<TContext>(info.ParameterType);
         }
+
+        public ResolveDelegate<TContext> GetResolver<TContext>(PropertyInfo info)
+            where TContext : IResolveContext => GetResolver<TContext>(info.PropertyType);
+
+        public ResolveDelegate<TContext> GetResolver<TContext>(FieldInfo info)
+            where TContext : IResolveContext => GetResolver<TContext>(info.FieldType);
 
         public abstract ResolveDelegate<TContext> GetResolver<TContext>(Type type) where TContext : IResolveContext;
 
