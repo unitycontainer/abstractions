@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using Unity.Resolution;
 
 namespace Unity.Injection
 {
@@ -85,7 +86,8 @@ namespace Unity.Injection
                 throw new InvalidOperationException(
                     $"Protected field '{selection.Name}' on type '{type?.Name}' cannot be injected");
 
-            if (Data is DependencyResolutionAttribute) return selection;
+            if (Data is IResolve || Data is IResolverFactory<FieldInfo> || Data is IResolverFactory<Type>) 
+                return selection;
 
             if (!Data.Matches(selection.FieldType))
                 throw new ArgumentException(

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Unity.Resolution;
 
 namespace Unity.Injection
 {
@@ -96,9 +97,10 @@ namespace Unity.Injection
                     throw new InvalidOperationException(
                         $"Protected property '{selection.Name}' on type '{type?.Name}' cannot be injected");
 
-                if (Data is DependencyResolutionAttribute) return selection;
+            if (Data is IResolve || Data is IResolverFactory<FieldInfo> || Data is IResolverFactory<Type>)
+                return selection;
 
-                if (!Data.Matches(selection.PropertyType))
+            if (!Data.Matches(selection.PropertyType))
                 {
                     throw new ArgumentException(
                         $"Injected data '{Data}' could not be matched with type of property '{selection.PropertyType.Name}'.");
