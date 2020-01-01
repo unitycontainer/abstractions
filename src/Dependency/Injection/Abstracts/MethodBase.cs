@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -12,18 +13,20 @@ namespace Unity.Injection
         protected MethodBase(params object[] arguments)
             : base(arguments)
         {
+            Debug.Assert(null != arguments);
         }
 
         protected MethodBase(string? name, params object[] arguments)
             : base(name, arguments)
         {
+            Debug.Assert(null != arguments);
         }
 
         protected MethodBase(TMemberInfo info, params object[] arguments)
             : base(info, arguments)
         {
+            Debug.Assert(null != arguments);
         }
-
 
         #endregion
 

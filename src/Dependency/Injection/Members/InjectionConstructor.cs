@@ -99,7 +99,7 @@ namespace Unity.Injection
                 if (null != selection)
                 {
                     throw new ArgumentException(
-                        $"Constructor .ctor({Data.Signature()}) is ambiguous, it could be matched with more than one constructor on type {type?.Name}.");
+                        $"Constructor .ctor({Data.Signature()}) is ambiguous, it could be matched with more than one constructor on type {type?.FullName}.");
                 }
 
                 selection = info;
@@ -109,7 +109,7 @@ namespace Unity.Injection
             if (null != selection) return selection;
 
             throw new ArgumentException(
-                $"Injected constructor .ctor({Data.Signature()}) could not be matched with any public constructors on type {type?.Name}.");
+                $"Injected constructor .ctor({Data.Signature()}) could not be matched with any public constructors on type {type?.FullName}.");
         }
 
         public override IEnumerable<ConstructorInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedConstructors(type);

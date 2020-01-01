@@ -68,34 +68,34 @@ namespace Unity.Injection
                 if (null == selection)
                 {
                     throw new ArgumentException(
-                        $"Injected property '{Name}' could not be matched with any property on type '{type?.Name}'.");
+                        $"Injected property '{Name}' could not be matched with any property on type '{type?.FullName}'.");
 }
 
                 if (!selection.CanWrite)
                     throw new InvalidOperationException(
-                        $"Readonly property '{selection.Name}' on type '{type?.Name}' cannot be injected");
+                        $"Readonly property '{selection.Name}' on type '{type?.FullName}' cannot be injected");
 
                 if (0 != selection.GetIndexParameters().Length)
                     throw new InvalidOperationException(
-                        $"Indexer '{selection.Name}' on type '{type?.Name}' cannot be injected");
+                        $"Indexer '{selection.Name}' on type '{type?.FullName}' cannot be injected");
 
                 var setter = selection.GetSetMethod(true);
 
                 if (null == setter)
                     throw new InvalidOperationException(
-                        $"Readonly property '{selection.Name}' on type '{type?.Name}' cannot be injected");
+                        $"Readonly property '{selection.Name}' on type '{type?.FullName}' cannot be injected");
 
                 if (setter.IsStatic)
                     throw new InvalidOperationException(
-                        $"Static property '{selection.Name}' on type '{type?.Name}' cannot be injected");
+                        $"Static property '{selection.Name}' on type '{type?.FullName}' cannot be injected");
 
                 if (setter.IsPrivate)
                     throw new InvalidOperationException(
-                        $"Private property '{selection.Name}' on type '{type?.Name}' cannot be injected");
+                        $"Private property '{selection.Name}' on type '{type?.FullName}' cannot be injected");
 
                 if (setter.IsFamily)
                     throw new InvalidOperationException(
-                        $"Protected property '{selection.Name}' on type '{type?.Name}' cannot be injected");
+                        $"Protected property '{selection.Name}' on type '{type?.FullName}' cannot be injected");
 
             if (Data is IResolve || Data is IResolverFactory<FieldInfo> || Data is IResolverFactory<Type>)
                 return selection;
@@ -103,7 +103,7 @@ namespace Unity.Injection
             if (!Data.Matches(selection.PropertyType))
                 {
                     throw new ArgumentException(
-                        $"Injected data '{Data}' could not be matched with type of property '{selection.PropertyType.Name}'.");
+                        $"Injected data '{Data}' could not be matched with type of property '{selection.PropertyType.FullName}'.");
                 }
 
                 return selection;

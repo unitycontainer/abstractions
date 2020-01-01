@@ -31,7 +31,7 @@ namespace Unity.Injection
 
         protected override MethodInfo FastSelectMember(Type type)
         {
-            var noData = 0 == (Data?.Length ?? 0);
+            var noData = 0 == Data.Length;
 
             foreach (var member in DeclaredMembers(type))
             {
@@ -41,7 +41,7 @@ namespace Unity.Injection
                     if (noData) return member;
                 }
 
-                if (null != Data && !Data.MatchMemberInfo(member)) continue;
+                if (!Data.MatchMemberInfo(member)) continue;
 
                 return member;
             }
@@ -58,12 +58,13 @@ namespace Unity.Injection
             // Select Method
             foreach (var info in UnityDefaults.SupportedMethods(type))
             {
-                if (Name != info.Name || !Data.MatchMemberInfo(info)) continue;
+                if (Name != info.Name) continue;
+                if (0 != Data.Length && !Data.MatchMemberInfo(info)) continue;
 
                 if (null != selection)
                 {
                     throw new ArgumentException(
-                        $"Method {Name}({Data.Signature()}) is ambiguous, it could be matched with more than one method on type {type?.Name}.");
+                        $"Method {Name}({Data.Signature()}) is ambiguous, it could be matched with more than one method on type {type?.FullName}.");
                 }
 
                 selection = info;
@@ -73,40 +74,40 @@ namespace Unity.Injection
             if (null == selection)
             {
                 throw new ArgumentException(
-                    $"Injected method {Name}({Data.Signature()}) could not be matched with any public methods on type {type?.Name}.");
+                    $"Injected method {Name}({Data.Signature()}) could not be matched with any public methods on type {type?.FullName}.");
             }
 
             if (selection.IsStatic)
             {
                 throw new ArgumentException(
-                    $"Static method {Name} on type '{selection.DeclaringType?.Name}' cannot be injected");
+                    $"Static method {Name} on type '{selection.DeclaringType?.FullName}' cannot be injected");
             }
 
             if (selection.IsPrivate)
                 throw new InvalidOperationException(
-                    $"Private method '{Name}' on type '{selection.DeclaringType?.Name}' cannot be injected");
+                    $"Private method '{Name}' on type '{selection.DeclaringType?.FullName}' cannot be injected");
 
             if (selection.IsFamily)
                 throw new InvalidOperationException(
-                    $"Protected method '{Name}' on type '{selection.DeclaringType?.Name}' cannot be injected");
+                    $"Protected method '{Name}' on type '{selection.DeclaringType?.FullName}' cannot be injected");
 
             if (selection.IsGenericMethodDefinition)
             {
                 throw new ArgumentException(
-                    $"Open generic method {Name} on type '{selection.DeclaringType?.Name}' cannot be injected");
+                    $"Open generic method {Name} on type '{selection.DeclaringType?.FullName}' cannot be injected");
             }
 
             var parameters = selection.GetParameters();
             if (parameters.Any(param => param.IsOut))
             {
                 throw new ArgumentException(
-                    $"Method {Name} on type '{selection.DeclaringType?.Name}' cannot be injected. Methods with 'out' parameters are not injectable.");
+                    $"Method {Name} on type '{selection.DeclaringType?.FullName}' cannot be injected. Methods with 'out' parameters are not injectable.");
             }
 
             if (parameters.Any(param => param.ParameterType.IsByRef))
             {
                 throw new ArgumentException(
-                    $"Method {Name} on type '{selection.DeclaringType?.Name}' cannot be injected. Methods with 'ref' parameters are not injectable.");
+                    $"Method {Name} on type '{selection.DeclaringType?.FullName}' cannot be injected. Methods with 'ref' parameters are not injectable.");
             }
 
             return selection;

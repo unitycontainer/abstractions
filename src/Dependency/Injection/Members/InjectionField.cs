@@ -67,31 +67,31 @@ namespace Unity.Injection
             if (null == selection)
             {
                 throw new ArgumentException(
-                    $"Injected field '{Name}' could not be matched with any public field on type '{type?.Name}'.");
+                    $"Injected field '{Name}' could not be matched with any public field on type '{type?.FullName}'.");
             }
 
             if (selection.IsStatic)
                 throw new InvalidOperationException(
-                    $"Static field '{selection.Name}' on type '{type?.Name}' cannot be injected");
+                    $"Static field '{selection.Name}' on type '{type?.FullName}' cannot be injected");
 
             if (selection.IsInitOnly)
                 throw new InvalidOperationException(
-                    $"Readonly field '{selection.Name}' on type '{type?.Name}' cannot be injected");
+                    $"Readonly field '{selection.Name}' on type '{type?.FullName}' cannot be injected");
 
             if (selection.IsPrivate)
                 throw new InvalidOperationException(
-                    $"Private field '{selection.Name}' on type '{type?.Name}' cannot be injected");
+                    $"Private field '{selection.Name}' on type '{type?.FullName}' cannot be injected");
 
             if (selection.IsFamily)
                 throw new InvalidOperationException(
-                    $"Protected field '{selection.Name}' on type '{type?.Name}' cannot be injected");
+                    $"Protected field '{selection.Name}' on type '{type?.FullName}' cannot be injected");
 
             if (Data is IResolve || Data is IResolverFactory<FieldInfo> || Data is IResolverFactory<Type>) 
                 return selection;
 
             if (!Data.Matches(selection.FieldType))
                 throw new ArgumentException(
-                    $"Injected data '{Data}' could not be matched with type of field '{selection.FieldType.Name}'.");
+                    $"Injected data '{Data}' could not be matched with type of field '{selection.FieldType.FullName}'.");
 
             return selection;
         }
