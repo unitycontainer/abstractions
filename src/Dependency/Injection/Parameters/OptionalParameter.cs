@@ -72,10 +72,11 @@ namespace Unity.Injection
         public ResolveDelegate<TContext> GetResolver<TContext>(Type type)
             where TContext : IResolveContext
         {
+            var resolveType = ParameterType ?? type;
             return (ref TContext c) =>
             {
-                try { return c.Resolve(ParameterType ?? type, _name); }
-                catch (Exception ex) 
+                try { return c.Resolve(resolveType, _name); }
+                catch (Exception ex)
                 when (!(ex is CircularDependencyException))
                 {
                     return null;
