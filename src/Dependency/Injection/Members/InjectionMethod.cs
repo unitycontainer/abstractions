@@ -29,7 +29,7 @@ namespace Unity.Injection
 
         #region Overrides
 
-        public override IEnumerable<MethodInfo> DeclaredMembers(Type type) => 
+        protected override IEnumerable<MethodInfo> DeclaredMembers(Type type) => 
             UnityDefaults.SupportedMethods(type).Where(member => member.Name == Name);
 
         public override string ToString()
@@ -63,7 +63,7 @@ namespace Unity.Injection
 
         #region Selection
 
-        protected override MethodInfo SelectFast(Type type)
+        protected override MethodInfo Select(Type type)
         {
             var noData = 0 == Data.Length;
 

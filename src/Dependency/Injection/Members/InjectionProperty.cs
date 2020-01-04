@@ -41,7 +41,7 @@ namespace Unity.Injection
 
         #region Overrides
 
-        public override IEnumerable<PropertyInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedProperties(type);
+        protected override IEnumerable<PropertyInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedProperties(type);
 
         public override string ToString()
         {

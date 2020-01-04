@@ -22,7 +22,7 @@ namespace Unity.Injection
 
         public override TMemberInfo MemberInfo(Type type)
         {
-            if (null == Selection) throw new InvalidOperationException("Member is not initialized");
+            if (null == Selection) throw new InvalidOperationException($"Injection Member '{this}' is not initialized");
 
 #if NETSTANDARD1_0 || NETCOREAPP1_0 
             var declaringType = Selection.DeclaringType.GetTypeInfo();
@@ -49,7 +49,7 @@ namespace Unity.Injection
 
         #region Selection
 
-        protected override TMemberInfo SelectFast(Type type)
+        protected override TMemberInfo Select(Type type)
         {
             foreach (var member in DeclaredMembers(type))
             {

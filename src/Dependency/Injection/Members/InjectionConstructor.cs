@@ -73,7 +73,7 @@ namespace Unity.Injection
             throw new InvalidOperationException($"Unable to select compatible construcotr on type {type}");
         }
 
-        public override IEnumerable<ConstructorInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedConstructors(type);
+        protected override IEnumerable<ConstructorInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedConstructors(type);
 
         public override string ToString()
         {
@@ -85,7 +85,7 @@ namespace Unity.Injection
 
         #region Selection
 
-        protected override ConstructorInfo SelectFast(Type type)
+        protected override ConstructorInfo Select(Type type)
         {
             foreach (var member in DeclaredMembers(type))
             {
@@ -117,10 +117,7 @@ namespace Unity.Injection
                 selection = info;
             }
 
-            // Validate
-            if (null != selection) return selection;
-
-            throw new ArgumentException(
+            return selection ?? throw new ArgumentException(
                 $"Injected constructor .ctor({Data.Signature()}) could not be matched with any public constructors on type {type?.FullName}.");
         }
 

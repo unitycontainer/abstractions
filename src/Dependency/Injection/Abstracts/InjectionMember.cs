@@ -51,11 +51,11 @@ namespace Unity.Injection
     {
         #region Fields
         
+        private Func<Type, TMemberInfo> _selectMethod;
+
         protected const string NoMatchFound = "No member matching data has been found.";
         protected const string ErrorInvalidSelection = "Invalid selection";
-
-
-        private Func<Type, TMemberInfo> _selectMethod;
+        
         protected TMemberInfo? Selection { get; set; }
 
         #endregion
@@ -67,7 +67,7 @@ namespace Unity.Injection
         {
             Data = data;
             _selectMethod = UnityDefaults.EnableDiagnostic 
-                          ? (Func<Type, TMemberInfo>)SelectDiagnostic : SelectFast;
+                          ? (Func<Type, TMemberInfo>)SelectDiagnostic : Select;
         }
 
         protected InjectionMember(string? name, TData data)
@@ -75,7 +75,7 @@ namespace Unity.Injection
             Name = name;
             Data = data;
             _selectMethod = UnityDefaults.EnableDiagnostic
-                          ? (Func<Type, TMemberInfo>)SelectDiagnostic : SelectFast;
+                          ? (Func<Type, TMemberInfo>)SelectDiagnostic : Select;
         }
 
         protected InjectionMember(TMemberInfo info, TData data)
@@ -84,7 +84,7 @@ namespace Unity.Injection
             Name = info.Name;
             Data = data;
             _selectMethod = UnityDefaults.EnableDiagnostic
-                          ? (Func<Type, TMemberInfo>)SelectDiagnostic : SelectFast;
+                          ? (Func<Type, TMemberInfo>)SelectDiagnostic : Select;
         }
 
         #endregion
@@ -97,8 +97,6 @@ namespace Unity.Injection
         public virtual TData Data { get; }
 
         public abstract TMemberInfo MemberInfo(Type type);
-
-        public abstract IEnumerable<TMemberInfo> DeclaredMembers(Type type);
 
         public bool IsInitialized => null != Selection;
 
@@ -150,7 +148,9 @@ namespace Unity.Injection
 
         #region Implementation
 
-        protected abstract TMemberInfo SelectFast(Type type);
+        protected abstract IEnumerable<TMemberInfo> DeclaredMembers(Type type);
+
+        protected abstract TMemberInfo Select(Type type);
 
         protected abstract TMemberInfo SelectDiagnostic(Type type);
 
