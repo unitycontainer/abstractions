@@ -22,12 +22,6 @@ namespace Unity.Injection
             Debug.Assert(null != arguments);
         }
 
-        protected MethodBase(TMemberInfo info, params object[] arguments)
-            : base(info, arguments)
-        {
-            Debug.Assert(null != arguments);
-        }
-
         #endregion
 
 

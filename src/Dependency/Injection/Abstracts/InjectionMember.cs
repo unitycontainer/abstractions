@@ -54,6 +54,8 @@ namespace Unity.Injection
         protected const string NoMatchFound = "No member matching data has been found.";
         protected const string ErrorInvalidSelection = "Invalid selection";
 
+
+        private Func<Type, TMemberInfo> _selectMethod;
         protected TMemberInfo? Selection { get; set; }
 
         #endregion
@@ -64,12 +66,16 @@ namespace Unity.Injection
         protected InjectionMember(TData data)
         {
             Data = data;
+            _selectMethod = UnityDefaults.EnableDiagnostic 
+                          ? (Func<Type, TMemberInfo>)SelectDiagnostic : SelectFast;
         }
 
         protected InjectionMember(string? name, TData data)
         {
             Name = name;
             Data = data;
+            _selectMethod = UnityDefaults.EnableDiagnostic
+                          ? (Func<Type, TMemberInfo>)SelectDiagnostic : SelectFast;
         }
 
         protected InjectionMember(TMemberInfo info, TData data)
@@ -77,6 +83,8 @@ namespace Unity.Injection
             Selection = info;
             Name = info.Name;
             Data = data;
+            _selectMethod = UnityDefaults.EnableDiagnostic
+                          ? (Func<Type, TMemberInfo>)SelectDiagnostic : SelectFast;
         }
 
         #endregion
@@ -134,9 +142,7 @@ namespace Unity.Injection
 
         public override void AddPolicies<TContext, TPolicySet>(Type registeredType, Type? mappedToType, string? name, ref TPolicySet policies)
         {
-            Selection = UnityDefaults.EnableDiagnostic 
-                      ? ValidatingSelectMember(mappedToType ?? registeredType) 
-                      : FastSelectMember(mappedToType ?? registeredType);
+            Selection = _selectMethod(mappedToType ?? registeredType);
         }
 
         #endregion
@@ -144,9 +150,9 @@ namespace Unity.Injection
 
         #region Implementation
 
-        protected abstract TMemberInfo FastSelectMember(Type type);
+        protected abstract TMemberInfo SelectFast(Type type);
 
-        protected abstract TMemberInfo ValidatingSelectMember(Type type);
+        protected abstract TMemberInfo SelectDiagnostic(Type type);
 
         #endregion
     }

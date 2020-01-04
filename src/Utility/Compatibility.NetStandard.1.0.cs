@@ -16,7 +16,17 @@ namespace Unity
 
         public static FieldInfo? GetField(this Type type, string name)
         {
-            return type.GetField(name);
+            return type.GetTypeInfo()
+                       .DeclaredFields
+                       .FirstOrDefault(p => p.Name == name);
+        }
+
+
+        public static PropertyInfo? GetProperty(this Type type, string name)
+        {
+            return type.GetTypeInfo()
+                       .DeclaredProperties
+                       .FirstOrDefault(p => p.Name == name);
         }
     }
 }

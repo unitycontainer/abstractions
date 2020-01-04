@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Unity.Injection
@@ -21,30 +22,20 @@ namespace Unity.Injection
 
         public override TMemberInfo MemberInfo(Type type)
         {
+            if (null == Selection) throw new InvalidOperationException("Member is not initialized");
 
 #if NETSTANDARD1_0 || NETCOREAPP1_0 
-            var declaringType = Selection?.DeclaringType.GetTypeInfo();
+            var declaringType = Selection.DeclaringType.GetTypeInfo();
             if (null != declaringType && !declaringType.IsGenericType && !declaringType.ContainsGenericParameters)
-                return Selection ?? throw new InvalidOperationException("Member is not initialized");
+                return Selection;
 #else
-            if (Selection?.DeclaringType != null &&
+            if (Selection.DeclaringType != null &&
                !Selection.DeclaringType.IsGenericType &&
                !Selection.DeclaringType.ContainsGenericParameters)
                 return Selection;
 #endif
-            return DeclaredMember(type, Selection?.Name);
-        }
 
-        protected override TMemberInfo FastSelectMember(Type type)
-        {
-            foreach (var member in DeclaredMembers(type))
-            {
-                if (member.Name != Name) continue;
-
-                return member;
-            }
-
-            throw new ArgumentException(NoMatchFound);
+            return DeclaredMembers(type).First(p => p.Name == Selection.Name);
         }
 
 #if NETSTANDARD1_0
@@ -56,11 +47,19 @@ namespace Unity.Injection
         #endregion
 
 
-        #region Implementation
+        #region Selection
 
-        protected abstract TMemberInfo DeclaredMember(Type type, string? name);
+        protected override TMemberInfo SelectFast(Type type)
+        {
+            foreach (var member in DeclaredMembers(type))
+            {
+                if (member.Name != Name) continue;
 
-        protected abstract Type MemberType { get; }
+                return member;
+            }
+
+            throw new ArgumentException(NoMatchFound);
+        }
 
         #endregion
     }

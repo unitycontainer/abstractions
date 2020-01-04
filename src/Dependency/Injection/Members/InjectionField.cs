@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 using Unity.Resolution;
 
@@ -37,17 +36,21 @@ namespace Unity.Injection
 
         #region Overrides
 
-        protected override FieldInfo DeclaredMember(Type type, string? name)
-        {
-            Debug.Assert(null != Selection?.Name);
-            var member = type.GetField(Selection?.Name!);
-            Debug.Assert(null != member);
-            return member!;
-        }
-
         public override IEnumerable<FieldInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedFields(type);
 
-        protected override FieldInfo ValidatingSelectMember(Type type)
+        public override string ToString()
+        {
+            return Data is DependencyResolutionAttribute
+                ? $"Resolve.Field('{Name}')"
+                : $"Inject.Field('{Name}', {Data})";
+        }
+
+        #endregion
+
+
+        #region Selection
+
+        protected override FieldInfo SelectDiagnostic(Type type)
         {
             FieldInfo? selection = null;
 
@@ -86,7 +89,7 @@ namespace Unity.Injection
                 throw new InvalidOperationException(
                     $"Protected field '{selection.Name}' on type '{type?.FullName}' cannot be injected");
 
-            if (Data is IResolve || Data is IResolverFactory<FieldInfo> || Data is IResolverFactory<Type>) 
+            if (Data is IResolve || Data is IResolverFactory<FieldInfo> || Data is IResolverFactory<Type>)
                 return selection;
 
             if (!Data.Matches(selection.FieldType))
@@ -94,21 +97,6 @@ namespace Unity.Injection
                     $"Injected data '{Data}' could not be matched with type of field '{selection.FieldType.FullName}'.");
 
             return selection;
-        }
-
-        protected override Type MemberType
-        {
-            get
-            {
-                return (Selection ?? throw new InvalidOperationException("Member not properly intialized")).FieldType;
-            }
-        }
-
-        public override string ToString()
-        {
-            return Data is DependencyResolutionAttribute
-                ? $"Resolve.Field('{Name}')"
-                : $"Inject.Field('{Name}', {Data})";
         }
 
         #endregion

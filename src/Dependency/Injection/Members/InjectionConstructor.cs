@@ -46,7 +46,7 @@ namespace Unity.Injection
             if (Selection.GetParameters().Select(p => p.ParameterType.GetTypeInfo())
                          .Any(i => i.IsGenericType && i.ContainsGenericParameters)) 
 #else
-            if (Selection.DeclaringType?.IsGenericTypeDefinition ?? false) 
+            if (Selection.DeclaringType?.IsGenericTypeDefinition ?? false)
 #endif
             {
                 return base.MemberInfo(type);
@@ -56,7 +56,7 @@ namespace Unity.Injection
             foreach (var member in DeclaredMembers(type))
             {
                 var paremeters = member.GetParameters();
-                
+
                 if (original.Length != paremeters.Length) continue;
                 for (var i = 0; i < original.Length; i++)
                 {
@@ -73,7 +73,19 @@ namespace Unity.Injection
             throw new InvalidOperationException($"Unable to select compatible construcotr on type {type}");
         }
 
-        protected override ConstructorInfo FastSelectMember(Type type)
+        public override IEnumerable<ConstructorInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedConstructors(type);
+
+        public override string ToString()
+        {
+            return $"Invoke.Constructor({Data.Signature()})";
+        }
+
+        #endregion
+
+
+        #region Selection
+
+        protected override ConstructorInfo SelectFast(Type type)
         {
             foreach (var member in DeclaredMembers(type))
             {
@@ -85,7 +97,7 @@ namespace Unity.Injection
             throw new ArgumentException(NoMatchFound);
         }
 
-        protected override ConstructorInfo ValidatingSelectMember(Type type)
+        protected override ConstructorInfo SelectDiagnostic(Type type)
         {
             ConstructorInfo? selection = null;
 
@@ -110,13 +122,6 @@ namespace Unity.Injection
 
             throw new ArgumentException(
                 $"Injected constructor .ctor({Data.Signature()}) could not be matched with any public constructors on type {type?.FullName}.");
-        }
-
-        public override IEnumerable<ConstructorInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedConstructors(type);
-
-        public override string ToString()
-        {
-            return $"Invoke.Constructor({Data.Signature()})";
         }
 
         #endregion

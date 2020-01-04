@@ -29,7 +29,41 @@ namespace Unity.Injection
 
         #region Overrides
 
-        protected override MethodInfo FastSelectMember(Type type)
+        public override IEnumerable<MethodInfo> DeclaredMembers(Type type) => 
+            UnityDefaults.SupportedMethods(type).Where(member => member.Name == Name);
+
+        public override string ToString()
+        {
+            return $"Invoke.Method('{Name}', {Data.Signature()})";
+        }
+
+#if NETSTANDARD1_0
+
+        public override bool Equals(MethodInfo other)
+        {
+            if (null == other || other.Name != Name) return false;
+
+            var parameterTypes = other.GetParameters()
+                                      .Select(p => p.ParameterType)
+                                      .ToArray();
+            
+            if (null == Selection) return false;
+
+            if (Selection.ContainsGenericParameters)
+                return Data.Length == parameterTypes.Length;
+
+            return Selection.GetParameters()
+                             .Select(p => p.ParameterType)
+                             .SequenceEqual(parameterTypes);
+        }
+
+#endif
+        #endregion
+
+
+        #region Selection
+
+        protected override MethodInfo SelectFast(Type type)
         {
             var noData = 0 == Data.Length;
 
@@ -49,7 +83,7 @@ namespace Unity.Injection
             throw new ArgumentException(NoMatchFound);
         }
 
-        protected override MethodInfo ValidatingSelectMember(Type type)
+        protected override MethodInfo SelectDiagnostic(Type type)
         {
             MethodInfo? selection = null;
 
@@ -113,35 +147,6 @@ namespace Unity.Injection
             return selection;
         }
 
-        public override IEnumerable<MethodInfo> DeclaredMembers(Type type) => 
-            UnityDefaults.SupportedMethods(type).Where(member => member.Name == Name);
-
-        public override string ToString()
-        {
-            return $"Invoke.Method('{Name}', {Data.Signature()})";
-        }
-
-#if NETSTANDARD1_0
-
-        public override bool Equals(MethodInfo other)
-        {
-            if (null == other || other.Name != Name) return false;
-
-            var parameterTypes = other.GetParameters()
-                                      .Select(p => p.ParameterType)
-                                      .ToArray();
-            
-            if (null == Selection) return false;
-
-            if (Selection.ContainsGenericParameters)
-                return Data.Length == parameterTypes.Length;
-
-            return Selection.GetParameters()
-                             .Select(p => p.ParameterType)
-                             .SequenceEqual(parameterTypes);
-        }
-
-#endif
         #endregion
     }
 }

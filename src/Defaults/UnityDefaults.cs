@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-
-namespace Unity
+﻿namespace Unity
 {
     internal partial class UnityDefaults
     {
