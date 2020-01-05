@@ -36,7 +36,7 @@ namespace Unity.Injection
 
         #region Overrides
 
-        protected override IEnumerable<FieldInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedFields(type);
+        protected override IEnumerable<FieldInfo> DeclaredMembers(Type type) => type.SupportedFields();
 
         public override string ToString()
         {

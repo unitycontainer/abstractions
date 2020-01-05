@@ -29,8 +29,8 @@ namespace Unity.Injection
 
         #region Overrides
 
-        protected override IEnumerable<MethodInfo> DeclaredMembers(Type type) => 
-            UnityDefaults.SupportedMethods(type).Where(member => member.Name == Name);
+        protected override IEnumerable<MethodInfo> DeclaredMembers(Type type) =>
+            type.SupportedMethods().Where(member => member.Name == Name);
 
         public override string ToString()
         {
@@ -90,7 +90,7 @@ namespace Unity.Injection
             if (IsInitialized) throw new InvalidOperationException("Sharing an InjectionMethod between registrations is not supported");
 
             // Select Method
-            foreach (var info in UnityDefaults.SupportedMethods(type))
+            foreach (var info in type.SupportedMethods())
             {
                 if (Name != info.Name) continue;
                 if (0 != Data.Length && !Data.MatchMemberInfo(info)) continue;

@@ -73,7 +73,7 @@ namespace Unity.Injection
             throw new InvalidOperationException($"Unable to select compatible construcotr on type {type}");
         }
 
-        protected override IEnumerable<ConstructorInfo> DeclaredMembers(Type type) => UnityDefaults.SupportedConstructors(type);
+        protected override IEnumerable<ConstructorInfo> DeclaredMembers(Type type) => type.SupportedConstructors();
 
         public override string ToString()
         {

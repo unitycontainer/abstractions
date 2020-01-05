@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace Unity
 {
-    internal static class UnityDefaultsExtensions
+    public static class SupportedMembers
     {
-        #region Supported declared members
-
         /// <summary>
         /// Method to query <see cref="Type"/> for supported constructors
         /// </summary>
@@ -16,7 +15,7 @@ namespace Unity
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static IEnumerable<ConstructorInfo> SupportedConstructors(this Type type) =>
-             UnityDefaults.SupportedConstructors(type);
+             type.GetConstructors();
 
 
         /// <summary>
@@ -26,7 +25,11 @@ namespace Unity
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static IEnumerable<FieldInfo> SupportedFields(this Type type) =>
-             UnityDefaults.SupportedFields(type);
+            type.GetFields()
+                .Where(member => !member.IsFamily &&
+                                 !member.IsPrivate &&
+                                 !member.IsInitOnly &&
+                                 !member.IsStatic);
 
 
         /// <summary>
@@ -36,7 +39,18 @@ namespace Unity
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static IEnumerable<PropertyInfo> SupportedProperties(this Type type) =>
-             UnityDefaults.SupportedProperties(type);
+             type.GetProperties()
+                 .Where(member =>
+                 {
+                     if (!member.CanWrite || 0 != member.GetIndexParameters().Length)
+                         return false;
+
+                     var setter = member.GetSetMethod(true);
+                     if (null == setter || setter.IsPrivate || setter.IsFamily)
+                         return false;
+
+                     return true;
+                 });
 
 
         /// <summary>
@@ -46,8 +60,7 @@ namespace Unity
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static IEnumerable<MethodInfo> SupportedMethods(this Type type) =>
-             UnityDefaults.SupportedMethods(type);
-
-        #endregion
+             type.GetMethods()
+                 .Where(member => !member.IsFamily && !member.IsPrivate && !member.IsStatic);
     }
 }
