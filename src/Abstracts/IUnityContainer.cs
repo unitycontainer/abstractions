@@ -232,7 +232,7 @@ namespace Unity
         /// <seealso cref="Unity.Override"/>
         /// <exception cref="ResolutionFailedException">Throws if any errors occur during resolution</exception>
         /// <returns>The retrieved object.</returns>
-        object Resolve(Type type, string? name, params ResolverOverride[] overrides);
+        object? Resolve(Type type, string? name, params ResolverOverride[] overrides);
 
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace Unity
         /// the container that created this instance.
         /// </remarks>
         /// <value>The parent container, or null if this container doesn't have one.</value>
-        IUnityContainer Parent { get; }
+        IUnityContainer? Parent { get; }
 
 
         /// <summary>
