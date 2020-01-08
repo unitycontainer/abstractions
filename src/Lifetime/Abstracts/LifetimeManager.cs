@@ -113,6 +113,11 @@ namespace Unity.Lifetime
 
         public class InvalidValue
         {
+            internal InvalidValue()
+            {
+
+            }
+
             public override bool Equals(object? obj)
             {
                 return ReferenceEquals(this, obj);
