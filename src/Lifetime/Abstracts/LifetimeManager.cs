@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Resolution;
 
 namespace Unity.Lifetime
 {
@@ -6,7 +7,7 @@ namespace Unity.Lifetime
     /// Base class for all lifetime managers - classes that control how
     /// and when instances are created by the Unity container.
     /// </summary>
-    public abstract partial class LifetimeManager 
+    public abstract class LifetimeManager 
     {
         /// <summary>
         /// This value represents Invalid Value. Lifetime manager must return this
@@ -86,7 +87,29 @@ namespace Unity.Lifetime
         #endregion
 
 
-        #region Invalid Value
+        #region ILifetimeFactoryPolicy
+
+        /// <summary>
+        /// Creates a new lifetime manager of the same type as this Lifetime Manager
+        /// </summary>
+        /// <returns>A new instance of the appropriate lifetime manager</returns>
+        public LifetimeManager CreateLifetimePolicy() => OnCreateLifetimeManager();
+
+        #endregion
+
+
+        #region Implementation
+
+        /// <summary>
+        /// Implementation of <see cref="CreateLifetimePolicy"/> policy.
+        /// </summary>
+        /// <returns>A new instance of the same lifetime manager of appropriate type</returns>
+        protected abstract LifetimeManager OnCreateLifetimeManager();
+
+        #endregion
+
+
+        #region Nested Types
 
         public class InvalidValue
         {
@@ -106,6 +129,25 @@ namespace Unity.Lifetime
             }
         }
 
+        #endregion
+
+
+        #region Internal Use
+
+        internal Delegate? PipelineDelegate;
+
+        internal virtual object? Pipeline<TContext>(ref TContext context) where TContext : IResolveContext
+        {
+            return ((ResolveDelegate<TContext>)(PipelineDelegate ?? throw new InvalidOperationException("Pipeline is not initialized")))(ref context);
+        }
+
+        #endregion
+
+
+        #region Debugger
+#if DEBUG
+        public string ID { get; } = Guid.NewGuid().ToString();
+#endif
         #endregion
     }
 }

@@ -922,7 +922,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static T Resolve<T>(this IUnityContainer container, string? name, params ResolverOverride[] overrides)
+        public static T Resolve<T>(this IUnityContainer container, string name, params ResolverOverride[] overrides)
         {
             var result = (container ?? throw new ArgumentNullException(nameof(container))).Resolve(typeof(T), name, overrides);
             return null == result ? default : (T)result;

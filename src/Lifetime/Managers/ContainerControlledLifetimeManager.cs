@@ -50,7 +50,7 @@ namespace Unity.Lifetime
 
         #region Scope
 
-        public object? Owner { get; set; }
+        public object? Scope { get; set; }
 
         #endregion
 
@@ -91,7 +91,7 @@ namespace Unity.Lifetime
         {
             return new ContainerControlledLifetimeManager
             {
-                Owner = Owner
+                Scope = Scope
             };
         }
 
