@@ -842,7 +842,7 @@ namespace Unity
         /// <returns>The retrieved object.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SecuritySafeCritical]
-        public static ValueTask<object> ResolveAsync(this IUnityContainerAsync container, Type t, params ResolverOverride[] overrides)
+        public static ValueTask<object?> ResolveAsync(this IUnityContainerAsync container, Type t, params ResolverOverride[] overrides)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).ResolveAsync(t, null, overrides);
         }
