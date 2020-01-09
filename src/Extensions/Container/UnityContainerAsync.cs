@@ -809,8 +809,8 @@ namespace Unity
             var task  = unity.ResolveAsync(typeof(T), null, overrides);
 
             return task.IsCompleted
-                ? (T)task.Result
-                : (T)task.GetAwaiter().GetResult();
+                ? (T)task.Result!
+                : (T)task.GetAwaiter().GetResult()!;
         }
 
         /// <summary>
@@ -829,8 +829,8 @@ namespace Unity
             var task = unity.ResolveAsync(typeof(T), name, overrides);
 
             return task.IsCompleted
-                ? (T)task.Result
-                : (T)task.GetAwaiter().GetResult();
+                ? (T)task.Result!
+                : (T)task.GetAwaiter().GetResult()!;
         }
 
         /// <summary>
