@@ -5,6 +5,12 @@ using System.Reflection;
 
 namespace Unity
 {
+    internal interface ICloneable
+    {
+        object Clone();
+    }
+
+
     internal static class Compatibility_NetStandard_1_0
     {
         public static IEnumerable<ConstructorInfo> GetConstructors(this Type type)

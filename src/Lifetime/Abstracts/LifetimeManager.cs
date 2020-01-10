@@ -7,25 +7,22 @@ namespace Unity.Lifetime
     /// Base class for all lifetime managers - classes that control how
     /// and when instances are created by the Unity container.
     /// </summary>
-    public abstract class LifetimeManager 
+    public abstract class LifetimeManager : ICloneable
     {
-        /// <summary>
-        /// This value represents Invalid Value. Lifetime manager must return this
-        /// unless value is set with a valid object. Null is a value and is not equal 
-        /// to NoValue 
-        /// </summary>
-        public static readonly object NoValue = new InvalidValue();
+        #region Fields
 
         /// <summary>
-        /// A <see cref="Boolean"/> indicating if this manager is being used in 
-        /// one of the registrations.
+        /// This value represents unassigned value. 
         /// </summary>
         /// <remarks>
-        /// The Unity container requires that each registration used its own, unique
-        /// lifetime manager. This property is being used to track that condition.
+        /// Lifetime manager must return this instance unless value is set with a valid object. 
+        /// This instance is a singleton that is used to identify and unassigned lifetime managers.
         /// </remarks>
-        /// <value>True is this instance already in use, False otherwise.</value>
-        public virtual bool InUse { get; set; }
+        public static readonly object NoValue = new InvalidValue();
+
+        private object? _scope;
+
+        #endregion
 
         
         #region Constructors
@@ -36,7 +33,30 @@ namespace Unity.Lifetime
             Get    = GetValue;
             TryGet = TryGetValue;
         }
-        
+
+        #endregion
+
+
+        #region Scope
+
+        /// <summary>
+        /// An <see cref="Object"/> holding reference to a owner container.
+        /// </summary>
+        /// <remarks>
+        /// When registered with a container this property is set with the reference to
+        /// the container.
+        /// </remarks>
+        public object? Scope
+        {
+            get => _scope; set
+            {
+                if (null != _scope && value != _scope) 
+                    throw new InvalidOperationException($"Manager {this} is already registered with {_scope} scope");
+
+                _scope = value;
+            }
+        }
+
         #endregion
 
 
@@ -51,7 +71,7 @@ namespace Unity.Lifetime
         #endregion
 
 
-        #region   LifetimeManager Members
+        #region [Try] Get/Set, Clear Value
 
         /// <summary>
         /// Retrieves a value from the backing store associated with this Lifetime policy.
@@ -87,13 +107,12 @@ namespace Unity.Lifetime
         #endregion
 
 
-        #region ILifetimeFactoryPolicy
+        #region ICloneable
 
         /// <summary>
-        /// Creates a new lifetime manager of the same type as this Lifetime Manager
+        /// Creates a new lifetime manager that is a copy of the current type
         /// </summary>
-        /// <returns>A new instance of the appropriate lifetime manager</returns>
-        public LifetimeManager CreateLifetimePolicy() => OnCreateLifetimeManager();
+        public object Clone() => OnCreateLifetimeManager();
 
         #endregion
 
