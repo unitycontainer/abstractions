@@ -134,32 +134,24 @@ namespace Unity
         /// </summary>
         /// <param name="type">Registration <see cref="Type"/>. A <see cref="Type"/> the factory will create when requested</param>
         /// <param name="name">Registration name</param>
-        /// <param name="factory">Predefined factory delegate</param>
+        /// <param name="factory">Factory method. </param>
         /// <param name="lifetimeManager">The <see cref="FactoryLifetime"/> that controls the lifetime of objects. 
         /// If <paramref name="lifetimeManager"/> is <c>null</c>, container uses default <see cref="TypeLifetime.Transient"/> lifetime</param>
         /// <remarks>
         /// <para>
         /// This method allows registration of factory function for specific <see cref="Type"/>. 
         /// </para>
-        /// <para>
-        /// This registration is very similar to <see cref="RegisterType(Type, Type, string, ITypeLifetimeManager, InjectionMember[])"/>
-        /// except when registered <see cref="Type"/> is requested, instead of creating the <see cref="Type"/>, the container
-        /// invokes registered factory delegate and returns the instance the delegate created.
-        /// </para>
         /// </remarks>
         /// <example>
-        /// This example registers a service factory with transient lifetime. 
+        /// The factory registration. 
         /// <code>
-        /// c.RegisterInstance(typeof(IService),           // Type to register
-        ///                    "Some Service",             // Registration name
-        ///                    (c,t,n) => new Service(),   // Factory
-        ///                    null);                      // Transient
+        /// c.RegisterFactory(typeof(IService), null, (c) => c.Resolve(typeof(object), null) );
         /// </code>
         /// </example>
-        /// <seealso cref="Unity.FactoryLifetime"/>
-        /// <exception cref="InvalidOperationException">If delegate is <c>null</c> method throws</exception>
-        /// <returns>The <see cref="IUnityContainer"/> object that this method was called on.</returns>
-        IUnityContainer RegisterFactory(Type type, string? name, Func<IUnityContainer, Type, string?, object?> factory, IFactoryLifetimeManager? lifetimeManager);
+        /// <seealso cref="FactoryLifetime"/>
+        /// <exception cref="InvalidOperationException">If <paramref name="factory"/> is <c>null</c> method throws</exception>
+        /// <returns>The <see cref="IUnityContainer"/> container.</returns>
+        IUnityContainer RegisterFactory(Type type, string? name, Func<IResolveContext, object?> factory, IFactoryLifetimeManager? lifetimeManager);
 
 
         /// <summary>
