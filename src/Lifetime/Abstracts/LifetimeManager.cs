@@ -112,7 +112,13 @@ namespace Unity.Lifetime
         /// <summary>
         /// Creates a new lifetime manager that is a copy of the current type
         /// </summary>
-        public object Clone() => OnCreateLifetimeManager();
+        object ICloneable.Clone() => OnCreateLifetimeManager();
+
+        /// <summary>
+        /// Creates a new lifetime manager that is a copy of the current type
+        /// </summary>
+        /// <remarks>This overload returns <see cref="LifetimeManager"/> instead of object</remarks>
+        public LifetimeManager Clone() => OnCreateLifetimeManager();
 
         #endregion
 
