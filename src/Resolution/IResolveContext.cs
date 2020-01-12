@@ -1,5 +1,6 @@
 ﻿using System;
 using Unity.Policy;
+using Unity.Lifetime;
 
 namespace Unity.Resolution
 {
@@ -20,7 +21,8 @@ namespace Unity.Resolution
         /// </summary>
         /// <param name="type">Type of requested object</param>
         /// <param name="name">Name of registration</param>
-        /// <returns></returns>
+        /// <exception cref="ResolutionFailedException">Throws if requested object could not be created</exception>
+        /// <returns>Returns resolved object or throws an <see cref="ResolutionFailedException"/> exception</returns>
         object? Resolve(Type type, string? name);
     }
 }
