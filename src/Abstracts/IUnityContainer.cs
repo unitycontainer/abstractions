@@ -151,7 +151,7 @@ namespace Unity
         /// <seealso cref="FactoryLifetime"/>
         /// <exception cref="InvalidOperationException">If <paramref name="factory"/> is <c>null</c> method throws</exception>
         /// <returns>The <see cref="IUnityContainer"/> container.</returns>
-        IUnityContainer RegisterFactory(Type type, string? name, Func<IResolveContext, object?> factory, IFactoryLifetimeManager? lifetimeManager);
+        IUnityContainer RegisterFactory(Type type, string? name, Func<IResolveContext, object?> factory, IFactoryLifetimeManager? lifetimeManager, params InjectionMember[] injectionMembers);
 
 
         /// <summary>
