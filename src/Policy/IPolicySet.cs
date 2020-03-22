@@ -27,10 +27,9 @@ namespace Unity.Policy
 
     public static class PolicySetExtensions
     {
-        public static T Get<T>(this IPolicySet policySet)
+        public static T? Get<T>(this IPolicySet policySet) where T : class
         {
-            var result = policySet.Get(typeof(T));
-            return null == result ? default : (T)result;
+            return (T?)policySet.Get(typeof(T));
         }
 
         public static void Set<T>(this IPolicySet policySet, object policy)

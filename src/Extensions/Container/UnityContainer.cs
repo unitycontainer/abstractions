@@ -926,7 +926,10 @@ namespace Unity
         public static T Resolve<T>(this IUnityContainer container, params ResolverOverride[] overrides)
         {
             var result = (container ?? throw new ArgumentNullException(nameof(container))).Resolve(typeof(T), null, overrides);
+// TODO: Revisit Nullability implementation
+#pragma warning disable CS8603 // Possible null reference return.
             return null == result ? default : (T)result;
+#pragma warning restore CS8603 // Possible null reference return.
         }
 
         /// <summary>
@@ -943,7 +946,10 @@ namespace Unity
         public static T Resolve<T>(this IUnityContainer container, string? name, params ResolverOverride[] overrides)
         {
             var result = (container ?? throw new ArgumentNullException(nameof(container))).Resolve(typeof(T), name, overrides);
+// TODO: Revisit Nullability implementation
+#pragma warning disable CS8603 // Possible null reference return.
             return null == result ? default : (T)result;
+#pragma warning restore CS8603 // Possible null reference return.
         }
 
         /// <summary>
