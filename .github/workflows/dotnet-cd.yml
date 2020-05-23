@@ -29,8 +29,8 @@ jobs:
         TargetFramework: net48
       run: | 
         dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True tests
-        dotnet test ${{ github.workspace }}/tests/bin/Release/${{ env.TargetFramework }}/Unity.Abstractions.Tests.dll
+        dotnet test tests
 
     - name: Publish
       run: |
-        dotnet nuget push '${{ env.PackageOutputPath }}' --source "https://nuget.pkg.github.com/unitycontainer/index.json" --api-key ${{ secrets.GITHUB_TOKEN }}
+        dotnet nuget push '${{ env.PackageOutputPath }}/*' --source "https://nuget.pkg.github.com/unitycontainer/index.json" --api-key ${{ secrets.GITHUB_TOKEN }}
