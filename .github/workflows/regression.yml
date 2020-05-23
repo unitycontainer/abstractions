@@ -21,8 +21,8 @@ jobs:
 
     - name: Build Package
       env:
-        PackageOutputPath: '../package'
-      run: dotnet msbuild -property:Configuration=Release -verbosity:m -t:restore -t:rebuild  src
+        PackageOutputPath: '${{ github.workspace }}/package'
+      run: dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True src
 
       
   # core:
