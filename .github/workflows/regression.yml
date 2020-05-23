@@ -112,6 +112,8 @@ jobs:
         dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True ${{ github.workspace }}/tests/Unity.Abstractions.Tests.csproj
 
     - name: Test
+      env:
+        TargetFramework: netcoreapp3.1
       run: dotnet test ${{ github.workspace }}/tests/bin/Release/netcoreapp3.1/Unity.Abstractions.Tests.dll
 
 
