@@ -103,6 +103,8 @@ jobs:
         #key: ${{ github.sha }}
         key: '7d62d2c7f0c5bf6c3b42bf78556deea4028ea0a2'
 
+    - name: Test
+      run: dir '${{ github.workspace }}/package'
 
     - name: Build Package 1
       env:
