@@ -93,7 +93,7 @@ jobs:
     - name: Install DotNet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '2.2.402'
+        dotnet-version: '2.1.806'
 
     - name: Cache
       id: unity-abstractions
