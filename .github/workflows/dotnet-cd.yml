@@ -21,6 +21,11 @@ jobs:
       with:
         fetch-depth: 0
 
+    # - name: Setup .NET Core
+    #   uses: actions/setup-dotnet@v1
+    #   with:
+    #     source-url: https://nuget.pkg.github.com/<organization>/index.json
+
     - name: Build
       run: | 
         dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True src
@@ -31,5 +36,7 @@ jobs:
         dotnet test tests
 
     - name: Publish
+      env:
+        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       run: |
-        dotnet nuget push '${{ env.PackageOutputPath }}\*' --source "https://nuget.pkg.github.com/unitycontainer/index.json"
+        dotnet nuget push '${{ env.PackageOutputPath }}\*' --source "https://nuget.pkg.github.com/unitycontainer/index.json" --skip-duplicate
