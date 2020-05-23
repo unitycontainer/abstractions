@@ -6,24 +6,24 @@ on:
   [ push ]
 
 jobs:
-  build:
-    runs-on: windows-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+  # build:
+  #   runs-on: windows-latest
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
 
-    - name: Cache
-      id: unity-abstractions
-      uses: actions/cache@v1
-      with:
-        path: '${{ github.workspace }}/package'
-        key: ${{ github.sha }}
+  #   - name: Cache
+  #     id: unity-abstractions
+  #     uses: actions/cache@v1
+  #     with:
+  #       path: '${{ github.workspace }}/package'
+  #       key: ${{ github.sha }}
 
-    - name: Build Package
-      env:
-        PackageVersion: '0.0.0'
-        PackageOutputPath: '${{ github.workspace }}/package'
-      run: dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True src
+  #   - name: Build Package
+  #     env:
+  #       PackageVersion: '0.0.0'
+  #       PackageOutputPath: '${{ github.workspace }}/package'
+  #     run: dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True src
 
       
   # core:
@@ -79,9 +79,8 @@ jobs:
   #   - name: Test
   #     run: echo ${{ matrix.framework }}
 
-
-  core-3_1:
-    needs: [ Build ]
+  core-2_1:
+    #needs: [ Build ]
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest]
@@ -94,15 +93,15 @@ jobs:
     - name: Install DotNet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.202'
+        dotnet-version: '2.2.402'
 
     - name: Cache
       id: unity-abstractions
       uses: actions/cache@v1
       with:
         path: '${{ github.workspace }}/package'
-        key: ${{ github.sha }}
-        #key: 'c2a4fb134528599d042c8c62d833746806729c78'
+        #key: ${{ github.sha }}
+        key: 'da8872b9a41de5546c584f4b10ab60f5702e6191'
 
     - name: Build Package
       env:
@@ -118,7 +117,7 @@ jobs:
       run: dotnet test ${{ github.workspace }}/tests/bin/Release/netcoreapp3.1/Unity.Abstractions.Tests.dll
 
 
-  # netcoreapp2_2:
+  # core-3_1:
   #   needs: [ Build ]
   #   strategy:
   #     matrix:
@@ -126,20 +125,30 @@ jobs:
   #   runs-on:  ${{ matrix.os }}
 
   #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
 
   #   - name: Install DotNet
   #     uses: actions/setup-dotnet@v1
   #     with:
-  #       dotnet-version: '2.2.402'
+  #       dotnet-version: '3.1.202'
 
   #   - name: Cache
-  #     id: unity-test
+  #     id: unity-abstractions
   #     uses: actions/cache@v1
   #     with:
-  #       path: tests
+  #       path: '${{ github.workspace }}/package'
   #       key: ${{ github.sha }}
-  #       key: '0108938b7a2c4922dc09e49b21da0c93ae856e44'
 
+  #   - name: Build Package
+  #     env:
+  #       TargetFramework: netcoreapp3.1
+  #     run: |
+  #       dotnet remove ${{ github.workspace }}/tests/Unity.Abstractions.Tests.csproj reference "..\src\Unity.Abstractions.csproj"
+  #       dotnet add ${{ github.workspace }}/tests/Unity.Abstractions.Tests.csproj package --source '${{ github.workspace }}/package' Unity.Abstractions --version 0.0.0
+  #       dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True ${{ github.workspace }}/tests/Unity.Abstractions.Tests.csproj
 
   #   - name: Test
-  #     run: dotnet test tests/netcoreapp2.1/Unity.Tests.dll --framework netcoreapp2.2
+  #     env:
+  #       TargetFramework: netcoreapp3.1
+  #     run: dotnet test ${{ github.workspace }}/tests/bin/Release/netcoreapp3.1/Unity.Abstractions.Tests.dll
