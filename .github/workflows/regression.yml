@@ -6,23 +6,23 @@ on:
   [ push ]
 
 jobs:
-  # build:
-  #   runs-on: windows-latest
-  #   steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@v2
+  build:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
 
-  #   - name: Cache
-  #     id: unity-abstractions
-  #     uses: actions/cache@v1
-  #     with:
-  #       path: '${{ github.workspace }}/package'
-  #       key: ${{ github.sha }}
+    - name: Cache
+      id: unity-abstractions
+      uses: actions/cache@v1
+      with:
+        path: '${{ github.workspace }}/package'
+        key: ${{ github.sha }}
 
-  #   - name: Build Package
-  #     env:
-  #       PackageOutputPath: '${{ github.workspace }}/package'
-  #     run: dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True src
+    - name: Build Package
+      env:
+        PackageOutputPath: '${{ github.workspace }}/package'
+      run: dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True src
 
       
   # core:
@@ -80,10 +80,10 @@ jobs:
 
 
   core-3_1:
-    # needs: [ Build ]
+    needs: [ Build ]
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [ubuntu-latest]
     runs-on:  ${{ matrix.os }}
 
     steps:
@@ -100,8 +100,8 @@ jobs:
       uses: actions/cache@v1
       with:
         path: '${{ github.workspace }}/package'
-        #key: ${{ github.sha }}
-        key: '39e55701a7fa3c7363175454b2f9c053f598f43a'
+        key: ${{ github.sha }}
+        #key: '39e55701a7fa3c7363175454b2f9c053f598f43a'
 
     - name: Test
       run: dir '${{ github.workspace }}/package'
