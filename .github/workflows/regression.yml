@@ -19,10 +19,10 @@ jobs:
         path: '../package'
         key: ${{ github.sha }}
 
-    # - name: Build Package
-    #   env:
-    #     PackageOutputPath: '../package'
-    #   run: dotnet msbuild -property:Configuration=Release -verbosity:m -t:restore -t:rebuild  tests
+    - name: Build Package
+      env:
+        PackageOutputPath: '../package'
+      run: dotnet msbuild -property:Configuration=Release -verbosity:m -t:restore -t:rebuild  src
 
       
   # core:
