@@ -1,0 +1,131 @@
+name: Regression Tests
+# https://dotnet.microsoft.com/download/dotnet-core
+# https://dotnet.microsoft.com/download/dotnet-framework
+
+on:
+  [ push ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Cache
+      id: unity-abstractions
+      uses: actions/cache@v1
+      with:
+        path: '../package'
+        key: ${{ github.sha }}
+
+    # - name: Build Package
+    #   env:
+    #     PackageOutputPath: '../package'
+    #   run: dotnet msbuild -property:Configuration=Release -verbosity:m -t:restore -t:rebuild  tests
+
+      
+  # core:
+  #   needs: [ Build ]
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       os: [windows-latest, ubuntu-latest]
+  #       framework: ['3.1.202', '2.1.806']
+  #       framework: ['3.1', '2.1']
+  #   runs-on:  ${{ matrix.os }}
+
+  #   steps:
+
+  #   - name: Install DotNet
+  #     if: ${{ matrix.framework == '2.1' }}    
+  #     uses: actions/setup-dotnet@v1
+  #     with:
+  #       dotnet-version: '2.1.806'
+
+  #   - name: Cache
+  #     id: unity-test
+  #     uses: actions/cache@v1
+  #     with:
+  #       path: tests
+  #       key: ${{ github.sha }}
+  #       key: '0108938b7a2c4922dc09e49b21da0c93ae856e44'
+
+  #   - name: Install missing file
+  #     if: ${{ matrix.framework != '3.1' }}    
+  #     run: dotnet add package MSTest.TestFramework --version 2.1.1
+
+
+  #   - name: Test
+  #     run: dotnet test tests/netcoreapp${{ matrix.framework }}/Unity.Tests.dll --framework netcoreapp${{ matrix.framework }}
+
+  # net:
+  #   needs: [ Build ]
+  #   runs-on:  windows-latest
+  #   strategy:
+  #     matrix:
+  #       framework: [net40, 'net461']
+  #   steps:
+
+  #   - name: Download Package
+  #     uses: actions/download-artifact@v2
+  #     with:
+  #       name: Package
+  #       path: package
+
+  #   - run: dir package
+
+  #   - name: Test
+  #     run: echo ${{ matrix.framework }}
+
+
+  # netcoreapp3_1:
+  #   needs: [ Build ]
+  #   strategy:
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest]
+  #   runs-on:  ${{ matrix.os }}
+
+  #   steps:
+
+  #   - name: Install DotNet
+  #     uses: actions/setup-dotnet@v1
+  #     with:
+  #       dotnet-version: '3.1.202'
+
+  #   - name: Cache
+  #     id: unity-test
+  #     uses: actions/cache@v1
+  #     with:
+  #       path: tests
+  #       key: ${{ github.sha }}
+
+  #   - name: Test
+  #     run: dotnet test tests/netcoreapp3.1/Unity.Tests.dll --framework netcoreapp3.1
+
+
+  # netcoreapp2_2:
+  #   needs: [ Build ]
+  #   strategy:
+  #     matrix:
+  #       os: [windows-latest, ubuntu-latest]
+  #   runs-on:  ${{ matrix.os }}
+
+  #   steps:
+
+  #   - name: Install DotNet
+  #     uses: actions/setup-dotnet@v1
+  #     with:
+  #       dotnet-version: '2.2.402'
+
+  #   - name: Cache
+  #     id: unity-test
+  #     uses: actions/cache@v1
+  #     with:
+  #       path: tests
+  #       key: ${{ github.sha }}
+  #       key: '0108938b7a2c4922dc09e49b21da0c93ae856e44'
+
+
+  #   - name: Test
+  #     run: dotnet test tests/netcoreapp2.1/Unity.Tests.dll --framework netcoreapp2.2
