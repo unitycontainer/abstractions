@@ -32,4 +32,4 @@ jobs:
 
     - name: Publish
       run: |
-        dotnet nuget push '${{ env.PackageOutputPath }}\*' --source "https://nuget.pkg.github.com/unitycontainer/index.json" --api-key ${{ secrets.GITHUB_TOKEN }}
+        dotnet nuget push '${{ env.PackageOutputPath }}\*' --source "https://nuget.pkg.github.com/unitycontainer/index.json"
