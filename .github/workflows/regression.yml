@@ -95,6 +95,9 @@ jobs:
       with:
         dotnet-version: '2.1.806'
 
+    - name: Install Nuget
+      uses: nuget/setup-nuget@v1
+
     - name: Cache
       id: unity-abstractions
       uses: actions/cache@v1
