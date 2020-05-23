@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\package.props" />
-
   <PropertyGroup>
     <PackageId>Unity.Abstractions</PackageId>
     <Description>Unity Container Public Abstractions</Description>
