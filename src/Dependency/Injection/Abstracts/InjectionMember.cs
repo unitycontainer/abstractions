@@ -105,7 +105,7 @@ namespace Unity.Injection
 
         #region Equatable
 
-        public virtual bool Equals(TMemberInfo other)
+        public virtual bool Equals(TMemberInfo? other)
         {
             return Selection?.Equals(other) ?? false;
         }

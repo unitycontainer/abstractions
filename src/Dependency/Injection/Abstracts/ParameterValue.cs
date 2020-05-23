@@ -11,7 +11,7 @@ namespace Unity.Injection
     {
         #region IEquatable
 
-        public abstract bool Equals(Type type);
+        public abstract bool Equals(Type? type);
 
         #endregion
     }
