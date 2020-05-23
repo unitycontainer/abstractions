@@ -105,7 +105,7 @@ jobs:
 
     - name: Build Package
       env:
-        TargetFramework: netcoreapp3.1
+        TargetFramework: netcoreapp2.1
       run: |
         dotnet remove ${{ github.workspace }}/tests/Unity.Abstractions.Tests.csproj reference "..\src\Unity.Abstractions.csproj"
         dotnet add ${{ github.workspace }}/tests/Unity.Abstractions.Tests.csproj package --source '${{ github.workspace }}/package' Unity.Abstractions --version 0.0.0
@@ -113,8 +113,8 @@ jobs:
 
     - name: Test
       env:
-        TargetFramework: netcoreapp3.1
-      run: dotnet test ${{ github.workspace }}/tests/bin/Release/netcoreapp3.1/Unity.Abstractions.Tests.dll
+        TargetFramework: netcoreapp2.1
+      run: dotnet test ${{ github.workspace }}/tests/bin/Release/netcoreapp2.1/Unity.Abstractions.Tests.dll
 
 
   # core-3_1:
