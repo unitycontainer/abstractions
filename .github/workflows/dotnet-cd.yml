@@ -5,7 +5,7 @@ on:
     branches: [ develop ]
 
   pull_request:
-    branches: [ master ]
+    branches: [ develop ]
 
 jobs:
 
@@ -31,4 +31,5 @@ jobs:
       run: dotnet test ${{ github.workspace }}/tests/bin/Release/${{ env.TargetFramework }}/Unity.Abstractions.Tests.dll
 
     - name: Publish
-      run: dotnet nuget push '${{ github.workspace }}/package/*' --source "https://nuget.pkg.github.com/OWNER/index.json"
+      run: |
+        dotnet nuget push '${{ github.workspace }}/package/*' --source "https://nuget.pkg.github.com/unitycontainer/index.json" --api-key ${{ secrets.GITHUB_TOKEN }}
