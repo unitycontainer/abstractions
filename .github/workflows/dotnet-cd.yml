@@ -39,4 +39,4 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       run: |
-        dotnet nuget push '${{ env.PackageOutputPath }}\*' --source "https://nuget.pkg.github.com/unitycontainer/index.json" --skip-duplicate
+        dotnet nuget push '${{ env.PackageOutputPath }}\*' --source github --skip-duplicate
