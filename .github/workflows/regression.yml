@@ -25,8 +25,37 @@ jobs:
   #       PackageOutputPath: '${{ github.workspace }}/package'
   #     run: dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True src
      
+  net40:
+    #needs: [ Build ]
+    runs-on:  windows-latest
 
-  net-40:
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Cache
+      id: unity-abstractions
+      uses: actions/cache@v1
+      with:
+        path: '${{ github.workspace }}/package'
+        #key: ${{ github.sha }}
+        key: 'b1e27f844a7ec7fcbed028e5072eae96718db67a'
+
+    - name: Build Package
+      env:
+        TargetFramework: net40
+      run: |
+        dotnet remove ${{ github.workspace }}/tests/Unity.Abstractions.Tests.csproj reference "..\src\Unity.Abstractions.csproj"
+        dotnet add ${{ github.workspace }}/tests/Unity.Abstractions.Tests.csproj package --source '${{ github.workspace }}/package' Unity.Abstractions --version 0.0.0
+        dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True ${{ github.workspace }}/tests/Unity.Abstractions.Tests.csproj
+
+    - name: Test
+      env:
+        TargetFramework: net40
+      run: dotnet test ${{ github.workspace }}/tests/bin/Release/net40/Unity.Abstractions.Tests.dll
+
+
+  framework:
     #needs: [ Build ]
     strategy:
       matrix:
