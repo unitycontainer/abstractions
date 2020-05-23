@@ -101,8 +101,8 @@ jobs:
       uses: actions/cache@v1
       with:
         path: '${{ github.workspace }}/package'
-        #key: ${{ github.sha }}
-        key: 'c2a4fb134528599d042c8c62d833746806729c78'
+        key: ${{ github.sha }}
+        #key: 'c2a4fb134528599d042c8c62d833746806729c78'
 
     - name: Build Package
       env:
