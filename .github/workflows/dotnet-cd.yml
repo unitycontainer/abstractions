@@ -29,3 +29,6 @@ jobs:
 
     - name: Test
       run: dotnet test ${{ github.workspace }}/tests/bin/Release/${{ env.TargetFramework }}/Unity.Abstractions.Tests.dll
+
+    - name: Publish
+      run: dotnet nuget push '${{ github.workspace }}/package/*'  --source "github"
