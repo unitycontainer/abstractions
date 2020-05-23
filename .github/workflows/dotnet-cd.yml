@@ -11,10 +11,6 @@ jobs:
 
   build:
 
-    # strategy:
-    #   matrix:
-    #     configuration: [Debug, Release]
-
     runs-on: windows-latest
     env:
       PackageOutputPath: '${{ github.workspace }}/package'
