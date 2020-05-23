@@ -85,7 +85,7 @@ jobs:
     #needs: [ Build ]
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [windows-latest]
     runs-on:  ${{ matrix.os }}
 
     steps:
@@ -95,7 +95,7 @@ jobs:
     - name: Install DotNet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 'SDK 1.1.13'
+        dotnet-version: 'SDK 1.1.14'
 
     - name: Install Nuget
       uses: nuget/setup-nuget@v1
