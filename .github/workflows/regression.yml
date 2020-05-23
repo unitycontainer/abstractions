@@ -112,7 +112,7 @@ jobs:
     - name: Build Package 2
       env:
         TargetFramework: netcoreapp3.1
-      run: dotnet add tests/Unity.Abstractions.Tests.csproj package --source "./package" Unity.Abstractions --version 5.11.5
+      run: dotnet add tests/Unity.Abstractions.Tests.csproj package --source '${{ github.workspace }}/package' Unity.Abstractions --version 5.11.5
 
     - name: Build Package 3
       env:
