@@ -11,10 +11,10 @@ jobs:
 
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
       PackageOutputPath: '${{ github.workspace }}/package'
-      TargetFramework: net461
+      TargetFramework: net48
 
     steps:
     - name: Checkout
