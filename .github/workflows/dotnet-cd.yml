@@ -23,12 +23,12 @@ jobs:
         fetch-depth: 0
 
     - name: Build
-      run: | 
-        dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True src
-        dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True tests
+      run: dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True src
 
     - name: Test
-      run: dotnet test ${{ github.workspace }}/tests/bin/Release/${{ env.TargetFramework }}/Unity.Abstractions.Tests.dll
+      run: | 
+        dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True tests
+        dotnet test ${{ github.workspace }}/tests/bin/Release/${{ env.TargetFramework }}/Unity.Abstractions.Tests.dll
 
     - name: Publish
       run: |
