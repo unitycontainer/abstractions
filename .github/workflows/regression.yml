@@ -118,7 +118,7 @@ jobs:
     - name: Test
       env:
         TargetFramework: netcoreapp2.1
-      run: dotnet test ${{ github.workspace }}/tests/bin/Release/netcoreapp2.1/Unity.Abstractions.Tests.dll
+      run: dotnet vstest ${{ github.workspace }}/tests/bin/Release/netcoreapp2.1/Unity.Abstractions.Tests.dll
 
 
   # core-3_1:
