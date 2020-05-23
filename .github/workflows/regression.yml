@@ -107,17 +107,17 @@ jobs:
     - name: Build Package 1
       env:
         TargetFramework: netcoreapp3.1
-      run: dotnet remove tests\Unity.Abstractions.Tests.csproj reference "..\src\Unity.Abstractions.csproj"
+      run: dotnet remove tests/Unity.Abstractions.Tests.csproj reference "..\src\Unity.Abstractions.csproj"
 
     - name: Build Package 2
       env:
         TargetFramework: netcoreapp3.1
-      run: dotnet add tests\Unity.Abstractions.Tests.csproj package --source "./package" Unity.Abstractions --version 5.11.5
+      run: dotnet add tests/Unity.Abstractions.Tests.csproj package --source "./package" Unity.Abstractions --version 5.11.5
 
     - name: Build Package 3
       env:
         TargetFramework: netcoreapp3.1
-      run: dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True tests\Unity.Abstractions.Tests.csproj
+      run: dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True tests/Unity.Abstractions.Tests.csproj
 
     - name: Test
       run: dotnet test tests/netcoreapp3.1/Unity.Tests.dll
