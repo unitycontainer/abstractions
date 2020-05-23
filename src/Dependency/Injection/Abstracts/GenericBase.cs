@@ -72,7 +72,7 @@ namespace Unity.Injection
 
         #region  Overrides
 
-        public override bool Equals(Type type)
+        public override bool Equals(Type? type)
         {
             var t = type ?? throw new ArgumentNullException(nameof(type));
             if (!_isArray)

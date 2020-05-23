@@ -39,7 +39,7 @@ namespace Unity.Injection
 
 #if NETSTANDARD1_0
 
-        public override bool Equals(MethodInfo other)
+        public override bool Equals(MethodInfo? other)
         {
             if (null == other || other.Name != Name) return false;
 

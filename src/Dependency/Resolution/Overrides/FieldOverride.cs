@@ -57,7 +57,7 @@ namespace Unity.Resolution
             }
         }
 
-        public bool Equals(FieldInfo other)
+        public bool Equals(FieldInfo? other)
         {
             return null != other && 
                   (null == Target || other.DeclaringType == Target) &&

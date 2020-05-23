@@ -44,16 +44,16 @@ namespace Unity.Injection
 
         #region Overrides
 
-        public override bool Equals(Type t)
+        public override bool Equals(Type? type)
         {
             if (null == _type) return true;
 
-            var cInfo = (t ?? throw new ArgumentNullException(nameof(t))).GetTypeInfo();
+            var cInfo = (type ?? throw new ArgumentNullException(nameof(type))).GetTypeInfo();
             var info = _type.GetTypeInfo();
 
             if (cInfo.IsGenericType && cInfo.ContainsGenericParameters && info.IsGenericType && info.ContainsGenericParameters)
             {
-                return t.GetGenericTypeDefinition() == _type.GetGenericTypeDefinition();
+                return type.GetGenericTypeDefinition() == _type.GetGenericTypeDefinition();
             }
 
             return cInfo.IsAssignableFrom(info);

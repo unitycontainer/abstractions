@@ -51,7 +51,7 @@ namespace Unity.Injection
         /// </summary>
         public override string ParameterTypeName => base.ParameterTypeName + "[]";
 
-        public override bool Equals(Type type)
+        public override bool Equals(Type? type)
         {
             var t = type ?? throw new ArgumentNullException(nameof(type));
 
