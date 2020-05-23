@@ -38,6 +38,10 @@ jobs:
         PackageOutputPath: '${{ github.workspace }}/package'
       run: dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True src
 
+
+  # TODO: add net40
+
+
   net:
     needs: [ Build ]
     strategy:
