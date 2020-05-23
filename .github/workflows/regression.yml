@@ -4,11 +4,6 @@ name: Regression Tests
 
 on:
   push:
-    branches:
-      - master
-      - develop
-      - release/*
-      - hotfix/*
     paths:
       - 'src/*'
       - 'test/*'
