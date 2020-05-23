@@ -83,7 +83,7 @@ jobs:
     # needs: [ Build ]
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [windows-latest]
     runs-on:  ${{ matrix.os }}
 
     steps:
