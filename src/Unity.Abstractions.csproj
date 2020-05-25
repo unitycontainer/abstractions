@@ -61,12 +61,6 @@
     <DebugType>Full</DebugType>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
-    <PackageReference Include="System.Threading.Tasks.Extensions">
-      <Version>4.5.3</Version>
-    </PackageReference>
-  </ItemGroup>
-
   <!-- Sourcelink -->
   <PropertyGroup>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -85,6 +79,8 @@
     </PropertyGroup>
   </Target>
 
+  <!-- References -->
+
   <ItemGroup>
     <PackageReference Include="GitVersionTask" Version="5.3.4">
       <PrivateAssets>all</PrivateAssets>
@@ -96,4 +92,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
+    <PackageReference Include="System.Threading.Tasks.Extensions">
+      <Version>4.5.3</Version>
+    </PackageReference>
+  </ItemGroup>
+  
 </Project>
