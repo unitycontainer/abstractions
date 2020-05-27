@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Unity.Lifetime.Tests
+namespace Lifetime.Managers
 {
     [TestClass]
     public class TypeLifetime
