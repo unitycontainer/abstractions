@@ -23,18 +23,18 @@ namespace Lifetime.Managers
             new Thread(delegate ()
             {
                 // Enter the lock
-                _ = LifetimeManager.GetValue(LifetimeContainer);
+                _ = TestManager.GetValue(LifetimeContainer);
                 semaphor.Set();
 
                 Thread.Sleep(100);
 
                 // Act
-                LifetimeManager.SetValue(TestObject, LifetimeContainer);
+                TestManager.SetValue(TestObject, LifetimeContainer);
             }).Start();
 
             semaphor.WaitOne();
             SynchronizedLifetimeManager.ResolveTimeout = Timeout.Infinite;
-            var value = LifetimeManager.GetValue(LifetimeContainer);
+            var value = TestManager.GetValue(LifetimeContainer);
 
             Assert.AreSame(TestObject, value);
         }
@@ -47,18 +47,18 @@ namespace Lifetime.Managers
             new Thread(delegate ()
             {
                 // Enter the lock
-                _ = LifetimeManager.GetValue(LifetimeContainer);
+                _ = TestManager.GetValue(LifetimeContainer);
 
                 semaphor.Set();
                 Thread.Sleep(100);
 
                 // Act
-                LifetimeManager.SetValue(TestObject, LifetimeContainer);
+                TestManager.SetValue(TestObject, LifetimeContainer);
             }).Start();
 
             semaphor.WaitOne();
             SynchronizedLifetimeManager.ResolveTimeout = Timeout.Infinite;
-            var value = LifetimeManager.TryGetValue(LifetimeContainer);
+            var value = TestManager.TryGetValue(LifetimeContainer);
 
             Assert.AreSame(LifetimeManager.NoValue, value);
         }
@@ -72,18 +72,18 @@ namespace Lifetime.Managers
             new Thread(delegate ()
             {
                 // Enter the lock
-                _ = LifetimeManager.GetValue(LifetimeContainer);
+                _ = TestManager.GetValue(LifetimeContainer);
                 semaphor.Set();
 
                 Thread.Sleep(100);
 
                 // Act
-                LifetimeManager.SetValue(TestObject, LifetimeContainer);
+                TestManager.SetValue(TestObject, LifetimeContainer);
             }).Start();
 
             semaphor.WaitOne();
             SynchronizedLifetimeManager.ResolveTimeout = 10;
-            var value = LifetimeManager.GetValue(LifetimeContainer);
+            var value = TestManager.GetValue(LifetimeContainer);
         }
 
         [TestMethod]
@@ -95,15 +95,15 @@ namespace Lifetime.Managers
 
             Thread thread1 = new Thread(delegate ()
             {
-                value1 = LifetimeManager.GetValue(LifetimeContainer);
-                ((SynchronizedLifetimeManager)LifetimeManager).Recover();
+                value1 = TestManager.GetValue(LifetimeContainer);
+                ((SynchronizedLifetimeManager)TestManager).Recover();
             });
 
             Thread thread2 = new Thread(delegate ()
             {
-                value2 = LifetimeManager.GetValue(LifetimeContainer);
-                LifetimeManager.SetValue(TestObject, LifetimeContainer);
-                value3 = LifetimeManager.GetValue(LifetimeContainer);
+                value2 = TestManager.GetValue(LifetimeContainer);
+                TestManager.SetValue(TestObject, LifetimeContainer);
+                value3 = TestManager.GetValue(LifetimeContainer);
             });
 
             thread1.Start();
@@ -125,14 +125,14 @@ namespace Lifetime.Managers
 
             Thread thread1 = new Thread(delegate ()
             {
-                ((SynchronizedLifetimeManager)LifetimeManager).Recover();
+                ((SynchronizedLifetimeManager)TestManager).Recover();
             });
 
             Thread thread2 = new Thread(delegate ()
             {
-                value1 = LifetimeManager.GetValue(LifetimeContainer);
-                LifetimeManager.SetValue(TestObject, LifetimeContainer);
-                value2 = LifetimeManager.GetValue(LifetimeContainer);
+                value1 = TestManager.GetValue(LifetimeContainer);
+                TestManager.SetValue(TestObject, LifetimeContainer);
+                value2 = TestManager.GetValue(LifetimeContainer);
             });
 
             thread1.Start();
@@ -145,27 +145,13 @@ namespace Lifetime.Managers
             Assert.AreSame(TestObject, value2);
         }
 
-        [Ignore]
-        [TestMethod]
-        public virtual void AddsDisposableToContainerTest()
-        {
-            // Arrange
-            Assert.AreEqual(0, LifetimeContainer.Count);
-
-            // Act
-            LifetimeManager.SetValue(TestObject, LifetimeContainer);
-
-            // Validate
-            Assert.AreEqual(1, LifetimeContainer.Count);
-        }
-
         [TestMethod]
         public virtual void IsDisposedTest()
         {
             // Arrange
-            LifetimeManager.SetValue(TestObject, LifetimeContainer);
+            TestManager.SetValue(TestObject, LifetimeContainer);
 
-            var manager    = LifetimeManager as IDisposable;
+            var manager    = TestManager as IDisposable;
             var disposable = TestObject as FakeDisposable;
 
             Assert.IsNotNull(disposable);
@@ -180,7 +166,7 @@ namespace Lifetime.Managers
         [TestMethod]
         public virtual void DisposedUnInitializedTest()
         {
-            var manager = LifetimeManager as IDisposable;
+            var manager = TestManager as IDisposable;
             Assert.IsNotNull(manager);
 
             // Act

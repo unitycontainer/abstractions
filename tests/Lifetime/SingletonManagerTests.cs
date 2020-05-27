@@ -15,8 +15,8 @@ namespace Lifetime.Managers
             base.TryGetSetOtherContainerTest();
 
             // Validate
-            Assert.AreSame(TestObject, LifetimeManager.TryGetValue(OtherContainer));
-            Assert.AreSame(TestObject, LifetimeManager.GetValue(OtherContainer));
+            Assert.AreSame(TestObject, TestManager.TryGetValue(OtherContainer));
+            Assert.AreSame(TestObject, TestManager.GetValue(OtherContainer));
         }
 
         [TestMethod]

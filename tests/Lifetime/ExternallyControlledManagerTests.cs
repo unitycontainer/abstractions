@@ -15,8 +15,8 @@ namespace Lifetime.Managers
             base.TryGetSetOtherContainerTest();
 
             // Validate
-            Assert.AreSame(TestObject, LifetimeManager.TryGetValue(OtherContainer));
-            Assert.AreSame(TestObject, LifetimeManager.GetValue(OtherContainer));
+            Assert.AreSame(TestObject, TestManager.TryGetValue(OtherContainer));
+            Assert.AreSame(TestObject, TestManager.GetValue(OtherContainer));
         }
 
         [TestMethod]
@@ -35,9 +35,9 @@ namespace Lifetime.Managers
         public override void IsDisposedTest()
         {
             // Arrange
-            LifetimeManager.SetValue(TestObject, LifetimeContainer);
+            TestManager.SetValue(TestObject, LifetimeContainer);
 
-            var manager = LifetimeManager as IDisposable;
+            var manager = TestManager as IDisposable;
             var disposable = TestObject as FakeDisposable;
 
             Assert.IsNotNull(disposable);

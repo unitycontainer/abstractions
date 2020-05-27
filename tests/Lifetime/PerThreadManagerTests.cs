@@ -27,25 +27,25 @@ namespace Lifetime.Managers
         {
             Thread thread1 = new Thread(delegate ()
             {
-                Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.TryGetValue(LifetimeContainer));
+                Assert.AreSame(LifetimeManager.NoValue, TestManager.TryGetValue(LifetimeContainer));
 
                 // Act
-                LifetimeManager.SetValue(TestObject1, LifetimeContainer);
+                TestManager.SetValue(TestObject1, LifetimeContainer);
 
                 // Validate
-                Assert.AreSame(TestObject1, LifetimeManager.TryGetValue(LifetimeContainer));
+                Assert.AreSame(TestObject1, TestManager.TryGetValue(LifetimeContainer));
             })
             { Name = "1" };
 
             Thread thread2 = new Thread(delegate ()
             {
-                Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.TryGetValue(LifetimeContainer));
+                Assert.AreSame(LifetimeManager.NoValue, TestManager.TryGetValue(LifetimeContainer));
 
                 // Act
-                LifetimeManager.SetValue(TestObject2, LifetimeContainer);
+                TestManager.SetValue(TestObject2, LifetimeContainer);
 
                 // Validate
-                Assert.AreSame(TestObject2, LifetimeManager.TryGetValue(LifetimeContainer));
+                Assert.AreSame(TestObject2, TestManager.TryGetValue(LifetimeContainer));
             })
             { Name = "2" };
 
@@ -63,25 +63,25 @@ namespace Lifetime.Managers
         {
             Thread thread1 = new Thread(delegate ()
             {
-                Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.GetValue(LifetimeContainer));
+                Assert.AreSame(LifetimeManager.NoValue, TestManager.GetValue(LifetimeContainer));
 
                 // Act
-                LifetimeManager.SetValue(TestObject1, LifetimeContainer);
+                TestManager.SetValue(TestObject1, LifetimeContainer);
 
                 // Validate
-                Assert.AreSame(TestObject1, LifetimeManager.GetValue(LifetimeContainer));
+                Assert.AreSame(TestObject1, TestManager.GetValue(LifetimeContainer));
             })
             { Name = "1" };
 
             Thread thread2 = new Thread(delegate ()
             {
-                Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.GetValue(LifetimeContainer));
+                Assert.AreSame(LifetimeManager.NoValue, TestManager.GetValue(LifetimeContainer));
 
                 // Act
-                LifetimeManager.SetValue(TestObject2, LifetimeContainer);
+                TestManager.SetValue(TestObject2, LifetimeContainer);
 
                 // Validate
-                Assert.AreSame(TestObject2, LifetimeManager.GetValue(LifetimeContainer));
+                Assert.AreSame(TestObject2, TestManager.GetValue(LifetimeContainer));
             })
             { Name = "2" };
 
@@ -106,18 +106,18 @@ namespace Lifetime.Managers
 
             Thread thread1 = new Thread(delegate ()
             {
-                value1 = LifetimeManager.TryGetValue(LifetimeContainer);
-                value2 = LifetimeManager.GetValue(LifetimeContainer);
+                value1 = TestManager.TryGetValue(LifetimeContainer);
+                value2 = TestManager.GetValue(LifetimeContainer);
 
                 // Act
-                LifetimeManager.SetValue(TestObject1, LifetimeContainer);
+                TestManager.SetValue(TestObject1, LifetimeContainer);
 
                 // Validate
-                value3 = LifetimeManager.TryGetValue(LifetimeContainer);
-                value4 = LifetimeManager.GetValue(LifetimeContainer);
+                value3 = TestManager.TryGetValue(LifetimeContainer);
+                value4 = TestManager.GetValue(LifetimeContainer);
 
-                value5 = LifetimeManager.TryGetValue(OtherContainer);
-                value6 = LifetimeManager.GetValue(OtherContainer);
+                value5 = TestManager.TryGetValue(OtherContainer);
+                value6 = TestManager.GetValue(OtherContainer);
             });
 
             thread1.Start();
@@ -137,23 +137,23 @@ namespace Lifetime.Managers
         [TestMethod]
         public override void ValuesFromDifferentThreads()
         {
-            LifetimeManager.SetValue(TestObject, LifetimeContainer);
+            TestManager.SetValue(TestObject, LifetimeContainer);
 
             object value1 = null;
             object value2 = null;
 
             Thread thread1 = new Thread(delegate ()
             {
-                value1 = LifetimeManager.TryGetValue(LifetimeContainer);
-                value2 = LifetimeManager.GetValue(LifetimeContainer);
+                value1 = TestManager.TryGetValue(LifetimeContainer);
+                value2 = TestManager.GetValue(LifetimeContainer);
 
             });
 
             thread1.Start();
             thread1.Join();
 
-            Assert.AreSame(TestObject, LifetimeManager.TryGetValue(LifetimeContainer));
-            Assert.AreSame(TestObject, LifetimeManager.GetValue(LifetimeContainer));
+            Assert.AreSame(TestObject, TestManager.TryGetValue(LifetimeContainer));
+            Assert.AreSame(TestObject, TestManager.GetValue(LifetimeContainer));
 
             Assert.AreSame(LifetimeManager.NoValue, value1);
             Assert.AreSame(LifetimeManager.NoValue, value2);

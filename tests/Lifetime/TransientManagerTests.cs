@@ -12,84 +12,84 @@ namespace Lifetime.Managers
         [TestMethod]
         public override void InUseTest()
         {
-            Assert.IsFalse(LifetimeManager.InUse);
+            Assert.IsFalse(TestManager.InUse);
 
-            LifetimeManager.InUse = true;
+            TestManager.InUse = true;
 
-            Assert.IsFalse(LifetimeManager.InUse);
+            Assert.IsFalse(TestManager.InUse);
         }
 
         [TestMethod]
         public override void TryGetValueTest()
         {
             // Validate
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.TryGetValue(LifetimeContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.TryGetValue(LifetimeContainer));
 
             // Act
-            LifetimeManager.SetValue(TestObject, LifetimeContainer);
+            TestManager.SetValue(TestObject, LifetimeContainer);
 
             // Validate
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.TryGetValue(LifetimeContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.TryGetValue(LifetimeContainer));
         }
 
         [TestMethod]
         public override void GetValueTest()
         {
             // Validate
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.GetValue(LifetimeContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.GetValue(LifetimeContainer));
 
             // Act
-            LifetimeManager.SetValue(TestObject, LifetimeContainer);
+            TestManager.SetValue(TestObject, LifetimeContainer);
 
             // Validate
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.GetValue(LifetimeContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.GetValue(LifetimeContainer));
         }
 
         [TestMethod]
         public override void TryGetSetNoContainerTest()
         {
             // Validate
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.TryGetValue());
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.GetValue());
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.TryGetValue());
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.GetValue());
 
             // Act
-            LifetimeManager.SetValue(TestObject);
+            TestManager.SetValue(TestObject);
 
             // Validate
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.TryGetValue());
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.GetValue());
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.TryGetValue());
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.GetValue());
         }
 
         [TestMethod]
         public override void TryGetSetOtherContainerTest()
         {
             // Validate
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.TryGetValue(LifetimeContainer));
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.GetValue(LifetimeContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.TryGetValue(LifetimeContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.GetValue(LifetimeContainer));
 
             // Act
-            LifetimeManager.SetValue(TestObject, LifetimeContainer);
+            TestManager.SetValue(TestObject, LifetimeContainer);
 
             // Validate
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.TryGetValue(LifetimeContainer));
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.GetValue(LifetimeContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.TryGetValue(LifetimeContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.GetValue(LifetimeContainer));
 
             // Validate
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.TryGetValue(OtherContainer));
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.GetValue(OtherContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.TryGetValue(OtherContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.GetValue(OtherContainer));
 
             // Act
-            LifetimeManager.SetValue(TestObject, OtherContainer);
+            TestManager.SetValue(TestObject, OtherContainer);
 
             // Validate
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.TryGetValue(LifetimeContainer));
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.GetValue(LifetimeContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.TryGetValue(LifetimeContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.GetValue(LifetimeContainer));
         }
 
         [TestMethod]
         public override void ValuesFromDifferentThreads()
         {
-            LifetimeManager.SetValue(TestObject, LifetimeContainer);
+            TestManager.SetValue(TestObject, LifetimeContainer);
 
             object value1 = null;
             object value2 = null;
@@ -98,16 +98,16 @@ namespace Lifetime.Managers
 
             Thread thread1 = new Thread(delegate ()
             {
-                value1 = LifetimeManager.TryGetValue(LifetimeContainer);
-                value2 = LifetimeManager.GetValue(LifetimeContainer);
+                value1 = TestManager.TryGetValue(LifetimeContainer);
+                value2 = TestManager.GetValue(LifetimeContainer);
 
             })
             { Name = "1" };
 
             Thread thread2 = new Thread(delegate ()
             {
-                value3 = LifetimeManager.TryGetValue(LifetimeContainer);
-                value4 = LifetimeManager.GetValue(LifetimeContainer);
+                value3 = TestManager.TryGetValue(LifetimeContainer);
+                value4 = TestManager.GetValue(LifetimeContainer);
             })
             { Name = "2" };
 
@@ -117,8 +117,8 @@ namespace Lifetime.Managers
             thread2.Join();
             thread1.Join();
 
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.TryGetValue(LifetimeContainer));
-            Assert.AreSame(LifetimeManager.NoValue, LifetimeManager.GetValue(LifetimeContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.TryGetValue(LifetimeContainer));
+            Assert.AreSame(LifetimeManager.NoValue, TestManager.GetValue(LifetimeContainer));
 
             Assert.AreSame(LifetimeManager.NoValue, value1);
             Assert.AreSame(LifetimeManager.NoValue, value2);
