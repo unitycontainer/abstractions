@@ -35,23 +35,13 @@ namespace Lifetime.Managers
         #region   LifetimeManager Members
 
         [TestMethod]
-        public virtual void CreateLifetimePolicyTest()
+        public virtual void CloneTest()
         {
             // Act
-            var clone = TestManager.CreateLifetimePolicy();
+            var clone = TestManager.Clone();
 
             // Validate
             Assert.IsInstanceOfType(clone, TestManager.GetType());
-        }
-
-        [TestMethod]
-        public virtual void InUseTest()
-        {
-            Assert.IsFalse(TestManager.InUse);
-
-            TestManager.InUse = true;
-
-            Assert.IsTrue(TestManager.InUse);
         }
 
         [TestMethod]
