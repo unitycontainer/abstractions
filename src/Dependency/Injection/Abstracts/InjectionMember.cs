@@ -49,7 +49,7 @@ namespace Unity.Injection
         /// </summary>
         /// <param name="debug">Indicates if member is rendered in Debug mode</param>
         /// <returns>String representation on the member</returns>
-        protected abstract string ToString(bool debug = false);
+        protected virtual string ToString(bool debug = false) => base.ToString();
     }
 
     [DebuggerDisplay("{ToString(true)}")]
