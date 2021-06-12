@@ -23,4 +23,4 @@ If your project depends on [Unity container](https://github.com/unitycontainer) 
 
 **[Become contributor to Unity project](https://opencollective.com/unity-container)**
 
-[...continue to main](https://github.com/unitycontainer/container/tree/master)
+[...continue to master](https://github.com/unitycontainer/abstractions)
