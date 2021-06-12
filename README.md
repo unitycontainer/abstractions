@@ -23,4 +23,4 @@ If your project depends on [Unity container](https://github.com/unitycontainer) 
 
 **[Become contributor to Unity project](https://opencollective.com/unity-container)**
 
-[...continue to site](#main)
+[...continue to main](../master/README.md)
