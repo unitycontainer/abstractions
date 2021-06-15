@@ -4,45 +4,55 @@ on:
   push:
     branches:
       - 'release/**'    
+    # paths:
+    #   - 'src/*'
 
 jobs:
 
   build:
     runs-on: windows-latest
     env:
-      PackagePath: '${{ github.workspace }}\package'
-      ProjectPath:  '${{ github.workspace }}\src\Unity.Abstractions.csproj'
-      TestsPath:       '${{ github.workspace }}\tests\Unity.Abstractions.Tests.csproj'
+      PackageName:       'Unity.Abstractions'
+      PackageOutputPath: '${{ github.workspace }}\package'
 
     steps:
 
-    - name: Checkout Container
+    - name: Checkout
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
 
     - name: Label Fixed Issues
       uses: gh-bot/fix-labeler@master        
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.7
       with:
-        path: Container
+        versionSpec: '5.x'
 
-    - name: Setup local NuGet source
-      run: dotnet nuget add source "https://nuget.pkg.github.com/unitycontainer/index.json" -n github -u unitycontainer -p ${{secrets.GITHUB_TOKEN}} --store-password-in-clear-text
-
-    - name: Add GitVersion and SourceLink packages
-      run: | 
-        dotnet add ${{ env.ProjectPath }} package GitVersionTask --no-restore
-        dotnet add ${{ env.ProjectPath }} package Microsoft.SourceLink.GitHub
+    - name: Determine Version
+      id:   gitversion
+      uses: gittools/actions/gitversion/execute@v0.9.7
 
     - name: Build
+      env:
+        Version: '${{ steps.gitversion.outputs.fullSemVer }}'
       run: | 
-        dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True ${{ env.ProjectPath }}
-      #  dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True ${{ env.TestsPath }}
+        dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True ${{ github.workspace }}\src\${{ env.PackageName }}.csproj
+        dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True ${{ github.workspace }}\tests\${{ env.PackageName }}.Tests.csproj
 
-    # - name: Test
-    #   run: | 
-    #     dotnet test ${{ env.TestsPath }}
+    - name: Test
+      run: | 
+        dotnet test ${{ github.workspace }}\tests\${{ env.PackageName }}.Tests.csproj
 
     - name: Publish Local Package
       run: |
-        dotnet nuget push '${{ env.PackagePath }}\*' --skip-duplicate --source github
+        dotnet nuget add source "https://nuget.pkg.github.com/unitycontainer/index.json" -n github -u unitycontainer -p ${{secrets.GITHUB_TOKEN}} --store-password-in-clear-text
+        dotnet nuget push '${{ env.PackageOutputPath }}\*' --source github
+
+    # - uses: actions/delete-package-versions@v1
+    #   name: Remove old packages
+    #   with:
+    #     package-name: ${{ env.PackageName }}
+    #     num-old-versions-to-delete: 1
+    #     token: ${{ secrets.GITHUB_TOKEN }}
