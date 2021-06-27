@@ -30,12 +30,12 @@ jobs:
       with:
         versionSpec: '5.x'
 
-    - name: Determine Version
+    - name: Git Version
       id:   gitversion
       uses: gittools/actions/gitversion/execute@v0.9.7
       with:
         useConfigFile: true
-        configFilePath: ../gitversion.yml
+        configFilePath: ${{ github.workspace }}\.github\${{ github.workspace }}\gitversion.yml
 
     - name: Build
       env:
