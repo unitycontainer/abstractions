@@ -48,10 +48,8 @@ namespace Unity.Lifetime
 
         #region Overrides
 
-        protected override LifetimeManager OnCreateLifetimeManager()
-        {
-            return new ExternallyControlledLifetimeManager();
-        }
+        protected override LifetimeManager OnCreateLifetimeManager() 
+            => new ExternallyControlledLifetimeManager();
 
         public override string ToString() => "Lifetime:External";
 

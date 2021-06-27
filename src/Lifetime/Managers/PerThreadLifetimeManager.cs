@@ -54,12 +54,8 @@ namespace Unity.Lifetime
         }
 
         /// <inheritdoc/>
-        protected override LifetimeManager OnCreateLifetimeManager()
-        {
-            return new PerThreadLifetimeManager();
-        }
-
-
+        protected override LifetimeManager OnCreateLifetimeManager() 
+            => new PerThreadLifetimeManager();
 
         /// <summary>
         /// This method provides human readable representation of the lifetime

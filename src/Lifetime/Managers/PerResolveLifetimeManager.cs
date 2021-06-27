@@ -26,10 +26,8 @@
         }
 
         /// <inheritdoc/>
-        protected override LifetimeManager OnCreateLifetimeManager()
-        {
-            return new PerResolveLifetimeManager();
-        }
+        protected override LifetimeManager OnCreateLifetimeManager() 
+            => new PerResolveLifetimeManager();
 
         /// <summary>
         /// This method provides human readable representation of the lifetime

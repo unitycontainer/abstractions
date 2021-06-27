@@ -19,7 +19,8 @@ namespace Unity.Lifetime
         }
 
         /// <inheritdoc/>
-        protected override LifetimeManager OnCreateLifetimeManager() => this;
+        protected override LifetimeManager OnCreateLifetimeManager() 
+            => new ContainerControlledTransientManager();
 
         /// <inheritdoc/>
         public override bool InUse

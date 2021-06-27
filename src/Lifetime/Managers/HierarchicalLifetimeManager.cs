@@ -67,10 +67,8 @@ namespace Unity.Lifetime
         }
 
         /// <inheritdoc/>
-        protected override LifetimeManager OnCreateLifetimeManager()
-        {
-            return new HierarchicalLifetimeManager();
-        }
+        protected override LifetimeManager OnCreateLifetimeManager() 
+            => new HierarchicalLifetimeManager();
 
         /// <summary>
         /// This method provides human readable representation of the lifetime
