@@ -35,7 +35,7 @@ jobs:
       uses: gittools/actions/gitversion/execute@v0.9.7
       with:
         useConfigFile: true
-        configFilePath: ${{ github.workspace }}\.github\gitversion.yml
+        # configFilePath: ${{ github.workspace }}\.github\gitversion.yml
 
     - name: Build
       env:
