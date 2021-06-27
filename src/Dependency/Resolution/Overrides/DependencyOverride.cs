@@ -22,30 +22,51 @@ namespace Unity.Resolution
 
         /// <summary>
         /// Create an instance of <see cref="DependencyOverride"/> to override
-        /// the given type with the given value.
+        /// the given contract type with the given value.
         /// </summary>
-        /// <param name="typeToConstruct">Type of the dependency.</param>
-        /// <param name="dependencyValue">InjectionParameterValue to use.</param>
-        public DependencyOverride(Type typeToConstruct, object dependencyValue)
-            : base(null, typeToConstruct, null)
-        {
-            Value = dependencyValue;
-        }
-
-        public DependencyOverride(string name, object dependencyValue)
-            : base(null, null, name)
-        {
-            Value = dependencyValue;
-        }
-
-        public DependencyOverride(Type type, string name, object value)
-            : base(null, type, name)
+        /// <param name="contractType">Type to override</param>
+        /// <param name="value">Value to override with</param>
+        public DependencyOverride(Type contractType, object value)
+            : base(null, contractType, null)
         {
             Value = value;
         }
 
-        public DependencyOverride(Type target, Type type, string name, object value)
-            : base(target, type, name)
+        /// <summary>
+        /// Create an instance of <see cref="DependencyOverride"/> to override
+        /// dependencies matching the given name
+        /// </summary>
+        /// <param name="contractName">Name of the registration</param>
+        /// <param name="value">Value to override with</param>
+        public DependencyOverride(string contractName, object value)
+            : base(null, null, contractName)
+        {
+            Value = value;
+        }
+
+        /// <summary>
+        /// Create an instance of <see cref="DependencyOverride"/> to override
+        /// dependencies matching the given type and a name
+        /// </summary>
+        /// <param name="contractName">Name of the registration</param>
+        /// <param name="contractType">Type of the registration</param>
+        /// <param name="value">Value to override with</param>
+        public DependencyOverride(Type contractType, string contractName, object value)
+            : base(null, contractType, contractName)
+        {
+            Value = value;
+        }
+
+        /// <summary>
+        /// Create an instance of <see cref="DependencyOverride"/> to override
+        /// dependency on specific type matching the given type and a name
+        /// </summary>
+        /// <param name="targetType">Target <see cref="Type"/> to override dependency on</param>
+        /// <param name="contractName">Name of the registration</param>
+        /// <param name="contractType">Type of the registration</param>
+        /// <param name="value">Value to override with</param>
+        public DependencyOverride(Type targetType, Type contractType, string contractName, object value)
+            : base(targetType, contractType, contractName)
         {
             Value = value;
         }
@@ -113,11 +134,47 @@ namespace Unity.Resolution
     public class DependencyOverride<T> : DependencyOverride
     {
         /// <summary>
+        /// Create an instance of <see cref="DependencyOverride"/> to override
+        /// dependencies matching the given type and a name
+        /// </summary>
+        /// <remarks>
+        /// This constructor creates an override that will match with any
+        /// target type as long as the dependency type and name match. To 
+        /// target specific type use <see cref="ResolverOverride.OnType(Type)"/> 
+        /// method.
+        /// </remarks>
+        /// <param name="target">Target type to override dependency on</param>
+        /// <param name="name">Name of the dependency</param>
+        /// <param name="value">Override value</param>
+        public DependencyOverride(Type target, string name, object value)
+            : base(target, typeof(T), name, value)
+        {
+        }
+
+        /// <summary>
+        /// Create an instance of <see cref="DependencyOverride"/> to override
+        /// dependencies matching the given type and a name
+        /// </summary>
+        /// <remarks>
+        /// This constructor creates an override that will match with any
+        /// target type as long as the dependency type and name match. To 
+        /// target specific type use <see cref="ResolverOverride.OnType(Type)"/> 
+        /// method.
+        /// </remarks>
+        /// <param name="name">Name of the dependency</param>
+        /// <param name="value">Override value</param>
+        public DependencyOverride(string name, object value)
+            : base(null, typeof(T), name, value)
+        {
+        }
+
+
+        /// <summary>
         /// Construct a new <see cref="DependencyOverride{T}"/> object that will
         /// override the given dependency, and pass the given value.
         /// </summary>
-        public DependencyOverride(object dependencyValue)
-            : base(null, typeof(T), null, dependencyValue)
+        public DependencyOverride(object value)
+            : base(null, typeof(T), null, value)
         {
         }
     }
