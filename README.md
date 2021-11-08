@@ -1,10 +1,4 @@
-# [Make Unity sustainable](https://opencollective.com/unity-container)
+Due to a complete lack of interest from the community to support this project, it has been archived and will no longer be maintained.
+There will be no more releases of this library.
 
-The community support is crucial for the projects to survive and to move forward.
-Unity is all about trust and sharing. [Open Collective](https://opencollective.com/unity-container) lets finances to be managed so everyone can see where money comes from and where it goes. It was selected to provide mechanism for the community to support and finance the project.
-
-If your project depends on [Unity container](https://github.com/unitycontainer) and you want it to be maintained and developed, please **[support](https://opencollective.com/unity-container)** it. Remember, I can have only one full time job, so without proper financial backing there will be no more releases beyond v5.11
-
-**[Become contributor to Unity project](https://opencollective.com/unity-container)**
-
-[...continue to master](https://github.com/unitycontainer/abstractions/tree/master)
+If you have an opinion and would like to express it, please do so [here](https://github.com/unitycontainer/unity/discussions/368).
