@@ -13,7 +13,7 @@ namespace Unity
         public static Type GetArrayParameterType(this Type typeToReflect, Type[] genericArguments)
         {
             var rank = typeToReflect.GetArrayRank();
-            var element = typeToReflect.GetElementType();
+            var element = typeToReflect.GetElementType()!;
             var type = element.IsArray ? element.GetArrayParameterType(genericArguments)
                                        : genericArguments[element.GenericParameterPosition];
 

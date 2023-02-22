@@ -7,7 +7,7 @@ namespace Unity
     /// The exception thrown by the Unity container when
     /// an attempt to resolve a dependency fails.
     /// </summary>
-    public partial class ResolutionFailedException : Exception
+    public class ResolutionFailedException : Exception
     {
         /// <summary>
         /// Create a new <see cref="ResolutionFailedException"/> that records
@@ -17,12 +17,11 @@ namespace Unity
         /// <param name="name">Name requested from the container.</param>
         /// <param name="message">Error message</param>
         /// <param name="innerException">The actual exception that caused the failure of the build.</param>
-        public ResolutionFailedException(Type type, string name, string message, Exception innerException = null)
+        public ResolutionFailedException(Type type, string name, string message, Exception? innerException = null)
             : base(message, innerException)
         {
             TypeRequested = (type ?? throw new ArgumentNullException(nameof(type))).GetTypeInfo().Name;
             NameRequested = name;
-            RegisterSerializationHandler();
         }
 
         /// <summary>
@@ -35,6 +34,5 @@ namespace Unity
         /// </summary>
         public string NameRequested { get; private set; }
 
-        partial void RegisterSerializationHandler();
     }
 }

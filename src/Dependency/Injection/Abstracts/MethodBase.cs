@@ -9,7 +9,7 @@ namespace Unity.Injection
     {
         #region Constructors
 
-        protected MethodBase(string name, params object[] arguments)
+        protected MethodBase(string? name, params object[] arguments)
             : base(name, arguments)
         {
         }
@@ -27,17 +27,17 @@ namespace Unity.Injection
 
         public override TMemberInfo MemberInfo(Type type)
         {
-            var methodHasOpenGenericParameters = Selection.GetParameters()
+            var methodHasOpenGenericParameters = Selection!.GetParameters()
                                                      .Select(p => p.ParameterType.GetTypeInfo())
                                                      .Any(i => i.IsGenericType && i.ContainsGenericParameters);
 
-            var info = Selection.DeclaringType.GetTypeInfo();
+            var info = Selection!.DeclaringType!.GetTypeInfo();
             if (!methodHasOpenGenericParameters && !(info.IsGenericType && info.ContainsGenericParameters))
                 return Selection;
 
 #if NETSTANDARD1_0
             var typeInfo = type.GetTypeInfo();
-            var parameterTypes = Selection.GetParameters()
+            var parameterTypes = Selection!.GetParameters()
                                           .Select(pi => GetClosedParameterType(pi.ParameterType, typeInfo.GenericTypeArguments))
                                           .ToArray();
 

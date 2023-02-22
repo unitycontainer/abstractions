@@ -10,9 +10,9 @@ namespace Unity.Resolution
     {
         #region Fields
 
-        protected Type Target;
-        protected readonly Type   Type;
-        protected readonly string Name;
+        protected Type?           Target;
+        protected readonly Type?  Type;
+        protected readonly string? Name;
 
         #endregion
 
@@ -24,7 +24,7 @@ namespace Unity.Resolution
             Name = name;
         }
 
-        protected ResolverOverride(Type target, Type type, string name)
+        protected ResolverOverride(Type? target, Type? type, string? name)
         {
             Target = target;
             Type = type;
@@ -84,9 +84,11 @@ namespace Unity.Resolution
 
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
+#pragma warning disable CS8604 // Possible null reference argument.
             return this == obj as ResolverOverride;
+#pragma warning restore CS8604 // Possible null reference argument.
         }
 
         public static bool operator ==(ResolverOverride left, ResolverOverride right)

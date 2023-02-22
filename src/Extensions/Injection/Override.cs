@@ -68,45 +68,33 @@ namespace Unity
 
         #region Dependency
 
-#if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         public static ResolverOverride Dependency(object value)
-            => Dependency(value?.GetType() ?? throw new ArgumentNullException(nameof(value)), null, value);
+            => Dependency(value?.GetType() ?? throw new ArgumentNullException(nameof(value)), String.Empty, value);
 
-#if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         public static ResolverOverride Dependency(string name, object value)
             => Dependency(value?.GetType() ?? throw new ArgumentNullException(nameof(value)), name, value);
 
 
-#if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         public static ResolverOverride Dependency(Type type, object value)
         {
             return new DependencyOverride(type, value);
         }
 
-#if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         public static ResolverOverride Dependency(Type type, string name, object value)
         {
             return new DependencyOverride(type, name, value);
         }
 
 
-#if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         public static ResolverOverride Dependency<TType>(object value)
             => new DependencyOverride(typeof(TType), value);
 
-        #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         public static ResolverOverride Dependency<TType>(string name, object value) 
             => new DependencyOverride(typeof(TType), name, value);
 

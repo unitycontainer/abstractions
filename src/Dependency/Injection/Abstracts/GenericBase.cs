@@ -13,9 +13,9 @@ namespace Unity.Injection
     {
         #region Fields
 
-        private readonly string _name;
-        private readonly bool   _isArray;
-        private readonly string _genericParameterName;
+        private readonly string? _name;
+        private readonly bool    _isArray;
+        private readonly string  _genericParameterName;
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace Unity.Injection
         /// </summary>
         /// <param name="genericParameterName">The generic parameter name to resolve.</param>
         /// <param name="resolutionName">Registration name to use when looking up in the container.</param>
-        protected GenericBase(string genericParameterName, string resolutionName)
+        protected GenericBase(string genericParameterName, string? resolutionName)
         {
             if (null == genericParameterName) throw new ArgumentNullException(nameof(genericParameterName));
 
@@ -72,15 +72,18 @@ namespace Unity.Injection
 
         #region  Overrides
 
-        public override bool Equals(Type type)
+        public override bool Equals(Type? type)
         {
-            if (null == type)return false;
+            if (null == type) return false;
 
             if (!_isArray)
             {
-                return type.GetTypeInfo().IsGenericParameter && type.GetTypeInfo().Name == _genericParameterName;
+                return type.GetTypeInfo().IsGenericParameter && 
+                       type.GetTypeInfo().Name == _genericParameterName;
             }
-            return type.IsArray && type.GetElementType().GetTypeInfo().IsGenericParameter && type.GetElementType().GetTypeInfo().Name == _genericParameterName;
+
+            return type.IsArray && type.GetElementType()!.GetTypeInfo().IsGenericParameter 
+                                && type.GetElementType()!.GetTypeInfo().Name == _genericParameterName;
         }
 
         #endregion
@@ -106,7 +109,7 @@ namespace Unity.Injection
 
         #region Implementation
 
-        protected virtual ResolveDelegate<TContext> GetResolver<TContext>(Type type, string name)
+        protected virtual ResolveDelegate<TContext> GetResolver<TContext>(Type type, string? name)
             where TContext : IResolveContext
         {
             return (ref TContext context) => context.Resolve(type, name);

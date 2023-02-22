@@ -76,7 +76,7 @@ namespace Unity
         /// <seealso cref="Unity.TypeLifetime"/>
         /// <exception cref="InvalidOperationException">If error occur during registration container will throw an exception.</exception>
         /// <returns>The <see cref="IUnityContainer"/> object that this method was called on.</returns>
-        IUnityContainer RegisterType(Type registeredType, Type mappedToType, string name, ITypeLifetimeManager lifetimeManager, params InjectionMember[] injectionMembers);
+        IUnityContainer RegisterType(Type? registeredType, Type mappedToType, string? name, ITypeLifetimeManager? lifetimeManager, params InjectionMember[] injectionMembers);
 
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Unity
         /// <seealso cref="Unity.InstanceLifetime"/>
         /// <exception cref="InvalidOperationException">If types of registration and the instance are not assignable, method throws an exception</exception>
         /// <returns>The <see cref="IUnityContainer"/> object that this method was called on.</returns>
-        IUnityContainer RegisterInstance(Type type, string name, object instance, IInstanceLifetimeManager lifetimeManager);
+        IUnityContainer RegisterInstance(Type? type, string? name, object? instance, IInstanceLifetimeManager? lifetimeManager);
 
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Unity
         /// <seealso cref="Unity.FactoryLifetime"/>
         /// <exception cref="InvalidOperationException">If delegate is <c>null</c> method throws</exception>
         /// <returns>The <see cref="IUnityContainer"/> object that this method was called on.</returns>
-        IUnityContainer RegisterFactory(Type type, string name, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager lifetimeManager);
+        IUnityContainer RegisterFactory(Type type, string? name, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager? lifetimeManager);
 
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Unity
         /// </para>
         /// </remarks>
         /// <returns><c>True</c> if <see cref="Type"/> is registered or <c>False</c> if no registration found</returns>
-        bool IsRegistered(Type type, string name);
+        bool IsRegistered(Type type, string? name);
 
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace Unity
         /// <seealso cref="Unity.Override"/>
         /// <exception cref="ResolutionFailedException">Throws if any errors occur during resolution</exception>
         /// <returns>The retrieved object.</returns>
-        object Resolve(Type type, string name, params ResolverOverride[] overrides);
+        object Resolve(Type type, string? name, params ResolverOverride[] overrides);
 
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace Unity
         /// <returns>The resulting object. By default, this will be <paramref name="existing"/>, but
         /// container extensions may add things like automatic proxy creation which would
         /// cause this to return a different object (but still type compatible with <paramref name="type"/>).</returns>
-        object BuildUp(Type type, object existing, string name, params ResolverOverride[] overrides);
+        object BuildUp(Type type, object existing, string? name, params ResolverOverride[] overrides);
 
 
         /// <summary>

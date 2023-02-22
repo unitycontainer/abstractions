@@ -27,7 +27,7 @@ namespace Unity.Lifetime
         #region Fields
 
         [ThreadStatic]
-        private static Dictionary<Guid, object> _values;
+        private static Dictionary<Guid, object>? _values;
         private readonly Guid _key = Guid.NewGuid();
 
         #endregion
@@ -36,7 +36,7 @@ namespace Unity.Lifetime
         #region Overrides
 
         /// <inheritdoc/>
-        public override object GetValue(ILifetimeContainer container = null)
+        public override object GetValue(ILifetimeContainer? container = null)
         {
             if (null == _values) return NoValue;
 
@@ -44,7 +44,7 @@ namespace Unity.Lifetime
         }
 
         /// <inheritdoc/>
-        public override void SetValue(object newValue, ILifetimeContainer container = null)
+        public override void SetValue(object newValue, ILifetimeContainer? container = null)
         {
             // no need for locking, values is TLS
             if (_values == null)

@@ -13,7 +13,7 @@ namespace Unity.Lifetime
     {
         #region Fields
 
-        private WeakReference _value;
+        private WeakReference? _value;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Unity.Lifetime
         #region SynchronizedLifetimeManager
 
         /// <inheritdoc/>
-        protected override object SynchronizedGetValue(ILifetimeContainer container = null)
+        protected override object SynchronizedGetValue(ILifetimeContainer? container = null)
         {
             if (null == _value) return NoValue;
 
@@ -34,14 +34,14 @@ namespace Unity.Lifetime
         }
 
         /// <inheritdoc/>
-        protected override void SynchronizedSetValue(object newValue, ILifetimeContainer container = null)
+        protected override void SynchronizedSetValue(object newValue, ILifetimeContainer? container = null)
         {
             _value = new WeakReference(newValue);
         }
 
 
         /// <inheritdoc/>
-        public override void RemoveValue(ILifetimeContainer container = null) => _value = null;
+        public override void RemoveValue(ILifetimeContainer? container = null) => _value = null;
 
         #endregion
 

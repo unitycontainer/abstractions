@@ -22,11 +22,11 @@ namespace Unity.Injection
         public override TMemberInfo MemberInfo(Type type)
         {
 #if NETSTANDARD1_0 || NETCOREAPP1_0 
-            var declaringType = Selection.DeclaringType.GetTypeInfo();
+            var declaringType = Selection!.DeclaringType.GetTypeInfo();
             if (!declaringType.IsGenericType && !declaringType.ContainsGenericParameters)
                 return Selection;
 #else
-            if (Selection.DeclaringType != null &&
+            if (Selection!.DeclaringType != null &&
                !Selection.DeclaringType.IsGenericType &&
                !Selection.DeclaringType.ContainsGenericParameters)
                 return Selection;
@@ -47,7 +47,7 @@ namespace Unity.Injection
         }
 
 #if NETSTANDARD1_0
-        public override bool Equals(TMemberInfo other)
+        public override bool Equals(TMemberInfo? other)
         {
             return null != other && other.Name == Name;
         }

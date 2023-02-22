@@ -19,7 +19,7 @@ namespace Unity.Injection
         private readonly object[] _values;
 
         private static readonly MethodInfo ResolverMethod =
-            typeof(GenericResolvedArrayParameter).GetTypeInfo().GetDeclaredMethod(nameof(DoResolve));
+            typeof(GenericResolvedArrayParameter).GetTypeInfo().GetDeclaredMethod(nameof(DoResolve))!;
 
         private delegate object Resolver<TContext>(ref TContext context, object[] values) 
             where TContext : IResolveContext;
@@ -53,20 +53,20 @@ namespace Unity.Injection
         /// </summary>
         public override string ParameterTypeName => base.ParameterTypeName + "[]";
 
-        public override bool Equals(Type type)
+        public override bool Equals(Type? type)
         {
             if (null == type || !type.IsArray || type.GetArrayRank() != 1)
             {
                 return false;
             }
 
-            Type elementType = type.GetElementType();
+            Type elementType = type.GetElementType()!;
             return elementType.GetTypeInfo().IsGenericParameter && elementType.GetTypeInfo().Name == base.ParameterTypeName;
         }
 
-        protected override ResolveDelegate<TContext> GetResolver<TContext>(Type type, string name)
+        protected override ResolveDelegate<TContext> GetResolver<TContext>(Type type, string? name)
         {
-            Type elementType = type.GetElementType();
+            Type elementType = type.GetElementType()!;
             var resolverMethod = (Resolver<TContext>)ResolverMethod.MakeGenericMethod(typeof(TContext), elementType)
                                                                    .CreateDelegate(typeof(Resolver<TContext>));
             var values = _values.Select(value =>
@@ -98,20 +98,20 @@ namespace Unity.Injection
 
         #region Implementation
 
-        public static object DoResolve<TContext, TElement>(ref TContext context, object[] values)
+        public static object? DoResolve<TContext, TElement>(ref TContext context, object[] values)
             where TContext : IResolveContext
         {
-            var result = new TElement[values.Length];
+            var result = new TElement?[values.Length];
 
             for (var i = 0; i < values.Length; i++)
             {
-                result[i] = (TElement)ResolveValue(ref context, values[i]);
+                result[i] = (TElement?)ResolveValue(ref context, values[i]);
             }
 
             return result;
 
             // Interpret factories
-            object ResolveValue(ref TContext c, object value)
+            object? ResolveValue(ref TContext c, object value)
             {
                 switch (value)
                 {

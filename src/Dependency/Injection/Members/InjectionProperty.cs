@@ -43,7 +43,7 @@ namespace Unity.Injection
 
         protected override PropertyInfo DeclaredMember(Type type, string name)
         {
-            return DeclaredMembers(type).FirstOrDefault(p => p.Name == Selection.Name);
+            return DeclaredMembers(type).FirstOrDefault(p => p.Name == Selection?.Name)!;
         }
 
         public override IEnumerable<PropertyInfo> DeclaredMembers(Type type)
@@ -53,7 +53,7 @@ namespace Unity.Injection
                 if (!member.CanWrite || 0 != member.GetIndexParameters().Length)
                     continue;
 
-                var setter = member.GetSetMethod(true);
+                var setter = member.GetSetMethod(true)!;
                 if (setter.IsPrivate || setter.IsFamily)
                     continue;
 
@@ -61,7 +61,7 @@ namespace Unity.Injection
             }
         }
 
-        protected override Type MemberType => Selection.PropertyType;
+        protected override Type MemberType => Selection!.PropertyType;
 
         protected override string ToString(bool debug = false)
         {

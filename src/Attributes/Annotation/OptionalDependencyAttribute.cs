@@ -25,7 +25,7 @@ namespace Unity
         /// specifies a named dependency.
         /// </summary>
         /// <param name="name">Name of the dependency.</param>
-        public OptionalDependencyAttribute(string name)
+        public OptionalDependencyAttribute(string? name)
             : base(name) { }
     }
 }

@@ -18,7 +18,7 @@ namespace Unity.Injection
     {
         #region Fields
 
-        private readonly string _name;
+        private readonly string? _name;
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace Unity.Injection
         /// </summary>
         /// <param name="type">Type of the dependency.</param>
         /// <param name="name">Name for the dependency.</param>
-        public OptionalParameter(Type type, string name)
+        public OptionalParameter(Type type, string? name)
             : base(type)
         {
             _name = name;
@@ -96,11 +96,11 @@ namespace Unity.Injection
 #if NETSTANDARD1_0 || NETCOREAPP1_0 
             var typeInfo = ParameterType?.GetTypeInfo();
             if (null == typeInfo || typeInfo.IsGenericType && typeInfo.ContainsGenericParameters ||
-                ParameterType.IsArray && ParameterType.GetElementType().GetTypeInfo().IsGenericParameter ||
+                ParameterType!.IsArray && ParameterType.GetElementType()!.GetTypeInfo().IsGenericParameter ||
                 ParameterType.IsGenericParameter)
 #else
             if (null == ParameterType || ParameterType.IsGenericType && ParameterType.ContainsGenericParameters ||
-                ParameterType.IsArray && ParameterType.GetElementType().IsGenericParameter ||
+                ParameterType!.IsArray && ParameterType.GetElementType()!.IsGenericParameter ||
                 ParameterType.IsGenericParameter)
 #endif
             {

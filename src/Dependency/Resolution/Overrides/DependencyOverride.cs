@@ -13,7 +13,7 @@ namespace Unity.Resolution
     {
         #region Fields
 
-        protected readonly object Value;
+        protected readonly object? Value;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace Unity.Resolution
         /// </summary>
         /// <param name="contractType">Type to override</param>
         /// <param name="value">Value to override with</param>
-        public DependencyOverride(Type contractType, object value)
+        public DependencyOverride(Type contractType, object? value)
             : base(null, contractType, null)
         {
             Value = value;
@@ -38,7 +38,7 @@ namespace Unity.Resolution
         /// </summary>
         /// <param name="contractName">Name of the registration</param>
         /// <param name="value">Value to override with</param>
-        public DependencyOverride(string contractName, object value)
+        public DependencyOverride(string contractName, object? value)
             : base(null, null, contractName)
         {
             Value = value;
@@ -51,7 +51,7 @@ namespace Unity.Resolution
         /// <param name="contractName">Name of the registration</param>
         /// <param name="contractType">Type of the registration</param>
         /// <param name="value">Value to override with</param>
-        public DependencyOverride(Type contractType, string contractName, object value)
+        public DependencyOverride(Type contractType, string contractName, object? value)
             : base(null, contractType, contractName)
         {
             Value = value;
@@ -65,7 +65,7 @@ namespace Unity.Resolution
         /// <param name="contractName">Name of the registration</param>
         /// <param name="contractType">Type of the registration</param>
         /// <param name="value">Value to override with</param>
-        public DependencyOverride(Type targetType, Type contractType, string contractName, object value)
+        public DependencyOverride(Type? targetType, Type contractType, string? contractName, object? value)
             : base(targetType, contractType, contractName)
         {
             Value = value;
@@ -81,7 +81,7 @@ namespace Unity.Resolution
             return base.GetHashCode();
         }
 
-        public override bool Equals(object other)
+        public override bool Equals(object? other)
         {
             switch (other)
             {
@@ -108,7 +108,7 @@ namespace Unity.Resolution
 
         #region IResolverPolicy
 
-        public object Resolve<TContext>(ref TContext context) 
+        public object? Resolve<TContext>(ref TContext context) 
             where TContext : IResolveContext
         {
             if (Value is IResolve policy)
@@ -116,7 +116,7 @@ namespace Unity.Resolution
 
             if (Value is IResolverFactory<Type> factory)
             {
-                var resolveDelegate = factory.GetResolver<TContext>(Type);
+                var resolveDelegate = factory.GetResolver<TContext>(Type!);
                 return resolveDelegate(ref context);
             }
 
@@ -146,7 +146,7 @@ namespace Unity.Resolution
         /// <param name="target">Target type to override dependency on</param>
         /// <param name="name">Name of the dependency</param>
         /// <param name="value">Override value</param>
-        public DependencyOverride(Type target, string name, object value)
+        public DependencyOverride(Type target, string name, object? value)
             : base(target, typeof(T), name, value)
         {
         }
@@ -163,7 +163,7 @@ namespace Unity.Resolution
         /// </remarks>
         /// <param name="name">Name of the dependency</param>
         /// <param name="value">Override value</param>
-        public DependencyOverride(string name, object value)
+        public DependencyOverride(string name, object? value)
             : base(null, typeof(T), name, value)
         {
         }
@@ -173,7 +173,7 @@ namespace Unity.Resolution
         /// Construct a new <see cref="DependencyOverride{T}"/> object that will
         /// override the given dependency, and pass the given value.
         /// </summary>
-        public DependencyOverride(object value)
+        public DependencyOverride(object? value)
             : base(null, typeof(T), null, value)
         {
         }

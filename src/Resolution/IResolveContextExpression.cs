@@ -20,14 +20,14 @@ namespace Unity.Resolution
 
             var contextRefType =
                 typeof(ResolveDelegate<TContext>).GetTypeInfo()
-                                                 .GetDeclaredMethod("Invoke")
+                                                 .GetDeclaredMethod("Invoke")!
                                                  .GetParameters()[0]
                                                  .ParameterType;
 
             Context   = Expression.Parameter(contextRefType, "context");
-            Type      = Expression.MakeMemberAccess(Context, typeInfo.GetDeclaredProperty(nameof(IResolveContext.Type)));
-            Name      = Expression.MakeMemberAccess(Context, typeInfo.GetDeclaredProperty(nameof(IResolveContext.Name)));
-            Container = Expression.MakeMemberAccess(Context, typeInfo.GetDeclaredProperty(nameof(IResolveContext.Container)));
+            Type      = Expression.MakeMemberAccess(Context, typeInfo.GetDeclaredProperty(nameof(IResolveContext.Type))!);
+            Name      = Expression.MakeMemberAccess(Context, typeInfo.GetDeclaredProperty(nameof(IResolveContext.Name))!);
+            Container = Expression.MakeMemberAccess(Context, typeInfo.GetDeclaredProperty(nameof(IResolveContext.Container))!);
         }
 
         #endregion

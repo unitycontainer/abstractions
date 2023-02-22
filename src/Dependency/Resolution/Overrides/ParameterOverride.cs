@@ -71,7 +71,7 @@ namespace Unity.Resolution
             return base.GetHashCode();
         }
 
-        public override bool Equals(object other)
+        public override bool Equals(object? other)
         {
             switch (other)
             {
@@ -87,7 +87,7 @@ namespace Unity.Resolution
             }
         }
 
-        public bool Equals(ParameterInfo other)
+        public bool Equals(ParameterInfo? other)
         {
             return null != other && 
                   (null == Target || other.Member.DeclaringType == Target) &&
@@ -101,7 +101,7 @@ namespace Unity.Resolution
 
         #region IResolverPolicy
 
-        public object Resolve<TContext>(ref TContext context)
+        public object? Resolve<TContext>(ref TContext context)
             where TContext : IResolveContext
         {
             if (Value is IResolve policy)
@@ -109,7 +109,7 @@ namespace Unity.Resolution
 
             if (Value is IResolverFactory<Type> factory)
             {
-                var resolveDelegate = factory.GetResolver<TContext>(Type);
+                var resolveDelegate = factory.GetResolver<TContext>(Type!);
                 return resolveDelegate(ref context);
             }
 

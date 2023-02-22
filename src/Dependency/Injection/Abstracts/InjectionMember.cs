@@ -49,7 +49,7 @@ namespace Unity.Injection
         /// </summary>
         /// <param name="debug">Indicates if member is rendered in Debug mode</param>
         /// <returns>String representation on the member</returns>
-        protected virtual string ToString(bool debug = false) => base.ToString();
+        protected virtual string ToString(bool debug = false) => base.ToString()!;
     }
 
     [DebuggerDisplay("{ToString(true)}")]
@@ -61,14 +61,14 @@ namespace Unity.Injection
 
         protected const string NoMatchFound = "No member matching data has been found.";
 
-        protected TMemberInfo Selection { get; set; }
+        protected TMemberInfo? Selection { get; set; }
 
         #endregion
 
 
         #region Constructors
 
-        protected InjectionMember(string name, TData data)
+        protected InjectionMember(string? name, TData data)
         {
             Name = name;
             Data = data;
@@ -86,7 +86,7 @@ namespace Unity.Injection
 
         #region Public Members
 
-        public string Name { get; }
+        public string? Name { get; }
 
         public virtual TData Data { get; }
 
@@ -101,12 +101,12 @@ namespace Unity.Injection
 
         #region Equatable
 
-        public virtual bool Equals(TMemberInfo other)
+        public virtual bool Equals(TMemberInfo? other)
         {
             return Selection?.Equals(other) ?? false;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             switch (obj)
             {
@@ -114,7 +114,7 @@ namespace Unity.Injection
                     return Equals(info);
 
                 case IEquatable<TMemberInfo> equatable:
-                    return equatable.Equals(Selection);
+                    return equatable.Equals(Selection!);
 
                 default:
                     return false;

@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 
+#nullable disable warnings
+
 namespace System.Collections.Concurrent
 {
     /// <summary>
@@ -1916,14 +1918,11 @@ namespace System.Collections.Concurrent
                 get { return new DictionaryEntry(m_enumerator.Current.Key, m_enumerator.Current.Value); }
             }
 
-            public object Key
-            {
-                get { return m_enumerator.Current.Key; }
-            }
+            public object Key => m_enumerator.Current.Key!;
 
             public object Value
             {
-                get { return m_enumerator.Current.Value; }
+                get { return m_enumerator.Current.Value!; }
             }
 
             public object Current
@@ -1943,3 +1942,5 @@ namespace System.Collections.Concurrent
         }
     }
 }
+
+#nullable restore warnings
