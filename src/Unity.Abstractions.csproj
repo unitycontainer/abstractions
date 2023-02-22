@@ -3,6 +3,7 @@
   <Import Project="..\package.props" />
 
   <!-- Defaults -->
+
   <PropertyGroup>
     <RootNamespace>Unity</RootNamespace>
     <LangVersion>latest</LangVersion>
@@ -12,6 +13,9 @@
   <!-- Package Info -->
   
   <PropertyGroup>
+    <Version>$(VersionBase)</Version>
+    <FileVersion>$(VersionBase).0</FileVersion>
+    <AssemblyVersion>$(VersionBase).0</AssemblyVersion>
     <PackageId>Unity.Abstractions</PackageId>
     <Description>Unity Container Public Abstractions</Description>
     <Copyright>Copyright © .NET Foundation and Contributors. All Rights Reserved</Copyright>
