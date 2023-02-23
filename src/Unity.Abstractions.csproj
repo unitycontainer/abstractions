@@ -13,7 +13,7 @@
   <!-- Package Info -->
   
   <PropertyGroup>
-	<PackageVersion>$(VersionBase)-rc</PackageVersion>
+	<PackageVersion>$(VersionBase)-rc.1</PackageVersion>
     <Version>$(VersionBase)</Version>
     <FileVersion>$(VersionBase).0</FileVersion>
     <AssemblyVersion>$(VersionBase).0</AssemblyVersion>
