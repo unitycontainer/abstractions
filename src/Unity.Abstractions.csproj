@@ -13,10 +13,6 @@
   <!-- Package Info -->
   
   <PropertyGroup>
-	<PackageVersion>$(VersionBase)-rc.1</PackageVersion>
-    <Version>$(VersionBase)</Version>
-    <FileVersion>$(VersionBase).0</FileVersion>
-    <AssemblyVersion>$(VersionBase).0</AssemblyVersion>
     <PackageId>Unity.Abstractions</PackageId>
     <Description>Unity Container Public Abstractions</Description>
     <Copyright>Copyright © .NET Foundation and Contributors. All Rights Reserved</Copyright>
@@ -28,6 +24,12 @@
     <Authors>Unity Open Source Project</Authors>
     <Company>Unity Open Source Project</Company>
     <PackageTags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</PackageTags>
+	  
+	<PackageVersion>$(VersionBase)-rc.1</PackageVersion>
+    <Version>$(VersionBase)</Version>
+    <FileVersion>$(VersionBase).0</FileVersion>
+    <AssemblyVersion>$(VersionBase).0</AssemblyVersion>
+	  
   </PropertyGroup>
 
   <!-- Strong Name Signature -->
@@ -70,6 +72,10 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Remove="package.props" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
@@ -87,6 +93,10 @@
     <PropertyGroup>
       <PackageReleaseNotes>@(ReleaseNoteLines, '%0a')</PackageReleaseNotes>
     </PropertyGroup>
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="echo Version: $(VersionMajor).$(VersionMinor)" />
   </Target>
 
 </Project>
