@@ -1,8 +1,14 @@
 <Project>
 
   <PropertyGroup>
-    <VersionBase>6.0.0</VersionBase>
+	  
+    <VersionMajor>6</VersionMajor>
+    <VersionMinor>0</VersionMinor>
+    <VersionPatch>0</VersionPatch>
+	<VersionSuffix>rc1</VersionSuffix>
+  
     <TargetFrameworks>netstandard2.0;netstandard1.0;net6.0</TargetFrameworks>
+	  
   </PropertyGroup>
 
 </Project>
