@@ -97,8 +97,4 @@
     </PropertyGroup>
   </Target>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="echo $(Version)" />
-  </Target>
-
 </Project>
