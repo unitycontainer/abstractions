@@ -1,6 +1,11 @@
 image: Visual Studio 2022
 configuration: Release
 
+branches:
+  only:
+    - main
+    - master
+
 install:
   - choco install gitversion.portable -pre -y
   - ps: gitversion /l console /output buildserver /config .github\gitversion.yml
