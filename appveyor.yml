@@ -9,7 +9,7 @@ dotnet_csproj:
 
 before_build:
   - cmd: dotnet restore
-  - ps: gitversion /l console /output buildserver
+  - ps: gitversion /l console /output buildserver 
   - ps: $env:Version        = $env:GitVersion_MajorMinorPatch
   - ps: $env:FileVersion    = $env:GitVersion_AssemblySemFileVer
   - ps: $env:AssemblyVersion= $env:GitVersion_AssemblySemVer
