@@ -35,7 +35,7 @@ jobs:
       env:
         Version: '${{ env.GitVersion_MajorMinorPatch }}'
         FileVersion: '${{ env.GitVersion_AssemblySemFileVer }}'
-        PackageVersion: '${{ env.GitVersion_FullSemVer }}'
+        PackageVersion: '${{ env.GitVersion_SemVer }}'
         AssemblyVersion: '${{ env.GitVersion_AssemblySemVer }}'
         InformationalVersion: '${{ env.GitVersion_InformationalVersion }}'
       run: | 

@@ -12,7 +12,7 @@ before_build:
   - cmd: dotnet restore
   - ps: $env:Version = $env:GitVersion_MajorMinorPatch
   - ps: $env:FileVersion = $env:GitVersion_AssemblySemFileVer
-  - ps: $env:PackageVersion = $env:GitVersion_FullSemVer
+  - ps: $env:PackageVersion = $env:GitVersion_SemVer
   - ps: $env:AssemblyVersion = $env:GitVersion_AssemblySemVer
   - ps: $env:InformationalVersion = $env:GitVersion_InformationalVersion
  

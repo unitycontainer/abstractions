@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\package.props" />
-
   <!-- Defaults -->
 
   <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard1.0;net6.0</TargetFrameworks>
     <RootNamespace>Unity</RootNamespace>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
@@ -24,14 +23,6 @@
     <Authors>Unity Open Source Project</Authors>
     <Company>Unity Open Source Project</Company>
     <PackageTags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</PackageTags>
-	  
-    <!--<Version>$(VersionMajor).$(VersionMinor).$(VersionPatch)</Version>
-	<VersionBuild Condition="'$(VersionBuild)' == ''">0</VersionBuild>
-	<FileVersion>$(Version).$(VersionBuild)</FileVersion>
-    <AssemblyVersion>$(Version).$(VersionBuild)</AssemblyVersion>
-	<PackageVersion Condition="'$(VersionSuffix)' == ''">$(Version)</PackageVersion>
-    <PackageVersion Condition="'$(VersionSuffix)' != ''">$(Version)-$(VersionSuffix)</PackageVersion>-->
-  
   </PropertyGroup>
 
   <!-- Strong Name Signature -->
