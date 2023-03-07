@@ -3,17 +3,26 @@ configuration: Release
 
 install:
   - choco install gitversion.portable -pre -y
+  - ps: gitversion /l console /output buildserver /config .github\gitversion.yml
 
 dotnet_csproj:
   patch: false
 
+dotnet_csproj:
+  patch: true
+  file: '**\Unity.*.csproj'
+  version: '{$env:GitVersion_MajorMinorPatch}'
+  package_version: '{$env:GitVersion_FullSemVer}'
+  assembly_version: '{$env:GitVersion_AssemblySemVer}'
+  file_version: '{$env:GitVersion_AssemblySemFileVer}'
+  informational_version: '{GitVersion_InformationalVersion}'  
+
 before_build:
   - cmd: dotnet restore
-  - ps: gitversion /l console /output buildserver /config .github\gitversion.yml
-  - ps: $env:Version        = $env:GitVersion_MajorMinorPatch
-  - ps: $env:FileVersion    = $env:GitVersion_AssemblySemFileVer
-  - ps: $env:AssemblyVersion= $env:GitVersion_AssemblySemVer
-  - ps: $env:PackageVersion = $env:GitVersion_FullSemVer
+  # - ps: $env:Version        = $env:GitVersion_MajorMinorPatch
+  # - ps: $env:FileVersion    = $env:GitVersion_AssemblySemFileVer
+  # - ps: $env:AssemblyVersion= $env:GitVersion_AssemblySemVer
+  # - ps: $env:PackageVersion = $env:GitVersion_FullSemVer
 
 build:
   project: package.sln
