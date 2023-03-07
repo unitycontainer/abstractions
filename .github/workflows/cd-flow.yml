@@ -21,21 +21,24 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        path: Abstractions
         fetch-depth: 0
 
-    - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.9.15
-      with:
-        versionSpec: '5.x'
+    - name: GitVersion
+      run: | 
+        choco install gitversion.portable -pre -y
+        gitversion /l console /output buildserver /config .github\gitversion.yml
 
-    - name: Get Version
-      id:   gitversion
-      uses: gittools/actions/gitversion/execute@v0.9.15
-      with:
-        targetPath: ${{ env.projectName }}
-        useConfigFile: true
-        configFilePath: '${{ env.projectName }}\.github\GitVersion.yml'
+    #   uses: gittools/actions/gitversion/setup@v0.9.15
+    #   with:
+    #     versionSpec: '5.x'
+
+    # - name: Get Version
+    #   id:   gitversion
+    #   uses: gittools/actions/gitversion/execute@v0.9.15
+    #   with:
+    #     targetPath: ${{ env.projectName }}
+    #     useConfigFile: true
+    #     configFilePath: '${{ env.projectName }}\.github\GitVersion.yml'
 
     # - name: Setup .NET Core SDK
     #   uses: actions/setup-dotnet@v3.0.3
