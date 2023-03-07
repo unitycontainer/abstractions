@@ -14,7 +14,8 @@ dotnet_csproj:
 
 before_build:
   - cmd: dotnet restore
-  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
+  # - ps: gitversion /l console /output buildserver /updateAssemblyInfo
+  - ps: gitversion /l console /output buildserver
 
 build:
   project: package.sln
