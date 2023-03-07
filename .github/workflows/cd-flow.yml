@@ -15,8 +15,8 @@ jobs:
     env:
       projectName: 'Abstractions'
       PackageOutputPath: '${{ github.workspace }}\package'
-      packageProject:    '${{ github.workspace }}\${{ env.projectName }}\src\Unity.${{ env.projectName }}.csproj'
-      testProject:       '${{ github.workspace }}\${{ env.projectName }}\tests\Unit\Unity.${{ env.projectName }}.Tests.csproj'
+      packageProject:    '${{ github.workspace }}\Abstractions\src\Unity.Abstractions.csproj'
+      testProject:       '${{ github.workspace }}\Abstractions\tests\Unit\Unity.Abstractions.Tests.csproj'
 
     steps:
     - name: Checkout
