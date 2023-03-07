@@ -15,7 +15,6 @@ jobs:
     env:
       projectName: 'Abstractions'
       PackageOutputPath: '${{ github.workspace }}\package'
-      packageProject:    '${{ github.workspace }}\Abstractions\src\Unity.Abstractions.csproj'
       testProject:       '${{ github.workspace }}\Abstractions\tests\Unit\Unity.Abstractions.Tests.csproj'
 
     steps:
@@ -45,21 +44,19 @@ jobs:
 
     - name: Build
       run: | 
-        dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True ${{ env.packageProject }}
+        dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True ${{ github.workspace }}\${{ env.projectName }}\src\Unity.${{ env.projectName }}.csproj
     #    dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True ${{ env.testProject }}
 
     # - name: Test
     #   run: | 
     #     dotnet test ${{ env.testProject }}
-        
-    - name: Setup local NuGet source
-      run: dotnet nuget add source "https://nuget.pkg.github.com/unitycontainer/index.json" -n github -u unitycontainer -p ${{secrets.GITHUB_TOKEN}} --store-password-in-clear-text
 
     - name: Publish Local Package
       run: |
+        dotnet nuget add source "https://nuget.pkg.github.com/unitycontainer/index.json" -n github -u unitycontainer -p ${{secrets.GITHUB_TOKEN}} --store-password-in-clear-text
         dotnet nuget push '${{ env.PackageOutputPath }}\*' --skip-duplicate --source github
 
     - name: Label Fixed Issues
       uses: gh-bot/fix-labeler@master        
       with:
-        path: Container
+        path: ${{ env.projectName }}
