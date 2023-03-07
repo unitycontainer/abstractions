@@ -25,14 +25,14 @@
     <Company>Unity Open Source Project</Company>
     <PackageTags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</PackageTags>
 	  
-    <Version>$(VersionMajor).$(VersionMinor).$(VersionPatch)</Version>
+    <!--<Version>$(VersionMajor).$(VersionMinor).$(VersionPatch)</Version>
 	<VersionBuild Condition="'$(VersionBuild)' == ''">0</VersionBuild>
 	<FileVersion>$(Version).$(VersionBuild)</FileVersion>
     <AssemblyVersion>$(Version).$(VersionBuild)</AssemblyVersion>
 	<PackageVersion Condition="'$(VersionSuffix)' == ''">$(Version)</PackageVersion>
-    <PackageVersion Condition="'$(VersionSuffix)' != ''">$(Version)-$(VersionSuffix)</PackageVersion>
+    <PackageVersion Condition="'$(VersionSuffix)' != ''">$(Version)-$(VersionSuffix)</PackageVersion>-->
   
-</PropertyGroup>
+  </PropertyGroup>
 
   <!-- Strong Name Signature -->
 
