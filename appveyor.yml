@@ -2,6 +2,7 @@ image: Visual Studio 2022
 configuration: Release
 
 install:
+  - choco install gitversion.portable -pre -y
   - ps: $env:VersionBuild = $env:APPVEYOR_BUILD_NUMBER
   - ps: $env:major_version = (Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionMajor" | Select-Object -ExpandProperty Node).InnerText
   - ps: $env:minor_version = (Select-Xml -Path ".\package.props" -XPath "/Project/PropertyGroup/VersionMinor" | Select-Object -ExpandProperty Node).InnerText
@@ -12,7 +13,8 @@ dotnet_csproj:
   patch: false
 
 before_build:
-- cmd: dotnet restore
+  - cmd: dotnet restore
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
 
 build:
   project: package.sln
