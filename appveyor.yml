@@ -13,7 +13,7 @@ before_build:
   - ps: $env:Version        = $env:GitVersion_MajorMinorPatch
   - ps: $env:FileVersion    = $env:GitVersion_AssemblySemFileVer
   - ps: $env:AssemblyVersion= $env:GitVersion_AssemblySemVer
-  - ps: $env:PackageVersion = $env:GitVersion_SemVer
+  - ps: $env:PackageVersion = $env:GitVersion_FullSemVer
 
 build:
   project: package.sln
