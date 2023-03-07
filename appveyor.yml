@@ -9,17 +9,17 @@ branches:
 install:
   - choco install gitversion.portable -pre -y
   - ps: gitversion /l console /output buildserver /config .github\gitversion.yml
+  - ps: $env:Version = $env:GitVersion_MajorMinorPatch
+  - ps: $env:FileVersion = $env:GitVersion_AssemblySemFileVer
+  - ps: $env:PackageVersion = $env:GitVersion_SemVer
+  - ps: $env:AssemblyVersion = $env:GitVersion_AssemblySemVer
+  - ps: $env:InformationalVersion = $env:GitVersion_InformationalVersion
 
 dotnet_csproj:
   patch: false
 
 before_build:
   - cmd: dotnet restore
-  - ps: $env:Version = $env:GitVersion_MajorMinorPatch
-  - ps: $env:FileVersion = $env:GitVersion_AssemblySemFileVer
-  - ps: $env:PackageVersion = $env:GitVersion_SemVer
-  - ps: $env:AssemblyVersion = $env:GitVersion_AssemblySemVer
-  - ps: $env:InformationalVersion = $env:GitVersion_InformationalVersion
  
 build:
   project: package.sln
