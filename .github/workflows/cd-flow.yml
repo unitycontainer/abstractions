@@ -6,52 +6,13 @@ on:
       - 'release/**'    
       - 'prototype/**'    
 
-permissions:
-  packages: write
-
 jobs:
-
-  build:
-    runs-on: windows-latest
-    env:
-      DOTNET_NOLOGO: '1'
-      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
-      PackageOutputPath: '${{ github.workspace }}\package'
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-
-    - name: GitVersion
-      run: | 
-        choco install gitversion.portable -pre -y --no-progress
-        gitversion /l console /output buildserver /config .github\gitversion.yml
-
-    # - name: Setup .NET Core SDK
-    #   uses: actions/setup-dotnet@v3.0.3
-    #   with:
-    #     dotnet-version: '8.0'
-
-    - name: Build
-      env:
-        Version: '${{ env.GitVersion_MajorMinorPatch }}'
-        FileVersion: '${{ env.GitVersion_AssemblySemFileVer }}'
-        PackageVersion: '${{ env.GitVersion_SemVer }}'
-        AssemblyVersion: '${{ env.GitVersion_AssemblySemVer }}'
-        InformationalVersion: '${{ env.GitVersion_InformationalVersion }}'
-      run: | 
-        dotnet msbuild -property:Configuration=Release -verbosity:m -restore:True package.sln
-
-    # - name: Test
-    #   run: | 
-    #     dotnet test package.sln
-
-    - name: Publish Local Package
-      run: |
-        dotnet nuget add source "https://nuget.pkg.github.com/unitycontainer/index.json" -n github -u unitycontainer -p ${{secrets.GITHUB_TOKEN}} --store-password-in-clear-text
-        dotnet nuget push '${{ env.PackageOutputPath }}\*' --skip-duplicate --source github
-
-    - name: Label Fixed Issues
-      uses: gh-bot/fix-labeler@master        
+  call-workflow-passing-data:
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: unitycontainer/.github/workflows/cd-flow.yml@main
+    # with:
+      # config-path: .github/gitversion.yml
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
