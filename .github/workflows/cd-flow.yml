@@ -11,9 +11,6 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: unitycontainer/unity/.github/workflows/continuous-deployment-flow.yml@workflows
-    # with:
-      # config-path: .github/gitversion.yml
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+    uses: unitycontainer/unity/blob/workflows/.github/workflows/continuous-deployment-flow.yml@workflows
+    secrets: inherit
   
