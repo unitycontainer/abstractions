@@ -14,8 +14,9 @@ jobs:
   build:
     runs-on: windows-latest
     env:
-      PackageOutputPath: '${{ github.workspace }}\package'
+      DOTNET_NOLOGO: '1'
       DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      PackageOutputPath: '${{ github.workspace }}\package'
 
     steps:
     - name: Checkout
