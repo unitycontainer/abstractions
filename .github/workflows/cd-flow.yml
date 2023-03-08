@@ -11,7 +11,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: unitycontainer/.github/.github/workflows/cd-flow.yml@main
+    uses: unitycontainer/workflows/cd-flow.yml@main
     # with:
       # config-path: .github/gitversion.yml
     secrets:
