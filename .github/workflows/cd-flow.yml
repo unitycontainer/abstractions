@@ -7,10 +7,13 @@ on:
       - 'prototype/**'    
 
 jobs:
-  call-workflow-passing-data:
-    permissions:
-      contents: read
-      pull-requests: write
+  call-workflow:
     uses: unitycontainer/unity/.github/workflows/continuous-deployment-flow.yml@workflows
-    secrets: inherit
+
+# jobs:
+#   call-workflow-passing-data:
+#     permissions:
+#       contents: read
+#       pull-requests: write
+#     secrets: inherit
   
