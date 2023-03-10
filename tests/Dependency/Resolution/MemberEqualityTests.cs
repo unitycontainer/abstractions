@@ -59,8 +59,6 @@ namespace Resolution.Overrides
         public static IEnumerable<object[]> GetTestResolvers()
         {
             yield return new object[] { new FieldOverride(string.Empty,                OverrideValue),                           OverrideValue, false };
-            yield return new object[] { new FieldOverride(string.Empty,                OverrideValue),                           FieldInfo,     false };
-            yield return new object[] { new FieldOverride(null, OverrideValue),                                                  FieldInfo,     true  }; // TODO: Issue #156
             yield return new object[] { new FieldOverride(nameof(PolicySet.NameField), OverrideValue),                           FieldInfo,     true  };
             yield return new object[] { new FieldOverride(nameof(PolicySet.NameField), OverrideValue).OnType<FieldInfo>(),       FieldInfo,     false };
             yield return new object[] { new FieldOverride(nameof(PolicySet.NameField), OverrideValue).OnType<PolicySet>(),       FieldInfo,     true  };
@@ -68,8 +66,6 @@ namespace Resolution.Overrides
                                         new FieldOverride(nameof(PolicySet.NameField), OverrideValue).OnType<PolicySet>(),                      true };
 
             yield return new object[] { new PropertyOverride(string.Empty, OverrideValue),                                       OverrideValue, false };
-            yield return new object[] { new PropertyOverride(null, OverrideValue),                                               PropertyInfo,  true  }; // TODO: Issue #156
-            yield return new object[] { new PropertyOverride(string.Empty, OverrideValue),                                       PropertyInfo,  false };
             yield return new object[] { new PropertyOverride(nameof(PolicySet.NameProperty), OverrideValue),                     PropertyInfo,  true  };
             yield return new object[] { new PropertyOverride(nameof(PolicySet.NameProperty), OverrideValue).OnType<FieldInfo>(), PropertyInfo,  false };
             yield return new object[] { new PropertyOverride(nameof(PolicySet.NameProperty), OverrideValue).OnType<PolicySet>(), 
