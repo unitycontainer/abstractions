@@ -23,12 +23,12 @@ namespace Unity.Resolution
         /// <summary>
         /// Create an instance of <see cref="FieldOverride"/>.
         /// </summary>
-        /// <param name="fieldName">The Field name.</param>
-        /// <param name="fieldValue">InjectionParameterValue to use for the Field.</param>
-        public FieldOverride(string fieldName, object fieldValue)
-            : base(fieldName)
+        /// <param name="name">The Field name.</param>
+        /// <param name="value">InjectionParameterValue to use for the Field.</param>
+        public FieldOverride(string name, object value)
+            : base(name ?? throw new ArgumentNullException(nameof(name), "Must provide a name of the field to override"))
         {
-            Value = fieldValue;
+            Value = value;
         }
 
         #endregion
