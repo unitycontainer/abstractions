@@ -1,8 +1,8 @@
 <Project>
 
   <PropertyGroup>
-    <VersionBase>5.11.0</VersionBase>
-    <TargetFrameworks>netstandard2.0;netstandard1.0;netcoreapp2.0;netcoreapp1.0;net47;net46;net45;net40</TargetFrameworks>
+    <VersionBase>6.0.0</VersionBase>
+    <TargetFrameworks>netstandard2.0;netstandard1.0;netcoreapp2.0;netcoreapp1.0;net47;net46</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
