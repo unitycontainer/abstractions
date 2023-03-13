@@ -4,13 +4,9 @@ using System.Collections.Generic;
 namespace Unity.Lifetime
 {
     /// <summary>
-    /// Represents a lifetime container.
+    /// Interface to a container holding refereces to all the objects 
+    /// it is responsible to keep alive.
     /// </summary>
-    /// <remarks>
-    /// A lifetime container tracks the lifetime of an object, and implements
-    /// IDisposable. When the container is disposed, any objects in the
-    /// container which implement IDisposable are also disposed.
-    /// </remarks>
     public interface ILifetimeContainer : IEnumerable<object>, IDisposable
     {
         /// <summary>
@@ -34,6 +30,13 @@ namespace Unity.Lifetime
         void Add(object item);
 
         /// <summary>
+        /// Removes an item from the lifetime container. The item is
+        /// not disposed.
+        /// </summary>
+        /// <param name="item">The item to be removed.</param>
+        void Remove(object item);
+
+        /// <summary>
         /// Determine if a given object is in the lifetime container.
         /// </summary>
         /// <param name="item">
@@ -44,12 +47,5 @@ namespace Unity.Lifetime
         /// container; returns false otherwise.
         /// </returns>
         bool Contains(object item);
-
-        /// <summary>
-        /// Removes an item from the lifetime container. The item is
-        /// not disposed.
-        /// </summary>
-        /// <param name="item">The item to be removed.</param>
-        void Remove(object item);
     }
 }

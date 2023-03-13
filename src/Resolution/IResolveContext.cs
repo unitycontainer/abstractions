@@ -24,6 +24,6 @@ namespace Unity.Resolution
         /// <param name="type">Type of requested object</param>
         /// <param name="name">Name of registration</param>
         /// <returns></returns>
-        object Resolve(Type type, string? name);
+        object? Resolve(Type type, string? name);
     }
 }
