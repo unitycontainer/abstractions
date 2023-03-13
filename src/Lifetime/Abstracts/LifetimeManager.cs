@@ -42,11 +42,11 @@ namespace Unity.Lifetime
 
         #region  Optimizers
 
-        public virtual Func<ILifetimeContainer?, object> TryGet { get; protected set; }
+        public virtual Func<ILifetimeContainer?, object?> TryGet { get; protected set; }
 
-        public virtual Func<ILifetimeContainer?, object> Get { get; protected set; }
+        public virtual Func<ILifetimeContainer?, object?> Get { get; protected set; }
 
-        public virtual Action<object, ILifetimeContainer?> Set { get; protected set; }
+        public virtual Action<object?, ILifetimeContainer?> Set { get; protected set; }
 
         #endregion
 

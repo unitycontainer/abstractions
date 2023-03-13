@@ -63,7 +63,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterType<T>(this IUnityContainer container, string name, params InjectionMember[] injectionMembers)
+        public static IUnityContainer RegisterType<T>(this IUnityContainer container, string? name, params InjectionMember[] injectionMembers)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).RegisterType((Type?)null, typeof(T), name, null, injectionMembers);
         }
@@ -82,7 +82,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterType<T>(this IUnityContainer container, string name, ITypeLifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
+        public static IUnityContainer RegisterType<T>(this IUnityContainer container, string? name, ITypeLifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).RegisterType((Type?)null, typeof(T), name, lifetimeManager, injectionMembers);
         }
@@ -149,7 +149,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterType<TFrom, TTo>(this IUnityContainer container, string name, params InjectionMember[] injectionMembers)
+        public static IUnityContainer RegisterType<TFrom, TTo>(this IUnityContainer container, string? name, params InjectionMember[] injectionMembers)
             where TTo : TFrom
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).RegisterType(typeof(TFrom), typeof(TTo), name, null, injectionMembers);
@@ -170,7 +170,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterType<TFrom, TTo>(this IUnityContainer container, string name, ITypeLifetimeManager lifetimeManager, params InjectionMember[] injectionMembers) where TTo : TFrom
+        public static IUnityContainer RegisterType<TFrom, TTo>(this IUnityContainer container, string? name, ITypeLifetimeManager lifetimeManager, params InjectionMember[] injectionMembers) where TTo : TFrom
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).RegisterType(typeof(TFrom), typeof(TTo), name, lifetimeManager, injectionMembers);
         }
@@ -202,7 +202,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterSingleton<T>(this IUnityContainer container, string name, params InjectionMember[] injectionMembers)
+        public static IUnityContainer RegisterSingleton<T>(this IUnityContainer container, string? name, params InjectionMember[] injectionMembers)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).RegisterType((Type?)null, typeof(T), name, new ContainerControlledLifetimeManager(), injectionMembers);
         }
@@ -250,7 +250,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterSingleton<TFrom, TTo>(this IUnityContainer container, string name, params InjectionMember[] injectionMembers)
+        public static IUnityContainer RegisterSingleton<TFrom, TTo>(this IUnityContainer container, string? name, params InjectionMember[] injectionMembers)
             where TTo : TFrom
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).RegisterType(typeof(TFrom), typeof(TTo), name, new ContainerControlledLifetimeManager(), injectionMembers);
@@ -305,7 +305,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterType(this IUnityContainer container, Type t, string name, params InjectionMember[] injectionMembers)
+        public static IUnityContainer RegisterType(this IUnityContainer container, Type t, string? name, params InjectionMember[] injectionMembers)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).RegisterType((Type?)null, t, name, null, injectionMembers);
         }
@@ -324,7 +324,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterType(this IUnityContainer container, Type t, string name, ITypeLifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
+        public static IUnityContainer RegisterType(this IUnityContainer container, Type t, string? name, ITypeLifetimeManager lifetimeManager, params InjectionMember[] injectionMembers)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).RegisterType((Type?)null, t, name, lifetimeManager, injectionMembers);
         }
@@ -372,7 +372,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterType(this IUnityContainer container, Type from, Type to, string name, params InjectionMember[] injectionMembers)
+        public static IUnityContainer RegisterType(this IUnityContainer container, Type from, Type to, string? name, params InjectionMember[] injectionMembers)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).RegisterType(from, to, name, null, injectionMembers);
         }
@@ -424,7 +424,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterSingleton(this IUnityContainer container, Type t, string name, params InjectionMember[] injectionMembers)
+        public static IUnityContainer RegisterSingleton(this IUnityContainer container, Type t, string? name, params InjectionMember[] injectionMembers)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).RegisterType((Type?)null, t, name, new ContainerControlledLifetimeManager(), injectionMembers);
         }
@@ -472,7 +472,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterSingleton(this IUnityContainer container, Type from, Type to, string name, params InjectionMember[] injectionMembers)
+        public static IUnityContainer RegisterSingleton(this IUnityContainer container, Type from, Type to, string? name, params InjectionMember[] injectionMembers)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).RegisterType(from, to, name, new ContainerControlledLifetimeManager(), injectionMembers);
         }
@@ -559,7 +559,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterInstance<TInterface>(this IUnityContainer container, string name, TInterface instance)
+        public static IUnityContainer RegisterInstance<TInterface>(this IUnityContainer container, string? name, TInterface instance)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
                 .RegisterInstance(typeof(TInterface), name, instance, new ContainerControlledLifetimeManager());
@@ -585,7 +585,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterInstance<TInterface>(this IUnityContainer container, string name, TInterface instance, IInstanceLifetimeManager lifetimeManager)
+        public static IUnityContainer RegisterInstance<TInterface>(this IUnityContainer container, string? name, TInterface instance, IInstanceLifetimeManager lifetimeManager)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).RegisterInstance(typeof(TInterface), name, instance, lifetimeManager);
         }
@@ -667,7 +667,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterInstance(this IUnityContainer container, Type t, string name, object instance)
+        public static IUnityContainer RegisterInstance(this IUnityContainer container, Type t, string? name, object instance)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
                 .RegisterInstance(t, name, instance, new ContainerControlledLifetimeManager());
@@ -722,7 +722,7 @@ namespace Unity
         public static IUnityContainer RegisterFactory<TInterface>(this IUnityContainer container, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager? lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(typeof(TInterface), null, factory, lifetimeManager);
+                .RegisterFactory(typeof(TInterface), null, factory!, lifetimeManager);
         }
 
         /// <summary>
@@ -741,7 +741,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterFactory<TInterface>(this IUnityContainer container, string name, Func<IUnityContainer, object> factory, IFactoryLifetimeManager? lifetimeManager = null)
+        public static IUnityContainer RegisterFactory<TInterface>(this IUnityContainer container, string? name, Func<IUnityContainer, object> factory, IFactoryLifetimeManager? lifetimeManager = null)
         {
             if (null == factory) throw new ArgumentNullException(nameof(factory));
             return (container ?? throw new ArgumentNullException(nameof(container)))
@@ -764,10 +764,10 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterFactory<TInterface>(this IUnityContainer container, string name, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager? lifetimeManager = null)
+        public static IUnityContainer RegisterFactory<TInterface>(this IUnityContainer container, string? name, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager? lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(typeof(TInterface), name, factory, lifetimeManager);
+                .RegisterFactory(typeof(TInterface), name, factory!, lifetimeManager);
         }
 
         #endregion
@@ -813,7 +813,7 @@ namespace Unity
         public static IUnityContainer RegisterFactory(this IUnityContainer container, Type type, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager? lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(type, null, factory, lifetimeManager);
+                .RegisterFactory(type, null, factory!, lifetimeManager);
         }
 
         /// <summary>
@@ -832,7 +832,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterFactory(this IUnityContainer container, Type type, string name, Func<IUnityContainer, object> factory, IFactoryLifetimeManager? lifetimeManager = null)
+        public static IUnityContainer RegisterFactory(this IUnityContainer container, Type type, string? name, Func<IUnityContainer, object> factory, IFactoryLifetimeManager? lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
                 .RegisterFactory(type, name, (c, t, n) => factory(c), lifetimeManager);
@@ -854,10 +854,10 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static IUnityContainer RegisterFactory(this IUnityContainer container, Type type, string name, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager? lifetimeManager = null)
+        public static IUnityContainer RegisterFactory(this IUnityContainer container, Type type, string? name, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager? lifetimeManager = null)
         {
             return (container ?? throw new ArgumentNullException(nameof(container)))
-                .RegisterFactory(type, name, factory, lifetimeManager);
+                .RegisterFactory(type, name, factory!, lifetimeManager);
         }
 
         #endregion
@@ -877,9 +877,9 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static T Resolve<T>(this IUnityContainer container, params ResolverOverride[] overrides)
+        public static T? Resolve<T>(this IUnityContainer container, params ResolverOverride[] overrides)
         {
-            return (T)(container ?? throw new ArgumentNullException(nameof(container))).Resolve(typeof(T), null, overrides);
+            return (T?)(container ?? throw new ArgumentNullException(nameof(container))).Resolve(typeof(T), null, overrides);
         }
 
         /// <summary>
@@ -893,9 +893,9 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static T Resolve<T>(this IUnityContainer container, string name, params ResolverOverride[] overrides)
+        public static T? Resolve<T>(this IUnityContainer container, string? name, params ResolverOverride[] overrides)
         {
-            return (T)(container ?? throw new ArgumentNullException(nameof(container))).Resolve(typeof(T), name, overrides);
+            return (T?)(container ?? throw new ArgumentNullException(nameof(container))).Resolve(typeof(T), name, overrides);
         }
 
         /// <summary>
@@ -908,7 +908,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static object Resolve(this IUnityContainer container, Type t, params ResolverOverride[] overrides)
+        public static object? Resolve(this IUnityContainer container, Type t, params ResolverOverride[] overrides)
         {
             return (container ?? throw new ArgumentNullException(nameof(container))).Resolve(t, null, overrides);
         }
@@ -940,7 +940,7 @@ namespace Unity
         public static IEnumerable<object> ResolveAll(this IUnityContainer container, Type type, params ResolverOverride[] resolverOverrides)
         {
             var result = (container ?? throw new ArgumentNullException(nameof(container))).Resolve((type ?? throw new ArgumentNullException(nameof(type))).MakeArrayType(), resolverOverrides);
-            return result is IEnumerable<object> objects ? objects : ((Array)result).Cast<object>();
+            return result is IEnumerable<object> objects ? objects : ((Array)result!).Cast<object>();
         }
 
         /// <summary>
@@ -1021,7 +1021,7 @@ namespace Unity
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static T BuildUp<T>(this IUnityContainer container, T existing, string name, params ResolverOverride[] resolverOverrides)
+        public static T BuildUp<T>(this IUnityContainer container, T existing, string? name, params ResolverOverride[] resolverOverrides)
         {
             if (null == existing) throw new ArgumentNullException(nameof(existing));
             if (null == container) throw new ArgumentNullException(nameof(container));
