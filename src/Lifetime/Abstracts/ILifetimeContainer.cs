@@ -13,7 +13,7 @@ namespace Unity.Lifetime
         /// The container that this context is associated with.
         /// </summary>
         /// <value>The <see cref="IUnityContainer"/> object.</value>
-        IUnityContainer Container { get; }
+        IUnityContainer? Container { get; }
 
         /// <summary>
         /// Gets the number of references in the lifetime container
