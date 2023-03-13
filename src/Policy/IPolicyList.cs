@@ -13,7 +13,7 @@ namespace Unity.Policy
         /// <param name="type">Type of the registration</param>
         /// <param name="policyInterface">Type of policy to retrieve</param>
         /// <returns>Instance of the policy or null if none found</returns>
-        object Get(Type? type, Type policyInterface);
+        object? Get(Type? type, Type policyInterface);
 
         /// <summary>
         /// Get policy
