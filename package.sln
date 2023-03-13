@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		RELEASE-NOTES.txt = RELEASE-NOTES.txt
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abstractions.Tests", "tests\Abstractions.Tests.csproj", "{3A5A8099-7F1A-4D11-86A6-D2FC2FC6B4E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abstractions.Unit.Tests", "tests\Abstractions.Unit.Tests.csproj", "{CF0D7E28-EF2A-46B8-832D-FBF5E7A5DAE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,10 +24,10 @@ Global
 		{2A50E743-8817-41DB-BD23-6F9625665EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A50E743-8817-41DB-BD23-6F9625665EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A50E743-8817-41DB-BD23-6F9625665EF7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A5A8099-7F1A-4D11-86A6-D2FC2FC6B4E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A5A8099-7F1A-4D11-86A6-D2FC2FC6B4E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A5A8099-7F1A-4D11-86A6-D2FC2FC6B4E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A5A8099-7F1A-4D11-86A6-D2FC2FC6B4E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF0D7E28-EF2A-46B8-832D-FBF5E7A5DAE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF0D7E28-EF2A-46B8-832D-FBF5E7A5DAE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF0D7E28-EF2A-46B8-832D-FBF5E7A5DAE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF0D7E28-EF2A-46B8-832D-FBF5E7A5DAE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
