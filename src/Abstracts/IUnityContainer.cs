@@ -159,7 +159,7 @@ namespace Unity
         /// <seealso cref="Unity.FactoryLifetime"/>
         /// <exception cref="InvalidOperationException">If delegate is <c>null</c> method throws</exception>
         /// <returns>The <see cref="IUnityContainer"/> object that this method was called on.</returns>
-        IUnityContainer RegisterFactory(Type type, string? name, Func<IUnityContainer, Type, string, object> factory, IFactoryLifetimeManager? lifetimeManager);
+        IUnityContainer RegisterFactory(Type type, string? name, Func<IUnityContainer, Type, string?, object?> factory, IFactoryLifetimeManager? lifetimeManager);
 
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace Unity
         /// <seealso cref="Unity.Override"/>
         /// <exception cref="ResolutionFailedException">Throws if any errors occur during resolution</exception>
         /// <returns>The retrieved object.</returns>
-        object Resolve(Type type, string? name, params ResolverOverride[] overrides);
+        object? Resolve(Type type, string? name, params ResolverOverride[] overrides);
 
 
         /// <summary>
