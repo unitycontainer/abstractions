@@ -1,9 +1,8 @@
 ﻿using System;
-using Unity.Policy;
 
 namespace Unity.Resolution
 {
-    public interface IResolveContext : IPolicyList
+    public interface IResolveContext
     {
         /// <summary>Reference to container.</summary>
         IUnityContainer Container { get; }

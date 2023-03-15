@@ -80,6 +80,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Deprecated\" />
+  </ItemGroup>
+
   <!-- Release Notes -->
 
   <Target Name="PreparePackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec">
