@@ -1,11 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\package.props" />
+  <!-- Frameworks -->
 
   <PropertyGroup>
-    <Version>$(VersionBase)</Version>
-    <FileVersion>$(VersionBase).0</FileVersion>
-    <AssemblyVersion>$(VersionBase).0</AssemblyVersion>
+    <TargetFrameworks>net7.0;net6.0;netstandard2.1</TargetFrameworks>
+  </PropertyGroup>
+
+  <!-- Defaults -->
+  
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>Unity</RootNamespace>
+    <RootNamespace>Unity</RootNamespace>
+  </PropertyGroup>
+  
+  
+  <!-- Package Info -->
+  
+  <PropertyGroup>
     <PackageId>Unity.Abstractions</PackageId>
     <Description>Unity Container Public Abstractions</Description>
     <Copyright>Copyright © .NET Foundation and Contributors. All Rights Reserved</Copyright>
@@ -17,62 +31,56 @@
     <RepositoryType>git</RepositoryType>
     <Authors>Unity Open Source Project</Authors>
     <Company>Unity Open Source Project</Company>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>package.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>false</DelaySign>
-    <RootNamespace>Unity</RootNamespace>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' != '' AND '$(TargetFramework)' != 'netstandard1.0' ">
-    <Compile Remove="Lifetime\Managers\ConcurrentDictionary.cs" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' != '' AND $(TargetFramework.StartsWith('netcoreapp'))">
-    <Compile Remove="Exceptions\ResolutionFailedException.Desktop.cs" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' != '' AND $(TargetFramework.StartsWith('netstandard'))">
-    <Compile Remove="Exceptions\ResolutionFailedException.Desktop.cs" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-    <Compile Remove="Abstracts\IUnityContainerAsync.cs" />
-    <Compile Remove="Extensions\Container\UnityContainerAsync.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Unity.Abstractions.csproj.DotSettings" />
-  </ItemGroup>
+  
+  <!-- Version Info -->
+  
+  
+  <!-- Configuration Settings -->
   
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <DebugType>Portable</DebugType>
   </PropertyGroup>
-
+  
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <DebugType>Full</DebugType>
   </PropertyGroup>
-
+  
   <!-- Sourcelink -->
+  
   <PropertyGroup>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
+  <!-- External References -->
+  
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
       <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Condition="'$(TargetFramework)' != 'net40'" Include="System.Threading.Tasks.Extensions">
-      <Version>4.5.2</Version>
-    </PackageReference>
-  </ItemGroup>
+  
+  <!-- Release Notes -->
+  
+  <Target Name="PreparePackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec">
+    <ReadLinesFromFile File="../RELEASE-NOTES.txt">
+      <Output TaskParameter="Lines" ItemName="ReleaseNoteLines" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <PackageReleaseNotes>@(ReleaseNoteLines, '%0a')</PackageReleaseNotes>
+    </PropertyGroup>
+  </Target>
   
 </Project>
