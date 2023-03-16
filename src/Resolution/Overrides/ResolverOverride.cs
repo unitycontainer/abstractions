@@ -8,13 +8,13 @@ namespace Unity.Resolution;
 /// Base class for all override objects passed in the
 /// <see cref="IUnityContainer.Resolve"/> method.
 /// </summary>
-public abstract class ResolverOverride
+public abstract class ResolverOverride : IResolve
 {
     #region Fields
 
     protected Type?              Target;
     protected readonly string?   Name;
-    public    readonly object?   Value;
+    protected readonly object?   Value;
     public    readonly MatchRank RequireRank;
 
     #endregion
@@ -44,9 +44,9 @@ public abstract class ResolverOverride
     /// <param name="rank">Minimal required rank to override</param>
     protected ResolverOverride(Type? target, string? name, object? value, MatchRank rank)
     {
-        Target = target;
         Name = name;
         Value = value;
+        Target = target;
         RequireRank = rank;
     }
 
@@ -80,6 +80,16 @@ public abstract class ResolverOverride
         Target = targetType;
         return this;
     }
+
+    #endregion
+
+
+    #region IResolve
+
+    /// <inheritdoc />
+    public virtual object? Resolve<TContext>(ref TContext context) 
+        where TContext : IResolveContext 
+        => Value;
 
     #endregion
 }
