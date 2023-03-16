@@ -21,7 +21,7 @@ public class FieldOverride : ResolverOverride,
     /// <param name="value">InjectionParameterValue to use for the Field.</param>
     public FieldOverride(string name, object? value)
         : base(name ?? throw new ArgumentNullException(nameof(name), "Must provide a name of the field to override"), 
-               value, MatchRank.ExactMatch)
+               value)
     {
     }
 

@@ -29,7 +29,7 @@ public class ParameterOverride : ResolverOverride,
     /// <param name="name">Name of the constructor parameter.</param>
     /// <param name="value">InjectionParameterValue to pass for the constructor.</param>
     public ParameterOverride(string name, object? value)
-        : base(name, value, MatchRank.ExactMatch)
+        : base(name, value)
     {
     }
 
@@ -41,7 +41,7 @@ public class ParameterOverride : ResolverOverride,
     /// <param name="type">Type of the parameter.</param>
     /// <param name="value">Value to pass for the MethodBase.</param>
     public ParameterOverride(Type type, object? value)
-        : base(null, value, MatchRank.ExactMatch) 
+        : base(null, value) 
         => Type = type;
 
     /// <summary>
@@ -53,7 +53,7 @@ public class ParameterOverride : ResolverOverride,
     /// <param name="name">Name of the parameter.</param>
     /// <param name="value">Value to pass for the MethodBase.</param>
     public ParameterOverride(string? name, Type type, object? value)
-        : base(name, value, MatchRank.ExactMatch) 
+        : base(name, value) 
         => Type = type;
 
     /// <summary>
@@ -65,14 +65,15 @@ public class ParameterOverride : ResolverOverride,
     /// <param name="parameterName">Name of the constructor parameter.</param>
     /// <param name="value">Value to pass for the MethodBase.</param>
     public ParameterOverride(Type parameterType, string parameterName, object value)
-        : base(null, parameterName, value, MatchRank.ExactMatch) 
+        : base(null, parameterName, value) 
         => Type = parameterType;
 
     #endregion
 
 
-    #region Match
+    #region IMatchInfo<ParameterInfo>
 
+    /// <inheritdoc />
     public MatchRank RankMatch(ParameterInfo other)
     {
         return (Target is null || other.Member.DeclaringType == Target) &&

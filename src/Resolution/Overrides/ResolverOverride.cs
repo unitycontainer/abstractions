@@ -16,7 +16,6 @@ public abstract class ResolverOverride : IEquatable<MatchRank>,
     protected Type?              Target;
     protected readonly string?   Name;
     protected readonly object?   Value;
-    private   readonly MatchRank _rank;
 
     #endregion
 
@@ -29,11 +28,10 @@ public abstract class ResolverOverride : IEquatable<MatchRank>,
     /// <param name="name">Name of the dependency</param>
     /// <param name="value">Value to pass to resolver</param>
     /// <param name="rank">Minimal required rank to override</param>
-    protected ResolverOverride(string? name, object? value, MatchRank rank)
+    protected ResolverOverride(string? name, object? value)
     {
         Name = name;
         Value = value;
-        _rank = rank;
     }
 
     /// <summary>
@@ -43,12 +41,11 @@ public abstract class ResolverOverride : IEquatable<MatchRank>,
     /// <param name="name">Name of the dependency</param>
     /// <param name="value">Value to pass to resolver</param>
     /// <param name="rank">Minimal required rank to override</param>
-    protected ResolverOverride(Type? target, string? name, object? value, MatchRank rank)
+    protected ResolverOverride(Type? target, string? name, object? value)
     {
         Name = name;
         Value = value;
         Target = target;
-        _rank = rank;
     }
 
     #endregion
@@ -87,8 +84,13 @@ public abstract class ResolverOverride : IEquatable<MatchRank>,
 
     #region IEquatable<MatchRank>
 
-    public bool Equals(MatchRank other) 
-        => other >= _rank;
+    /// <summary>
+    /// Determines if provided rank is adequate to be a match
+    /// </summary>
+    /// <param name="other">The rank to compare</param>
+    /// <returns></returns>
+    public virtual bool Equals(MatchRank other) 
+        => other >= MatchRank.ExactMatch;
 
     #endregion
 

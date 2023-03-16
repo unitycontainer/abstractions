@@ -31,7 +31,7 @@ public class DependencyOverride : ResolverOverride,
     /// <param name="contractType">Type of the <see cref="Contract"/></param>
     /// <param name="value">Value to override with</param>
     public DependencyOverride(Type contractType, object? value)
-        : base(Contract.AnyContractName, value, MatchRank.Compatible) => Type = contractType;
+        : base(Contract.AnyContractName, value) => Type = contractType;
 
     /// <summary>
     /// Create an instance of <see cref="DependencyOverride"/> to override
@@ -40,7 +40,7 @@ public class DependencyOverride : ResolverOverride,
     /// <param name="contractName">Name of the <see cref="Contract"/></param>
     /// <param name="value">Value to override with</param>
     public DependencyOverride(string contractName, object? value)
-        : base(contractName, value, MatchRank.Compatible)
+        : base(contractName, value)
     {
     }
 
@@ -52,7 +52,7 @@ public class DependencyOverride : ResolverOverride,
     /// <param name="contractType">Type of the <see cref="Contract"/></param>
     /// <param name="value">Value to override with</param>
     public DependencyOverride(Type contractType, string? contractName, object? value)
-        : base(contractName, value, MatchRank.Compatible) => Type = contractType;
+        : base(contractName, value) => Type = contractType;
 
     /// <summary>
     /// Create an instance of <see cref="DependencyOverride"/> to override
@@ -63,12 +63,44 @@ public class DependencyOverride : ResolverOverride,
     /// <param name="contractType">Type of the <see cref="Contract"/></param>
     /// <param name="value">Value to override with</param>
     public DependencyOverride(Type? targetType, Type contractType, string? contractName, object? value)
-        : base(targetType, contractName, value, MatchRank.Compatible) => Type = contractType;
+        : base(targetType, contractName, value) => Type = contractType;
 
     #endregion
 
 
-    #region  Match
+    #region  IMatchContract
+    
+    /// <inheritdoc />
+    public MatchRank RankMatch(ParameterInfo member, Type contractType, string? contractName) 
+        => null != Target && member.Member.DeclaringType != Target
+        ? MatchRank.NoMatch
+        : MatchContract(contractType, contractName);
+
+    /// <inheritdoc />
+    public MatchRank RankMatch(FieldInfo field, Type contractType, string? contractName)
+        => null != Target && field.DeclaringType != Target
+        ? MatchRank.NoMatch
+        : MatchContract(contractType, contractName);
+
+    /// <inheritdoc />
+    public MatchRank RankMatch(PropertyInfo property, Type contractType, string? contractName)
+        => null != Target && property.DeclaringType != Target 
+        ? MatchRank.NoMatch
+        : MatchContract(contractType, contractName);
+
+    #endregion
+
+
+    #region IEquatable<MatchRank>
+
+    /// <inheritdoc />
+    public override bool Equals(MatchRank other)
+        => other >= MatchRank.Compatible;
+
+    #endregion
+
+
+    #region Implementation
 
     private MatchRank MatchContract(Type contractType, string? contractName)
     {
@@ -86,23 +118,6 @@ public class DependencyOverride : ResolverOverride,
 
         return MatchRank.NoMatch;
     }
-
-
-    public MatchRank RankMatch(ParameterInfo member, Type contractType, string? contractName) 
-        => null != Target && member.Member.DeclaringType != Target
-        ? MatchRank.NoMatch
-        : MatchContract(contractType, contractName);
-
-    public MatchRank RankMatch(FieldInfo field, Type contractType, string? contractName)
-        => null != Target && field.DeclaringType != Target
-        ? MatchRank.NoMatch
-        : MatchContract(contractType, contractName);
-
-    public MatchRank RankMatch(PropertyInfo property, Type contractType, string? contractName)
-        => null != Target && property.DeclaringType != Target 
-        ? MatchRank.NoMatch
-        : MatchContract(contractType, contractName);
-
 
     #endregion
 }

@@ -21,7 +21,7 @@ public class PropertyOverride : ResolverOverride,
     /// <param name="value">InjectionParameterValue to use for the property.</param>
     public PropertyOverride(string name, object? value)
         : base(name ?? throw new ArgumentNullException(nameof(name), "Must provide a name of the property to override"), 
-               value, MatchRank.ExactMatch)
+               value)
     {
     }
 
