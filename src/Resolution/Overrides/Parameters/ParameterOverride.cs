@@ -41,7 +41,8 @@ public class ParameterOverride : ResolverOverride,
     /// <param name="type">Type of the parameter.</param>
     /// <param name="value">Value to pass for the MethodBase.</param>
     public ParameterOverride(Type type, object? value)
-        : base(null, value, MatchRank.ExactMatch) => Type = type;
+        : base(null, value, MatchRank.ExactMatch) 
+        => Type = type;
 
     /// <summary>
     /// Construct a new <see cref="ParameterOverride"/> object that will
@@ -52,7 +53,20 @@ public class ParameterOverride : ResolverOverride,
     /// <param name="name">Name of the parameter.</param>
     /// <param name="value">Value to pass for the MethodBase.</param>
     public ParameterOverride(string? name, Type type, object? value)
-        : base(name, value, MatchRank.ExactMatch) => Type = type;
+        : base(name, value, MatchRank.ExactMatch) 
+        => Type = type;
+
+    /// <summary>
+    /// Construct a new <see cref="ParameterOverride"/> object that will
+    /// override the given named constructor parameter, and pass the given
+    /// value.
+    /// </summary>
+    /// <param name="parameterType">Type of the parameter.</param>
+    /// <param name="parameterName">Name of the constructor parameter.</param>
+    /// <param name="value">Value to pass for the MethodBase.</param>
+    public ParameterOverride(Type parameterType, string parameterName, object value)
+        : base(null, parameterName, value, MatchRank.ExactMatch) 
+        => Type = parameterType;
 
     #endregion
 
