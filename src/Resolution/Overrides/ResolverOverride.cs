@@ -8,14 +8,15 @@ namespace Unity.Resolution;
 /// Base class for all override objects passed in the
 /// <see cref="IUnityContainer.Resolve"/> method.
 /// </summary>
-public abstract class ResolverOverride : IResolve
+public abstract class ResolverOverride : IEquatable<MatchRank>,
+                                         IResolve
 {
     #region Fields
 
     protected Type?              Target;
     protected readonly string?   Name;
     protected readonly object?   Value;
-    public    readonly MatchRank RequireRank;
+    private   readonly MatchRank _rank;
 
     #endregion
 
@@ -32,7 +33,7 @@ public abstract class ResolverOverride : IResolve
     {
         Name = name;
         Value = value;
-        RequireRank = rank;
+        _rank = rank;
     }
 
     /// <summary>
@@ -47,7 +48,7 @@ public abstract class ResolverOverride : IResolve
         Name = name;
         Value = value;
         Target = target;
-        RequireRank = rank;
+        _rank = rank;
     }
 
     #endregion
@@ -80,6 +81,14 @@ public abstract class ResolverOverride : IResolve
         Target = targetType;
         return this;
     }
+
+    #endregion
+
+
+    #region IEquatable<MatchRank>
+
+    public bool Equals(MatchRank other) 
+        => other >= _rank;
 
     #endregion
 
