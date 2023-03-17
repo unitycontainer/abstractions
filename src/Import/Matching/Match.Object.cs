@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Reflection;
+using Unity.Resolution;
 
-namespace Unity.Resolution
+namespace Unity.Import
 {
     public static partial class Matching
     {
