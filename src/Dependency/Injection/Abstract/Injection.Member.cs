@@ -1,74 +1,73 @@
-﻿using System;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.Reflection;
 using Unity.Dependency;
 
-namespace Unity.Injection
+namespace Unity.Injection;
+
+
+
+/// <summary>
+/// Base class for objects that can be used to configure what
+/// class members get injected by the container.
+/// </summary>
+public abstract class InjectionMember
 {
     /// <summary>
-    /// Base class for objects that can be used to configure what
-    /// class members get injected by the container.
+    /// This property triggers mandatory registration build
     /// </summary>
-    public abstract class InjectionMember
+    /// <remarks>
+    /// If this property is True, the registration will never map
+    /// to other type, it will always build its own pipeline.
+    /// </remarks>
+    public virtual bool BuildRequired => false;
+}
+
+
+public abstract class InjectionMember<TMemberInfo, TData> : InjectionMember, 
+                                                            IInjectionProvider, 
+                                                            IMatchInfo<TMemberInfo>
+                                        where TMemberInfo : MemberInfo
+                                        where TData       : class
+{
+    #region Constructors
+
+    protected InjectionMember(string name, TData? data)
     {
-        /// <summary>
-        /// This property triggers mandatory registration build
-        /// </summary>
-        /// <remarks>
-        /// If this property is True, the registration will never map
-        /// to other type, it will always build its own pipeline.
-        /// </remarks>
-        public virtual bool BuildRequired => false;
+        Name = name;
+        Data = data;
     }
 
-
-    public abstract class InjectionMember<TMemberInfo, TData> : InjectionMember, 
-                                                                IImportProvider, 
-                                                                IMatchInfo<TMemberInfo>
-                                            where TMemberInfo : MemberInfo
-                                            where TData       : class
-    {
-        #region Constructors
-
-        protected InjectionMember(string name, TData? data)
-        {
-            Name = name;
-            Data = data;
-        }
-
-        #endregion
+    #endregion
 
 
-        #region Public API
+    #region Public API
 
-        /// <summary>
-        /// Name of the injected member
-        /// </summary>
-        /// <remarks>
-        /// <para> When injected member is either <see cref="InjectionMethod"/>, <see cref="InjectionField"/>,
-        /// or <see cref="InjectionProperty"/> this is the name of respective method, field, or property.</para>
-        /// <para>In case of <see cref="InjectionConstructor"/>, Name is always ".ctor"</para>
-        /// </remarks>
-        public string Name { get; }
+    /// <summary>
+    /// Name of the injected member
+    /// </summary>
+    /// <remarks>
+    /// <para> When injected member is either <see cref="InjectionMethod"/>, <see cref="InjectionField"/>,
+    /// or <see cref="InjectionProperty"/> this is the name of respective method, field, or property.</para>
+    /// <para>In case of <see cref="InjectionConstructor"/>, Name is always ".ctor"</para>
+    /// </remarks>
+    public string Name { get; }
 
-        /// <summary>
-        /// Data associated with injection member.
-        /// </summary>
-        public virtual TData? Data { get; }
-
-
-        /// <inheritdoc/>
-        public override bool BuildRequired => true;
+    /// <summary>
+    /// Data associated with injection member.
+    /// </summary>
+    public virtual TData? Data { get; }
 
 
-        /// <inheritdoc/>
-        public virtual MatchRank RankMatch(TMemberInfo other)
-            => MatchRank.NoMatch;
+    /// <inheritdoc/>
+    public override bool BuildRequired => true;
 
-        /// <inheritdoc/>
-        public virtual void ProvideImport<TDescriptor>(ref TDescriptor descriptor)
-            where TDescriptor : IInjectionInfo => descriptor.Data = Data;
 
-        #endregion
-    }
+    /// <inheritdoc/>
+    public virtual MatchRank RankMatch(TMemberInfo other)
+        => MatchRank.NoMatch;
+
+    /// <inheritdoc/>
+    public virtual void GetInjectionInfo<TDescriptor>(ref TDescriptor descriptor)
+        where TDescriptor : IInjectionInfo => descriptor.Data = Data;
+
+    #endregion
 }
