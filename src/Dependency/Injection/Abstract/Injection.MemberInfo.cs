@@ -65,11 +65,11 @@ public abstract class InjectionMemberInfo<TMemberInfo> : InjectionMember<TMember
 
 
     /// <inheritdoc/>
-    public override void GetInjectionInfo<TDescriptor>(ref TDescriptor descriptor)
+    public override void ProvideInfo<TDescriptor>(ref TDescriptor descriptor)
     {
         if (Data is IInjectionProvider provider)
         { 
-            provider.GetInjectionInfo(ref descriptor);
+            provider.ProvideInfo(ref descriptor);
             return;
         }
 

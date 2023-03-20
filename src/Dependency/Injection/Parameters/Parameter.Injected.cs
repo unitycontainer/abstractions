@@ -48,7 +48,7 @@ public class InjectionParameter : ParameterBase
     #region Implementation
 
     /// <inheritdoc/>
-    public override void GetInjectionInfo<TDescriptor>(ref TDescriptor descriptor) 
+    public override void ProvideInfo<TDescriptor>(ref TDescriptor descriptor) 
         => descriptor.Data = _value;
 
     /// <inheritdoc/>

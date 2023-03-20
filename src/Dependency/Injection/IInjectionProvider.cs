@@ -4,13 +4,13 @@
 
 public interface IInjectionProvider
 {
-    void GetInjectionInfo<TInjectionInfo>(ref TInjectionInfo info)
+    void ProvideInfo<TInjectionInfo>(ref TInjectionInfo info)
         where TInjectionInfo : IInjectionInfo;
 }
 
 
 public interface IInjectionProvider<TMemberInfo> : IInjectionProvider
 {
-    new void GetInjectionInfo<TInjectionInfo>(ref TInjectionInfo info)
+    new void ProvideInfo<TInjectionInfo>(ref TInjectionInfo info)
         where TInjectionInfo : IInjectionInfo<TMemberInfo>;
 }

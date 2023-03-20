@@ -61,7 +61,7 @@ public class GenericResolvedArrayParameter : GenericParameterBase
     /// </summary>
     public override string ParameterTypeName => base.ParameterTypeName + "[]";
 
-    public override void GetInjectionInfo<TDescriptor>(ref TDescriptor descriptor) 
+    public override void ProvideInfo<TDescriptor>(ref TDescriptor descriptor) 
         => descriptor.Arguments = _elementValues;
 
     #endregion

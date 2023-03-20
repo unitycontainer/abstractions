@@ -94,7 +94,7 @@ public class OptionalParameter : ParameterBase
 
     #region Implementation
 
-    public override void GetInjectionInfo<TDescriptor>(ref TDescriptor descriptor)
+    public override void ProvideInfo<TDescriptor>(ref TDescriptor descriptor)
     {
         if (!ReferenceEquals(_name, Contract.AnyContractName))
             descriptor.ContractName = _name;
