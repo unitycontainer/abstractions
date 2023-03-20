@@ -5,7 +5,7 @@ namespace Unity.Dependency
 {
     public interface IInjectionInfo
     {
-        #region Member
+        #region Member Type
 
         /// <summary>
         /// <see cref="Type"/> of imported member, set by <see cref="MemberInfo"/>
@@ -39,11 +39,14 @@ namespace Unity.Dependency
 
 
         /// <summary>
-        /// Sets default value and flips <see cref="AllowDefault"/> to <see cref="True"/>
+        /// Sets default value and flips <see cref="AllowDefault"/> to <see langword=""="true"/>
         /// </summary>
         object? Default { set; }
 
 
+        /// <summary>
+        /// Array of arguments
+        /// </summary>
         object?[] Arguments { set; }
 
 
@@ -60,7 +63,7 @@ namespace Unity.Dependency
         #endregion
     }
 
-    public interface IImportDescriptor<TMemberInfo> : IInjectionInfo
+    public interface IInjectionInfo<TMemberInfo> : IInjectionInfo
     {
         /// <summary>
         /// One of <see cref="ParameterInfo"/>, <see cref="FieldInfo"/>, or
