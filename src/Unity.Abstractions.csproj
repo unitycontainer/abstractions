@@ -72,7 +72,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="Dependency\Injection\" />
+    <Folder Include="Import\" />
   </ItemGroup>
 
   

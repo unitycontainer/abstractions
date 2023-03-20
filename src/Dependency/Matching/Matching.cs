@@ -1,7 +1,7 @@
 ﻿using System;
 using Unity.Resolution;
 
-namespace Unity.Import;
+namespace Unity.Dependency;
 
 
 

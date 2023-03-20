@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Reflection;
 
-namespace Unity.Extension
+namespace Unity.Dependency
 {
-    public interface IImportDescriptor
+    public interface IInjectionInfo
     {
         #region Member
 
@@ -13,20 +12,15 @@ namespace Unity.Extension
         /// </summary>
         Type MemberType { get; }
 
-        /// <summary>
-        /// Declaring <see cref="Type"/>, set by <see cref="MemberInfo"/>
-        /// </summary>
-        Type DeclaringType { get; }
-
         #endregion
 
 
         #region Contract
 
         Type ContractType { get; set; }
-        
+
         string? ContractName { get; set; }
-        
+
         #endregion
 
 
@@ -36,7 +30,7 @@ namespace Unity.Extension
         /// True if annotated with <see cref="Unity.DependencyResolutionAttribute"/>
         /// </summary>
         bool IsImport { get; set; }
-        
+
 
         /// <summary>
         /// Allows default value if can not be resolved
@@ -50,7 +44,7 @@ namespace Unity.Extension
         object? Default { set; }
 
 
-        object?[]? Arguments { set; }
+        object?[] Arguments { set; }
 
 
         /// <summary>
@@ -66,7 +60,7 @@ namespace Unity.Extension
         #endregion
     }
 
-    public interface IImportDescriptor<TMemberInfo> : IImportDescriptor
+    public interface IImportDescriptor<TMemberInfo> : IInjectionInfo
     {
         /// <summary>
         /// One of <see cref="ParameterInfo"/>, <see cref="FieldInfo"/>, or

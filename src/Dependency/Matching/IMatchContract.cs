@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unity.Import;
+namespace Unity.Dependency;
 
 
 /// <summary>
