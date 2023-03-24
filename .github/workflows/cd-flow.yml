@@ -14,7 +14,7 @@ jobs:
     with:
       cmd-arguments: '/overrideconfig mode=ContinuousDeployment next-version=8.0.0'
 
-  # publish-artifact-flow:
-  #   needs: [ build-package-flow ]
-  #   uses: unitycontainer/.github/.github/workflows/publish-artifact-flow.yml@main
-  #   secrets: inherit
+  publish-artifact-flow:
+    needs: [ build-package-flow ]
+    uses: unitycontainer/.github/.github/workflows/publish-artifact-flow.yml@main
+    secrets: inherit
