@@ -11,8 +11,6 @@ jobs:
   build-package-flow:
     uses: unitycontainer/.github/.github/workflows/build-package-flow.yml@main
     secrets: inherit 
-    with:
-      cmd-arguments: '/overrideconfig mode=ContinuousDeployment next-version=8.0.0'
 
   publish-artifact-flow:
     needs: [ build-package-flow ]
