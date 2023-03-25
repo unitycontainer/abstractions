@@ -5,8 +5,8 @@ namespace Unity.Container.Tests
 {
     public class PatternTestMethodAttribute : TestMethodAttribute
     {
-        public PatternTestMethodAttribute(string pattern, [CallerMemberName] string name = null)
-            : base(string.Format(pattern, name.Split('_')))
+        public PatternTestMethodAttribute(string pattern, [CallerMemberName] string? name = null)
+            : base(string.Format(pattern, (name ?? string.Empty).Split('_')))
         {
         }
     }
