@@ -116,6 +116,17 @@ public static partial class Matching
 
     #region Implementation
 
+    /// <summary>
+    /// Calculates how much data matches the <see cref="MethodBase"/>
+    /// </summary>
+    /// <param name="data">Array of objects to validate against the 
+    /// <see cref="MethodBase"/></param>
+    /// <param name="other">The <see cref="MethodBase"/> to match to</param>
+    /// <returns>
+    /// -1 if no match found
+    /// 0 - if exact match or
+    /// positive number ranking the match
+    /// </returns>
     public static int MatchData(object[]? data, MethodBase other)
     {
         System.Diagnostics.Debug.Assert(null != other);
