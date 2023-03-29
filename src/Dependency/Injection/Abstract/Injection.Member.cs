@@ -23,7 +23,7 @@ public abstract class InjectionMember
 
 
 public abstract class InjectionMember<TMemberInfo, TData> : InjectionMember, 
-                                                            IInjectionProvider, 
+                                                            IInjectionInfoProvider, 
                                                             IMatchInfo<TMemberInfo>
                                         where TMemberInfo : MemberInfo
                                         where TData       : class

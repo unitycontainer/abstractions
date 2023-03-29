@@ -11,7 +11,7 @@ namespace Unity.Injection;
 /// constructor or method injection, or for getting the value to
 /// be injected into a property.
 /// </summary>
-public abstract class ParameterValue : IInjectionProvider,
+public abstract class ParameterValue : IInjectionInfoProvider,
                                        IMatchInfo<ParameterInfo>
 {
     #region Import Description Provider
