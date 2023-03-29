@@ -8,49 +8,73 @@ namespace Unity.Dependency;
 
 public static partial class Matching
 {
-    public static int MatchMethod(object[]? data, MethodBase[] members)
+    /// <summary>
+    /// Match a type to target type
+    /// </summary>
+    /// <param name="target">Type to be matched</param>
+    /// <param name="type">Type to match to</param>
+    /// <returns>Rank of the match</returns>
+    public static MatchRank MatchTo(this Type target, Type type)
     {
-        int position = -1;
-        int bestSoFar = -1;
+        if (typeof(Type).Equals(type))
+            return MatchRank.ExactMatch;
 
-        for (var index = 0; index < members.Length; index++)
-        {
-            var compatibility = MatchData(data, members[index]);
+        if (target == type || Nullable.GetUnderlyingType(target) == type)
+            return MatchRank.HigherProspect;
 
-            if (0 == compatibility) return index;
+        if (type.IsAssignableFrom(target))
+            return MatchRank.Compatible;
 
-            if (bestSoFar < compatibility)
-            {
-                position = index;
-                bestSoFar = compatibility;
-            }
-        }
+        if (typeof(Array) == target && type.IsArray)
+            return MatchRank.HigherProspect;
 
-        return position;
+        if (target.IsGenericType && target.IsGenericTypeDefinition && type.IsGenericType &&
+            target.GetGenericTypeDefinition() == type.GetGenericTypeDefinition())
+            return MatchRank.ExactMatch;
+
+        return MatchRank.NoMatch;
+    }
+
+    /// <summary>
+    /// Match am array to target type
+    /// </summary>
+    /// <param name="array">Array to match to type</param>
+    /// <param name="type">Type to match to</param>
+    /// <returns>Rank of the match</returns>
+    public static MatchRank MatchTo(this Array array, Type type)
+    {
+        var target = array.GetType();
+
+        if (type == target) return MatchRank.ExactMatch;
+        if (type == typeof(Array)) return MatchRank.HigherProspect;
+
+        return type.IsAssignableFrom(target)
+            ? MatchRank.Compatible
+            : MatchRank.NoMatch;
     }
 
     /// <summary>
     /// Match an object to specified type
     /// </summary>
     /// <param name="value">The object</param>
-    /// <param name="target">Type to match to</param>
+    /// <param name="type">Type to match to</param>
     /// <returns>Rank of the match</returns>
-    public static MatchRank MatchTo(this object? value, Type target)
+    public static MatchRank MatchValue(this object? value, Type type)
     {
         switch (value)
         {
             case null:
-                return !target.IsValueType || null != Nullable.GetUnderlyingType(target)
+                return !type.IsValueType || null != Nullable.GetUnderlyingType(type)
                      ? MatchRank.ExactMatch : MatchRank.NoMatch;
 
             case Array array:
-                return array.MatchTo(target);
+                return array.MatchTo(type);
 
             case IMatchInfo<Type> iMatchType:
-                return iMatchType.RankMatch(target);
+                return iMatchType.RankMatch(type);
 
-            case Type type:
-                return type.MatchTo(target);
+            case Type target:
+                return target.MatchTo(type);
 
             case IResolve:
             case IResolverFactory:
@@ -59,96 +83,14 @@ public static partial class Matching
 
         var objectType = value.GetType();
 
-        if (objectType == target)
+        if (objectType == type)
             return MatchRank.ExactMatch;
 
-        return target.IsAssignableFrom(objectType)
+        return type.IsAssignableFrom(objectType)
             ? MatchRank.Compatible : MatchRank.NoMatch;
     }
 
-
-    /// <summary>
-    /// Match a type to target type
-    /// </summary>
-    /// <param name="type">Type to be matched</param>
-    /// <param name="target">Type to match to</param>
-    /// <returns>Rank of the match</returns>
-    public static MatchRank MatchTo(this Type type, Type target)
-    {
-        if (typeof(Type).Equals(target))
-            return MatchRank.ExactMatch;
-
-        if (type == target || Nullable.GetUnderlyingType(type) == target)
-            return MatchRank.HigherProspect;
-
-        if (target.IsAssignableFrom(type))
-            return MatchRank.Compatible;
-
-        if (typeof(Array) == type && target.IsArray)
-            return MatchRank.HigherProspect;
-
-        if (type.IsGenericType && type.IsGenericTypeDefinition && target.IsGenericType &&
-            type.GetGenericTypeDefinition() == target.GetGenericTypeDefinition())
-            return MatchRank.ExactMatch;
-
-        return MatchRank.NoMatch;
-    }
-
-
-    /// <summary>
-    /// Match am array to target type
-    /// </summary>
-    /// <param name="array">Array to match to type</param>
-    /// <param name="target">Type to match to</param>
-    /// <returns>Rank of the match</returns>
-    public static MatchRank MatchTo(this Array array, Type target)
-    {
-        var type = array.GetType();
-
-        if (target == type) return MatchRank.ExactMatch;
-        if (target == typeof(Array)) return MatchRank.HigherProspect;
-
-        return target.IsAssignableFrom(type)
-            ? MatchRank.Compatible
-            : MatchRank.NoMatch;
-    }
-
-
-    #region Implementation
-
-    /// <summary>
-    /// Calculates how much data matches the <see cref="MethodBase"/>
-    /// </summary>
-    /// <param name="data">Array of objects to validate against the 
-    /// <see cref="MethodBase"/></param>
-    /// <param name="other">The <see cref="MethodBase"/> to match to</param>
-    /// <returns>
-    /// -1 if no match found
-    /// 0 - if exact match or
-    /// positive number ranking the match
-    /// </returns>
-    public static int MatchData(object[]? data, MethodBase other)
-    {
-        System.Diagnostics.Debug.Assert(null != other);
-
-        var length = data?.Length ?? 0;
-        var parameters = other.GetParameters();
-
-        if (length != parameters.Length) return -1;
-
-        int rank = 0;
-        for (var i = 0; i < length; i++)
-        {
-            var compatibility = (int)data![i].MatchTo(parameters[i]);
-
-            if (0 > compatibility) return -1;
-            rank += compatibility;
-        }
-
-        return (int)MatchRank.ExactMatch * parameters.Length == rank ? 0 : rank;
-    }
-
-    private static MatchRank MatchTo(this object value, ParameterInfo parameter)
+    private static MatchRank MatchValue(this object value, ParameterInfo parameter)
     {
         switch (value)
         {
@@ -179,5 +121,35 @@ public static partial class Matching
             ? MatchRank.Compatible : MatchRank.NoMatch;
     }
 
-    #endregion
+    /// <summary>
+    /// Calculates how much data matches the <see cref="MethodBase"/>
+    /// </summary>
+    /// <param name="data">Array of objects to validate against the 
+    /// <see cref="MethodBase"/></param>
+    /// <param name="info">The <see cref="MethodBase"/> to match to</param>
+    /// <returns>
+    /// -1 if no match found
+    /// 0 - if exact match or
+    /// positive number ranking the match
+    /// </returns>
+    public static int MatchData(object[]? data, MethodBase info)
+    {
+        System.Diagnostics.Debug.Assert(null != info);
+
+        var length = data?.Length ?? 0;
+        var parameters = info.GetParameters();
+
+        if (length != parameters.Length) return -1;
+
+        int rank = 0;
+        for (var i = 0; i < length; i++)
+        {
+            var compatibility = (int)data![i].MatchValue(parameters[i]);
+
+            if (0 > compatibility) return -1;
+            rank += compatibility;
+        }
+
+        return (int)MatchRank.ExactMatch * parameters.Length == rank ? 0 : rank;
+    }
 }

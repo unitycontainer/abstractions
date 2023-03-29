@@ -54,7 +54,7 @@ public class InjectionParameter : ParameterBase
     /// <inheritdoc/>
     public override MatchRank RankMatch(ParameterInfo parameter) 
         => ParameterType is null
-            ? _value.MatchTo(parameter.ParameterType)
+            ? _value.MatchValue(parameter.ParameterType)
             : ParameterType.MatchTo(parameter.ParameterType);
 
     /// <inheritdoc/>

@@ -109,7 +109,7 @@ public class DependencyOverride : ResolverOverride,
             return MatchRank.NoMatch;
 
         // If Type is 'null', all types are compatible
-        if (Type is null) return Value.MatchTo(contractType);
+        if (Type is null) return Value.MatchValue(contractType);
 
         // Matches exactly
         if (contractType == Type) return MatchRank.ExactMatch;
