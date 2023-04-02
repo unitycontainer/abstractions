@@ -92,7 +92,7 @@ public readonly struct Contract
     public static int GetHashCode(int first, int second) => first ^ second;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int GetHashCode(Type type, string? name) => type.GetHashCode() ^ (name?.GetHashCode() ?? 0);
+    public static int GetHashCode(Type type, string? name = null) => type.GetHashCode() ^ (name?.GetHashCode() ?? 0);
 
     public override bool Equals(object? obj)
     {
