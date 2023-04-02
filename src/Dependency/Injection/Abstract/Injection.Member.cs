@@ -66,8 +66,8 @@ public abstract class InjectionMember<TMemberInfo, TData> : InjectionMember,
         => MatchRank.NoMatch;
 
     /// <inheritdoc/>
-    public virtual void ProvideInfo<TDescriptor>(ref TDescriptor descriptor)
-        where TDescriptor : IInjectionInfo => descriptor.Data = Data;
+    public virtual void ProvideInfo<TInjectionInfo>(ref TInjectionInfo info)
+        where TInjectionInfo : IInjectionInfo => info.Data = Data;
 
     #endregion
 }

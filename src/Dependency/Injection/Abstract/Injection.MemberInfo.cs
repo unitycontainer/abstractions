@@ -65,33 +65,33 @@ public abstract class InjectionMemberInfo<TMemberInfo> : InjectionMember<TMember
 
 
     /// <inheritdoc/>
-    public override void ProvideInfo<TDescriptor>(ref TDescriptor descriptor)
+    public override void ProvideInfo<TInjectionInfo>(ref TInjectionInfo info)
     {
         if (Data is IInjectionInfoProvider provider)
         { 
-            provider.ProvideInfo(ref descriptor);
+            provider.ProvideInfo(ref info);
             return;
         }
 
         // Optional
-        descriptor.AllowDefault = _optional;
+        info.AllowDefault = _optional;
 
         // Type
-        if (Data is Type target && typeof(Type) != descriptor.MemberType)
+        if (Data is Type target && typeof(Type) != info.MemberType)
         {
-            descriptor.ContractType = target;
-            descriptor.ContractName = null;
+            info.ContractType = target;
+            info.ContractName = null;
             return;
         }
 
-        if (_contractType is not null && !ReferenceEquals(descriptor.ContractType, _contractType))
-                descriptor.ContractType = _contractType!;
+        if (_contractType is not null && !ReferenceEquals(info.ContractType, _contractType))
+                info.ContractType = _contractType!;
             
         if (!ReferenceEquals(_contractName, Contract.AnyContractName))
-                descriptor.ContractName = _contractName;
+                info.ContractName = _contractName;
 
         // Data
-        if (!ReferenceEquals(NoValue, Data)) descriptor.Data = Data;
+        if (!ReferenceEquals(NoValue, Data)) info.Data = Data;
     }
 
     #endregion

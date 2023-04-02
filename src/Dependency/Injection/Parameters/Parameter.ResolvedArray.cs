@@ -53,10 +53,10 @@ public class ResolvedArrayParameter : ParameterBase
 
     #region Reflection
 
-    public override void ProvideInfo<TDescriptor>(ref TDescriptor descriptor)
+    public override void ProvideInfo<TInjectionInfo>(ref TInjectionInfo info)
     {
-        descriptor.ContractType = ParameterType!;
-        descriptor.Arguments    = _elementValues;
+        info.ContractType = ParameterType!;
+        info.Arguments    = _elementValues;
     }
 
     #endregion

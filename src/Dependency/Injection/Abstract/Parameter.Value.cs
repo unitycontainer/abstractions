@@ -17,8 +17,8 @@ public abstract class ParameterValue : IInjectionInfoProvider,
     #region Import Description Provider
 
     /// <inheritdoc/>
-    public virtual void ProvideInfo<TDescriptor>(ref TDescriptor descriptor)
-        where TDescriptor : IInjectionInfo
+    public virtual void ProvideInfo<TInjectionInfo>(ref TInjectionInfo info)
+        where TInjectionInfo : IInjectionInfo
     { 
     }
 

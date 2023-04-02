@@ -94,15 +94,15 @@ public class OptionalParameter : ParameterBase
 
     #region Implementation
 
-    public override void ProvideInfo<TDescriptor>(ref TDescriptor descriptor)
+    public override void ProvideInfo<TInjectionInfo>(ref TInjectionInfo info)
     {
         if (!ReferenceEquals(_name, Contract.AnyContractName))
-            descriptor.ContractName = _name;
+            info.ContractName = _name;
             
         if (ParameterType is not null && !ParameterType.IsGenericTypeDefinition)
-            descriptor.ContractType = ParameterType;
+            info.ContractType = ParameterType;
 
-        descriptor.AllowDefault = AllowDefault;
+        info.AllowDefault = AllowDefault;
     }
 
     public override string ToString() 

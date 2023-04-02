@@ -127,13 +127,13 @@ public abstract class GenericParameterBase : ParameterValue,
     #region Import
 
 
-    public override void ProvideInfo<TDescriptor>(ref TDescriptor descriptor)
+    public override void ProvideInfo<TInjectionInfo>(ref TInjectionInfo info)
     {
         if (!ReferenceEquals(ContractName, Contract.AnyContractName))
-            descriptor.ContractName = ContractName;
+            info.ContractName = ContractName;
 
         // Optional
-        descriptor.AllowDefault = AllowDefault;
+        info.AllowDefault = AllowDefault;
     }
 
 

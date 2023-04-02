@@ -19,11 +19,11 @@ public abstract class InjectionMethodBase<TMemberInfo> : InjectionMember<TMember
 
     #region Implementation
 
-    public override void ProvideInfo<TDescriptor>(ref TDescriptor descriptor)
+    public override void ProvideInfo<TInjectionInfo>(ref TInjectionInfo info)
     {
         if (Data is null) return;
 
-        descriptor.Arguments = Data;
+        info.Arguments = Data;
     }
 
     #endregion

@@ -48,8 +48,8 @@ public class InjectionParameter : ParameterBase
     #region Implementation
 
     /// <inheritdoc/>
-    public override void ProvideInfo<TDescriptor>(ref TDescriptor descriptor) 
-        => descriptor.Data = _value;
+    public override void ProvideInfo<TInjectionInfo>(ref TInjectionInfo info) 
+        => info.Data = _value;
 
     /// <inheritdoc/>
     public override MatchRank RankMatch(ParameterInfo parameter) 
