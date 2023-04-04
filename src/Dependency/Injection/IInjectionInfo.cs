@@ -29,12 +29,6 @@ public interface IInjectionInfo
     #region Metadata
 
     /// <summary>
-    /// True if annotated with <see cref="Unity.DependencyResolutionAttribute"/>
-    /// </summary>
-    bool IsImport { get; set; }
-
-
-    /// <summary>
     /// Allows default value if can not be resolved
     /// </summary>
     bool AllowDefault { get; set; }
@@ -63,14 +57,4 @@ public interface IInjectionInfo
     object? Data { set; }
 
     #endregion
-}
-
-
-public interface IInjectionInfo<TMemberInfo> : IInjectionInfo
-{
-    /// <summary>
-    /// One of <see cref="ParameterInfo"/>, <see cref="FieldInfo"/>, or
-    /// <see cref=" PropertyInfo"/>
-    /// </summary>
-    TMemberInfo MemberInfo { get; }
 }
