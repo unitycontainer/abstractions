@@ -7,44 +7,32 @@ namespace Unity.Injection;
 
 public interface IInjectionInfo
 {
-    #region Member Type
-
     /// <summary>
     /// <see cref="Type"/> of imported member, set by <see cref="MemberInfo"/>
     /// </summary>
     Type MemberType { get; }
 
-    #endregion
-
-
-    #region Contract
-
-    Type ContractType { get; set; }
-
-    string? ContractName { get; set; }
-
-    #endregion
-
-
-    #region Metadata
 
     /// <summary>
-    /// Allows default value if can not be resolved
+    /// Allows default value if value can not be resolved
     /// </summary>
     bool AllowDefault { get; set; }
 
 
     /// <summary>
-    /// Sets default value and flips <see cref="AllowDefault"/> to <see langword=""="true"/>
+    /// <see cref="Type"/> of the resolved contract
     /// </summary>
-    object? Default { set; }
+    Type ContractType { get; set; }
 
 
     /// <summary>
-    /// Array of arguments
+    /// Name of the resolved contract
     /// </summary>
-    object?[] Arguments { set; }
+    string? ContractName { get; set; }
 
+
+
+    #region Data Setters
 
     /// <summary>
     /// Sets Data value for current import
@@ -55,6 +43,16 @@ public interface IInjectionInfo
     /// and etc.
     /// </remarks>
     object? Data { set; }
+
+    /// <summary>
+    /// Array of arguments
+    /// </summary>
+    object?[] Arguments { set; }
+
+    /// <summary>
+    /// Sets default value and flips <see cref="AllowDefault"/> to <see langword=""="true"/>
+    /// </summary>
+    object? Default { set; }
 
     #endregion
 }
