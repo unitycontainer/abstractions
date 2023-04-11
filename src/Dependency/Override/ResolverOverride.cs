@@ -102,7 +102,7 @@ public abstract class ResolverOverride : IEquatable<MatchRank>,
     public virtual object? Resolve<TContext>(ref TContext context)
         where TContext : IResolveContext => Value switch
         {
-            IResolve iResolve                  => iResolve.Resolve(ref context),
+            IResolve resolver                  => resolver.Resolve(ref context),
             IResolverFactory<Type> factory     => factory.GetResolver<TContext>(context.Type)(ref context),
             ResolverFactory<TContext> factory  => factory(context.Type)(ref context),
             ResolveDelegate<TContext> resolver => resolver(ref context),
