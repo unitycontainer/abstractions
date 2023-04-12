@@ -103,9 +103,11 @@ public abstract class ResolverOverride : IEquatable<MatchRank>,
         where TContext : IResolveContext => Value switch
         {
             IResolve resolver                  => resolver.Resolve(ref context),
-            IResolverFactory<Type> factory     => factory.GetResolver<TContext>(context.Type)(ref context),
-            ResolverFactory<TContext> factory  => factory(context.Type)(ref context),
+            IResolverFactory<Type> factory     => factory.GetResolver<TContext>(context.Type)
+                                                         .Invoke(ref context),
+            ResolverFactory<TContext> factory  => factory(context.Type).Invoke(ref context),
             ResolveDelegate<TContext> resolver => resolver(ref context),
+
             _ => Value,
         };
 
