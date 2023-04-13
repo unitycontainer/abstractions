@@ -1,15 +1,13 @@
-﻿using System;
-
-namespace Unity.Dependency;
+﻿namespace Unity.Dependency;
 
 
 /// <summary>
 /// Calculates how members match against the import
 /// </summary>
-public interface IMatchContract<TMemberInfo>
+public interface IMatchContract
 {
     /// <summary>
-    /// Calculates how much member matches the import
+    /// Calculates how much member matches the contract
     /// </summary>
-    MatchRank RankMatch(TMemberInfo member, Type contractType, string? contractName);
+    MatchRank RankMatch(ref Contract contract);
 }

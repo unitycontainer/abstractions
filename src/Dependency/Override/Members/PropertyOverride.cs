@@ -11,7 +11,7 @@ namespace Unity.Resolution;
 /// the value for a specified property.
 /// </summary>
 public class PropertyOverride : ResolverOverride, 
-                                IMatchInfo<PropertyInfo>
+                                IMatch<PropertyInfo>
 {
     #region Constructors
 
@@ -33,7 +33,7 @@ public class PropertyOverride : ResolverOverride,
 
     public MatchRank RankMatch(PropertyInfo other)
     {
-        return other.Name == Name && (Target is null || other.DeclaringType == Target)
+        return other.Name == Name
             ? MatchRank.ExactMatch
             : MatchRank.NoMatch;
     }

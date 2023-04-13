@@ -11,7 +11,7 @@ namespace Unity.Resolution;
 /// the value for a specified field.
 /// </summary>
 public class FieldOverride : ResolverOverride, 
-                             IMatchInfo<FieldInfo>
+                             IMatch<FieldInfo>
 {
     #region Constructors
 
@@ -33,7 +33,7 @@ public class FieldOverride : ResolverOverride,
 
     public MatchRank RankMatch(FieldInfo other)
     {
-        return other.Name == Name && (Target is null || other.DeclaringType == Target)
+        return other.Name == Name
             ? MatchRank.ExactMatch
             : MatchRank.NoMatch;
     }

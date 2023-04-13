@@ -70,7 +70,7 @@ public static partial class Matching
             case Array array:
                 return array.MatchTo(type);
 
-            case IMatchInfo<Type> iMatchType:
+            case IMatch<Type> iMatchType:
                 return iMatchType.RankMatch(type);
 
             case Type target:
@@ -101,7 +101,7 @@ public static partial class Matching
             case Array array:
                 return array.MatchTo(parameter.ParameterType);
 
-            case IMatchInfo<ParameterInfo> iMatchParam:
+            case IMatch<ParameterInfo> iMatchParam:
                 return iMatchParam.RankMatch(parameter);
 
             case Type type:

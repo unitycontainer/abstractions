@@ -11,7 +11,7 @@ namespace Unity.Resolution;
 /// override a named parameter passed to a constructor.
 /// </summary>
 public class ParameterOverride : ResolverOverride, 
-                                 IMatchInfo<ParameterInfo>
+                                 IMatch<ParameterInfo>
 {
     #region Fields
 
@@ -77,8 +77,7 @@ public class ParameterOverride : ResolverOverride,
     /// <inheritdoc />
     public MatchRank RankMatch(ParameterInfo other)
     {
-        return (Target is null || other.Member.DeclaringType == Target) &&
-               (Type is null || other.ParameterType == Type) &&
+        return (Type is null || other.ParameterType == Type) &&
                (Name is null || other.Name == Name)
             ? MatchRank.ExactMatch
             : MatchRank.NoMatch;

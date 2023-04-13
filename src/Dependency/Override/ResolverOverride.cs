@@ -10,6 +10,7 @@ namespace Unity.Resolution;
 /// <see cref="IUnityContainer.Resolve"/> method.
 /// </summary>
 public abstract class ResolverOverride : IEquatable<MatchRank>,
+                                         IMatch<Type>,
                                          IResolve
 {
     #region Fields
@@ -92,6 +93,13 @@ public abstract class ResolverOverride : IEquatable<MatchRank>,
     /// <returns></returns>
     public virtual bool Equals(MatchRank other) 
         => other >= MatchRank.ExactMatch;
+
+
+    /// <inheritdoc />
+    public MatchRank RankMatch(Type other)
+        => Target is null || other == Target
+        ? MatchRank.ExactMatch
+        : MatchRank.NoMatch; // TODO: Expand on compatibility :: IsAssignableFrom(Type)
 
     #endregion
 

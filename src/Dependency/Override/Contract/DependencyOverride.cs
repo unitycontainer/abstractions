@@ -12,9 +12,7 @@ namespace Unity.Resolution;
 /// given type, regardless of where it appears in the object graph.
 /// </summary>
 public class DependencyOverride : ResolverOverride, 
-                                  IMatchContract<ParameterInfo>,
-                                  IMatchContract<FieldInfo>, 
-                                  IMatchContract<PropertyInfo>
+                                  IMatchContract
 {
     #region Fields
 
@@ -70,24 +68,24 @@ public class DependencyOverride : ResolverOverride,
 
 
     #region  IMatchContract
-    
-    /// <inheritdoc />
-    public MatchRank RankMatch(ParameterInfo member, Type contractType, string? contractName) 
-        => null != Target && member.Member.DeclaringType != Target
-        ? MatchRank.NoMatch
-        : MatchContract(contractType, contractName);
 
     /// <inheritdoc />
-    public MatchRank RankMatch(FieldInfo field, Type contractType, string? contractName)
-        => null != Target && field.DeclaringType != Target
-        ? MatchRank.NoMatch
-        : MatchContract(contractType, contractName);
+    public MatchRank RankMatch(ref Contract contract)
+    {
+        if (!ReferenceEquals(Contract.AnyContractName, Name) && (contract.Name != Name))
+            return MatchRank.NoMatch;
 
-    /// <inheritdoc />
-    public MatchRank RankMatch(PropertyInfo property, Type contractType, string? contractName)
-        => null != Target && property.DeclaringType != Target 
-        ? MatchRank.NoMatch
-        : MatchContract(contractType, contractName);
+        // If Type is 'null', all types are compatible
+        if (Type is null) return Value.MatchValue(contract.Type);
+
+        // Matches exactly
+        if (contract.Type == Type) return MatchRank.ExactMatch;
+
+        // Can be assigned to
+        if (contract.Type.IsAssignableFrom(Type)) return MatchRank.HigherProspect;
+
+        return MatchRank.NoMatch;
+    }
 
     #endregion
 
@@ -97,28 +95,6 @@ public class DependencyOverride : ResolverOverride,
     /// <inheritdoc />
     public override bool Equals(MatchRank other)
         => other >= MatchRank.Compatible;
-
-    #endregion
-
-
-    #region Implementation
-
-    private MatchRank MatchContract(Type contractType, string? contractName)
-    {
-        if (!ReferenceEquals(Contract.AnyContractName, Name) && (contractName != Name))
-            return MatchRank.NoMatch;
-
-        // If Type is 'null', all types are compatible
-        if (Type is null) return Value.MatchValue(contractType);
-
-        // Matches exactly
-        if (contractType == Type) return MatchRank.ExactMatch;
-
-        // Can be assigned to
-        if (contractType.IsAssignableFrom(Type)) return MatchRank.HigherProspect;
-
-        return MatchRank.NoMatch;
-    }
 
     #endregion
 }
