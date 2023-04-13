@@ -99,7 +99,7 @@ public abstract class ResolverOverride : IEquatable<MatchRank>,
     public MatchRank RankMatch(Type other)
         => Target is null || other == Target
         ? MatchRank.ExactMatch
-        : MatchRank.NoMatch; // TODO: Expand on compatibility :: IsAssignableFrom(Type)
+        : MatchRank.NoMatch; 
 
     #endregion
 
