@@ -3,7 +3,7 @@
   <!-- Frameworks -->
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks Condition="$(TargetFrameworks) == ''">net7.0;net6.0;netstandard2.1</TargetFrameworks>
   </PropertyGroup>
 
   <!-- Defaults -->
@@ -22,15 +22,12 @@
   <PropertyGroup>
     <PackageId>Unity.Abstractions</PackageId>
     <Description>Unity Container Public Abstractions</Description>
-    <Copyright>Copyright © .NET Foundation and Contributors. All Rights Reserved</Copyright>
     <PackageProjectUrl>https://github.com/unitycontainer</PackageProjectUrl>
     <RepositoryUrl>https://github.com/unitycontainer/abstractions</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/unitycontainer/abstractions/blob/master/LICENSE</PackageLicenseUrl>
     <PackageIconUrl>https://avatars1.githubusercontent.com/u/12849707</PackageIconUrl>
     <PackageTags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</PackageTags>
     <RepositoryType>git</RepositoryType>
-    <Authors>Unity Open Source Project</Authors>
-    <Company>Unity Open Source Project</Company>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -61,15 +58,6 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
-
-  <!-- External References -->
-  
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
 
   
   <!-- Release Notes -->
