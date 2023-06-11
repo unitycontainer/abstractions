@@ -1,27 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- Frameworks -->
+  <PropertyGroup>
+  	<TargetFramework Condition=" '$(TargetFramework)' == '' ">net7.0</TargetFramework>
+  </PropertyGroup>
+	
+  <!-- Language Features -->
   <PropertyGroup>
   	<Nullable>enable</Nullable>
   	<LangVersion>latest</LangVersion>
-  	<TargetFramework Condition=" '$(TargetFramework)' == '' ">net7.0</TargetFramework>
   	<IsPackable>false</IsPackable>
-  	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  
-  <PropertyGroup>
-  	<SignAssembly>true</SignAssembly>
-  	<AssemblyOriginatorKeyFile>..\src\package.snk</AssemblyOriginatorKeyFile>
-  	<DelaySign>false</DelaySign>
   </PropertyGroup>
 
-  <ItemGroup>
-	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
-	<PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
-	<PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
-  </ItemGroup>
+  <!-- References -->	
 
   <ItemGroup>
     <ProjectReference Include="..\src\Unity.Abstractions.csproj" />
+  </ItemGroup>
+	
+  <ItemGroup>
+	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
+	<PackageReference Include="MSTest.TestAdapter" Version="3.*" />
+	<PackageReference Include="MSTest.TestFramework" Version="3.*" />
   </ItemGroup>
   
 </Project>
