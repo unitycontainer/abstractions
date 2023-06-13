@@ -13,6 +13,7 @@
     <Description>Unity Container Public Abstractions</Description>
     <PackageTags>Unity Container unitycontainer Microsoft.Practices.Unity IoC</PackageTags>
     <GitHubRepositoryName>abstractions</GitHubRepositoryName>
+    <RootNamespace>Unity</RootNamespace>
   </PropertyGroup>  
 
   
@@ -23,15 +24,6 @@
     <AnalysisLevel>preview</AnalysisLevel>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-	
-  <!-- Defaults -->  
-  <PropertyGroup>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RootNamespace>Unity</RootNamespace>
-    <IncludeSymbols>True</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
   
   
   <!-- Configuration Settings -->
@@ -39,6 +31,8 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <DebugType>Portable</DebugType>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
